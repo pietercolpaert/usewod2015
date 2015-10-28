@@ -1,0 +1,169 @@
+\documentclass{sig-alternate}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\newcommand{\superscript}[1]{\ensuremath{^{\textrm{#1}}}}
+\def\sharedaffiliation{\end{tabular}\newline\begin{tabular}{c}}
+\def\wu{\superscript{*}}
+\def\wg{\superscript{\dag}}
+
+\usepackage{listings} 
+
+% Typography
+\usepackage{times}
+\usepackage{mathptmx}
+\usepackage{microtype}
+\usepackage[normalem]{ulem}
+\usepackage[pdftex,bookmarks,bookmarksopen,bookmarksdepth=2,
+            urlcolor=black,colorlinks=true,linkcolor=black,citecolor=black]{hyperref}
+\usepackage[capitalize,noabbrev]{cleveref}
+\def\UrlFont{\em}
+
+% Graphics
+\usepackage{tikz}
+\usepackage{tkz-graph}
+\usetikzlibrary{arrows,positioning,shapes.misc}
+\usepackage{graphicx}
+\definecolor{lightgrey}{RGB}{170, 170, 170}
+\definecolor{darkblue}{RGB}{0, 0, 0}
+\definecolor{darkred}{RGB}{170, 0, 0}
+\definecolor{darkgreen}{RGB}{0, 110, 0}
+
+% Acronyms
+\usepackage{xspace}
+\newcommand{\sparql}{{SPARQL}\xspace}
+\newcommand{\sparqlo}{{SPARQL 1.1}\xspace}
+\newcommand{\arq}{{ARQ}\xspace}
+\newcommand{\wthreec}{{W\oldstylenums 3C}\xspace}
+\newcommand{\sfive}{{S\oldstylenums 5}\xspace}
+\newcommand{\select}{{SELECT}\xspace}
+\newcommand{\construct}{{CONSTRUCT}\xspace}
+\newcommand{\ask}{{ASK}\xspace}
+\newcommand{\describe}{{DESCRIBE}\xspace}
+\newcommand{\from}{{FROM}\xspace}
+\newcommand{\odbc}{{odbc}\xspace}
+
+% Tight lists
+\usepackage{enumitem}
+\setlist{nolistsep}
+
+% Listings and Verbatim environment
+\usepackage{fancyvrb}
+\usepackage{relsize}
+\usepackage{listings}
+\usepackage{verbatim}
+\newcommand{\smalllistingsize}{\fontsize{8pt}{9.5pt}}
+\newcommand{\inlinelistingsize}{\fontsize{8.5pt}{11pt}}
+\newcommand{\defaultlistingsize}{\inlinelistingsize}
+\RecustomVerbatimCommand{\Verb}{Verb}{fontsize=\inlinelistingsize}
+\RecustomVerbatimEnvironment{Verbatim}{Verbatim}{fontsize=\inlinelistingsize}
+\lstset{frame=lines,captionpos=b,numberbychapter=false,escapechar=§,
+        belowskip=1em,
+        xleftmargin=2ex,
+        framexleftmargin=2ex,
+        basicstyle=\ttfamily\smalllistingsize\selectfont}
+\crefname{lstlisting}{Listing}{Listings}
+\definecolor{grey}{RGB}{130,130,130}
+
+\usepackage{color}
+\newcommand{\todo}[1]{\noindent\textcolor{red}{{\bf \{TODO}: #1{\bf \}}}}
+\begin{document}
+
+\title{What we can learn from one year of\\ public transit route planning API queries}
+\numberofauthors{6}
+\author{
+\alignauthor
+Pieter Colpaert\\
+ \affaddr{\email{\texttt{pieter.colpaert@ugent.be}}}
+\and
+\alignauthor
+Alvin Chua\\
+ \affaddr{\email{\texttt{alvin.chua@asro.kuleuven.be}}}
+\and
+\alignauthor
+Ruben Verborgh\\
+ \affaddr{\email{\texttt{ruben.verborg@ugent.be}}}
+\and
+\alignauthor
+Erik Mannens\\
+ \affaddr{\email{\texttt{erik.mannens@ugent.be}}}
+\and
+\alignauthor
+Rik Van de Walle\\
+ \affaddr{\email{\texttt{rik.vandewalle@ugent.be}}}
+\and
+\alignauthor
+Andrew Vande Moere\\
+ \affaddr{\email{\texttt{andrew.vandemoere@asro.kuleuven.be}}}\\
+}
+
+\maketitle
+\begin{abstract}
+% Context
+%Public transit schedules are made available on the Web in various ways, such as in a GTFS file, a route planning API, or through Linked Connections.
+The iRail project hosts a route planning API for the Belgian railway company.
+This webservice provides a concise answer to a complex question with parameters such as ``departuretime'', ``from'' and ``to''.
+% Need
+In the field of urban planning, researchers need an indication of how people move between cities. 
+Yet, getting this data from official sources has proven to be troublesome.
+% Task
+In this paper, we analyse the query logs from the iRail API, to tell us something about how people move between cities in Belgium.
+% Object
+We studied queries for the year 2013, which contains an average of 3000 queries per day.
+% Findings
+We found X, Y, Z interesting patterns (\todo{Alvin}), which correspond with reality.
+% Conclusion
+This proves that query logs from route planning systems are valuable as an indication of transit flows and may house interesting stories.
+% Perspectives
+However, many private owned route planners exists, which keep these query logs strictly confidential.
+Bearing this in mind, we discuss the current state of the art in public transit schedule publishing, and formulate opportunities for gathering query logs when using a Linked Data Fragments approach.
+
+\end{abstract}
+
+\vspace{1em}
+
+\section{Introduction}
+\label{sec:introduction}
+
+%What's iRail
+
+\section{Gathering the logs}
+\label{sec:logs}
+
+The logs are available at \ldots
+
+\section{Looking for patterns}
+\label{sec:method}
+
+
+\section{Results}
+\label{sec:results}
+
+\todo{add a couple of nice images with explanation here}
+
+\subsection{Pattern 1: ...}
+\label{sec:pattern1}
+
+
+\subsection{Pattern 2: ...}
+\label{sec:pattern2}
+
+\subsection{Pattern 3: ...}
+\label{sec:pattern3}
+
+\section{Publishing transport data}
+
+Thoughts on publishing transport data on the web and query logs in the case of GTFS, Linked Connections\cite{lc} (linked data fragments\cite{ldf}) and webservices.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Query logs are very interesting
+
+% Fix spacing after References header (as line 1308 of sig-alternate.cls breaks it)
+\let\oldsection\section
+\renewcommand{\section}[2][1]{\oldsection{#1}\vspace{-3pt}}
+
+\bibliographystyle{abbrv}
+\bibliography{refs}
+\end{document}
