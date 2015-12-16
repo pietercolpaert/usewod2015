@@ -94,7 +94,7 @@ Rik Van de Walle\\
 \and
 \alignauthor
 Andrew Vande Moere\\
-\affaddr{\email{\texttt{andrew.vandemoere@asro.kuleuven.be}}}\\
+\affaddr{\email{\texttt{andrew.vandemoere\\@asro.kuleuven.be}}}\\
 }
 
 \maketitle
@@ -217,20 +217,49 @@ In this paper we use this axis to talk about how well we can gather query logs w
 The \emph{iRail} project\footnote{\url{http://hello.irail.be}} is a project started in 2008 to make the data of the Belgian railway accessible for developers.
 Ever since, the project offers developer both a GTFS data dump for third party apps and a route planning API.
 The API, during 2013/2014, got an average of 3000 route planning requests a day.
-In this paper, we study these logs and see whether we can find interesting pattern in it.
+
+Getting indications of people flows through public transit networks is a challenge.
+The data is tedious to get, mainly with public transit systems where passengers don't have to check-in and check-out.
+In this paper, we study these logs and see whether we can find interesting patterns.
 Finally, we look at Linked Connections~\cite{lc} and whether we would still be able to have an indication of the transit flows with a Linked Data Fragments approach.
+
+\section{Related work}
+\label{sec:relwork}
+
+\emph{Flow analysis} is a topic of theoretical interest and practical importance in various disciplines. 
+Flow analysis is conventionally conducted to study spatial dynamics and identify routine patterns in the movement of people.
+For instance, interest in modelling traffic flows emerged from the strain placed on urban transportation systems during peak hours~\cite{roth,ferreira}.
+Likewise, insight into routine travel patterns is crucial for the conceptualisation of functional urban areas~\cite{servillo,sykora}, urban hierarchies~\cite{christaller} and other territorial structures.
+
+Over the past decade, large datasets have become increasingly commonplace due to the proliferation of sensor networks and portable devices like smartphones.
+Termed ``Big Data'' due to the large volume of data records that emerge from real-time sensing\cite{kitchin}, such datasets typically contain information of activities or processes linked to the space and time where they occur.
+In the domain of ``Smart City'' research, much has been accomplished with the use of ``Big Data'' to monitor human movement.
+Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys~\cite{ferreira} as well as cellular call data~\cite{sevtsuk} have provided planners with new opportunities to develop greater understanding of mobility patterns in urban environments~\cite{batty}.
 
 \section{Gathering the logs}
 \label{sec:logs}
+
+In 2013, we have used a MySQL table to store each request in a table, including User-Agent string, the timestamp, whether or not the request succeeded, and so forth. 
+
+We have cleaned this data by removing bots, such as the Google bot, but also bots that were using the API for analytical purposes instead.
 
 The logs are available at \ldots
 
 \section{Looking for patterns}
 \label{sec:method}
 
+There are obvious caveats associated with the use of such data as proxy for actual statistical counts
 
 \section{Results}
 \label{sec:results}
+\todo{
+We can also observe the effect of "density" in Flanders where people move from the rural towards cities. Look at weekday-mornings: commuting towards Gent, Brussels, Antwerp. This is not as obvious in the Walloon region (except for Liege). The reverse occurs on weekday-evenings. Local patterns can also be observed and this corresponds to what we know: "cities are the central hubs".
+Walloon region: everything converges on Brussels
+I found that whereas there's almost no movement from Antwerp city in the week to West Flanders, there is movement from Antwerp in the weekend to the coast and back. 
+}
+
+
+\todo{This pair of chord diagrams capture the aggregated number of queries made between any two stations on weekdays and weekends between 6 to 9 in the morning. The chords that link two distinct stations, are coloured coded by region and proportionately scaled to the number of queries from a station of origin to a destination. For instance, approximately 3,530 queries were made from Leuven to Brussels than in the opposite direction (approximately 1,530) on weekdays. Reading both diagrams in this manner reveals the complexity of movement on the rail system and the significance of cities in daily travel. Brussels serves as the principal centre of rail activity in general, yet its centrality is more distinctive for the walloon region than Flanders. Queries from Walloonia with exception to Liege, are generally made from provincial stations towards Brussels instead of their respective provincial capitals. Queries in Flanders, on the hand, tend to be distributed among major cities otherwise known as the Flemish Diamond (Vlaamse Ruit), a network of four metropolitan areas in Belgium comprised of Ghent, Brussels, Antwerp and Leuven. The difference between both patterns appear to correspond with existing measures of population density, providing valuable insight and alternative perspectives into the function of cities in rural and urban settings.}
 
 \todo{add a couple of nice images with explanation here}
 
