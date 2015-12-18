@@ -1,0 +1,67 @@
+
+% Linked Data Fragments axis
+\begin{figure}[t]
+  \begin{tikzpicture}[
+    x=.005\textwidth,
+    y=.1cm,
+    axis/.style={
+      line width=.8pt,
+      stealth-stealth,
+      color=black!65,
+    },
+    axislabel/.style={
+      inner sep=0,
+      font=\slshape\fontsize{8}{9}\selectfont,
+      color=black!70,
+    },
+    tick/.style={
+      line width=1pt,
+    },
+    ticklabel/.style={
+      anchor=south,
+      inner sep=0,
+      align=center,
+      font=\bfseries\fontsize{8}{8}\selectfont,
+      text depth=0pt,
+    },
+  ]
+    \newcommand\tick[2]{%
+      \draw[tick] (#1, 1.7) -- (#1, -.4pt);
+      \node[ticklabel] at (#1, 2.4) {#2};
+    }
+    \newcommand\vaguetick[1]{%
+      \draw[tick,densely dotted] (#1, 1.7) -- (#1, -.4pt);
+    }
+
+    \draw[axis] (-100, 0) -- (0, 0);
+    \node[axislabel,align=left,anchor=north west] at (-100, -2.3)
+    {
+%      generic requests\\
+      high client effort\\
+      high server availability\\
+      know how many times datadump was downloaded
+    };
+    \node[axislabel,align=right,anchor=north east] at (0, -2.3)
+    {
+%      specific requests\\
+      high server effort\\
+      low server availability\\
+      detailled query logs
+    };
+
+    \tick{-93}{GTFS data\\dump}
+    \tick{-10}{route planning\\service}
+    \tick{-50}{Linked\\Connections}
+
+    \vaguetick{-84}    \vaguetick{-70}
+    \vaguetick{-10}
+    \vaguetick{-28}
+    \vaguetick{-20}
+
+   %\node[align=center,font=\fontsize{8}{9}\selectfont\bfseries] at (0, -8.3)
+   %   {various types of\\Linked Data Fragments};
+  \end{tikzpicture}
+  \caption{This axis extends \cref{fig:LDFAxis1} with Linked Connections: a different choice of trade-offs for route planning advice over the Web.
+  }
+  \label{fig:LDFAxis2}
+\end{figure}

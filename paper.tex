@@ -125,103 +125,31 @@ Bearing this in mind, we discuss the current state of the art in public transit 
 \section{Introduction}
 \label{sec:introduction}
 
-Until today, public transport data remains absent from the Linked Open Data cloud\footnote{\url{http://lod-cloud.net/}}.
+Today, public transport data still remains absent from the Linked Open Data cloud\footnote{\url{http://lod-cloud.net/}}.
 Bizarre, one could notice, as many open transport datasets are already available, according to the Global Open Data Index of 2014\footnote{\url{http://index.okfn.org/dataset/timetables/2014/}}.
-There are currently two ways for public transit agencies to publish their data to the Web, as illustrated in \cref{fig:LDFAxis1}: 1) offering a route planning service, and/or 2) publishing data using the General Transit Feed Specification (GTFS).
+We can imagine that, what contributed to this, are the de-facto standard ways to publish public transit data to the Web.
+There are currently two ways, as illustrated in \cref{fig:LDFAxis1}: publishing data using the General Transit Feed Specification (GTFS) and offering a route planning service.
 
 \emph{GTFS}, on the one hand, is a data dump format: it is a compressed ZIP-file, containing a couple of CSV-files, describing the rules for when a public transit vehicle will pass by on a certain location.
 The specification is a huge success: up to date, it is supported among all current open source route planning software systems, and it is used in products such as \emph{CityMapper}, \emph{Ally}, \emph{Navitia.io}, \emph{Google Maps} and \emph{Bing Maps}.
 Persistence of the identifiers used within these datasets, is not a requirement, neither is it an ambition of the format\footnote{\url{https://groups.google.com/forum/#!msg/gtfs-changes/Z8Mf31MaZms/8Hc9F4psAQAJ}}.
-The goal of GTFS is to create a good exchange format which specific software packages can use to transform it into their format of choice.
+The goal of GTFS is to create an exchange format which specific software packages can use to transform it into their format of choice.
 
 On the other hand, public transit agencies also publish their data by providing \emph{route planners}.
 These route planner offer a query service on top of the data and expose these over the Web.
 However, when machines should access these, rate limiters are common place: only a limited amount of queries should be done in order for the service to be able to stay online.
 
-There is a trade-off to be made between these two options, as illustrated in \cref{fig:LDFAxis1}.
-This trade-off axis was first introduced as a way to talk about server/client load with Linked Data Fragments~\cite{ldf}.
-In this paper we use this axis to talk about how well we can gather query logs when publishing transport data.
-
-% Linked Data Fragments axis
-\begin{figure}[t]
-  \begin{tikzpicture}[
-    x=.005\textwidth,
-    y=.1cm,
-    axis/.style={
-      line width=.8pt,
-      stealth-stealth,
-      color=black!65,
-    },
-    axislabel/.style={
-      inner sep=0,
-      font=\slshape\fontsize{8}{9}\selectfont,
-      color=black!70,
-    },
-    tick/.style={
-      line width=1pt,
-    },
-    ticklabel/.style={
-      anchor=south,
-      inner sep=0,
-      align=center,
-      font=\bfseries\fontsize{8}{8}\selectfont,
-      text depth=0pt,
-    },
-  ]
-    \newcommand\tick[2]{%
-      \draw[tick] (#1, 1.7) -- (#1, -.4pt);
-      \node[ticklabel] at (#1, 2.4) {#2};
-    }
-    \newcommand\vaguetick[1]{%
-      \draw[tick,densely dotted] (#1, 1.7) -- (#1, -.4pt);
-    }
-
-    \draw[axis] (-100, 0) -- (0, 0);
-    \node[axislabel,align=left,anchor=north west] at (-100, -2.3)
-    {
-%      generic requests\\
-      high client effort\\
-      high server availability\\
-      know how many times datadump was downloaded
-    };
-    \node[axislabel,align=right,anchor=north east] at (0, -2.3)
-    {
-%      specific requests\\
-      high server effort\\
-      low server availability\\
-      detailled query logs
-    };
-
-    \tick{-93}{GTFS data\\dump}
-    \tick{-10}{route planning\\service}
-%    \tick{-32}{Linked\\Connections}
-
-   % \vaguetick{-84}
-   % \vaguetick{-52}
-   % \vaguetick{  5}
-   % \vaguetick{-10}
-   % \vaguetick{ 28}
-   % \vaguetick{ 55}
-
-   %\node[align=center,font=\fontsize{8}{9}\selectfont\bfseries] at (0, -8.3)
-   %   {various types of\\Linked Data Fragments};
-  \end{tikzpicture}
-  \caption{
-    This axis illustrates two extremes. With GTFS data dumps, the data reusers do all the work, and no query logs can be used. With route planning services, the servers need to do all the work, yet detailled query logs can be studied.
-  }
-  \label{fig:LDFAxis1}
-\end{figure}
-
-% END AXIS
-
-The \emph{iRail} project\footnote{\url{http://hello.irail.be}} is a project started in 2008 to make the data of the Belgian railway accessible for developers.
-Ever since, the project offers developer both a GTFS data dump for third party apps and a route planning API.
-The API, during 2013/2014, got an average of 3000 route planning requests a day.
+\input{ldfaxis1}
 
 Getting indications of people flows through public transit networks is a challenge.
 The data is tedious to get, mainly with public transit systems where passengers don't have to check-in and check-out.
-In this paper, we study these logs and see whether we can find interesting patterns.
-Finally, we look at Linked Connections~\cite{lc} and whether we would still be able to have an indication of the transit flows with a Linked Data Fragments approach.
+Nevertheless, people are calculating their intended routes by using the Web.
+The \emph{iRail} project\footnote{\url{http://hello.irail.be}} started in 2008 to make the data of the Belgian railway accessible for developers.
+Ever since, the project offers developer both a GTFS data dump for third party apps and a route planning API.
+
+In this paper, we give a small overview of related work trying to gather data for flow analysis.
+Next, we study the iRail query logs to find out whether we can find interesting patterns.
+Finally, we look at Linked Connections~\cite{lc}, a proposed new way of publishing queryable public transit data, and whether we would still be able to have an indication of the transit flows with a Linked Data Fragments~\cite{ldf} approach.
 
 \section{Related work}
 \label{sec:relwork}
@@ -239,16 +167,21 @@ Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys
 \section{Gathering the logs}
 \label{sec:logs}
 
-In 2013, we have used a MySQL table to store each request in a table, including User-Agent string, the timestamp, whether or not the request succeeded, and so forth. 
+In 2013, we have started to use a MySQL table to store each request in a table, including User-Agent string, the timestamp, whether or not the request succeeded, the departure station and the desired station of arrival.
+From an export of this table, we have filtered out only the route plannning queries that succeeded.
+The resulting dataset, used for the rest of this paper, can be downloaded at \todo{\url{http://datawijs.be/iraillogs.zip}}.
 
-We have cleaned this data by removing bots, such as the Google bot, but also bots that were using the API for analytical purposes instead.
+We have cleaned this data by removing the requests done by harvesters or search engine bots.
+Thanks to the user agents, this was a fairly straight-forward operation.
+The remainder of the file delivers an average of 3000 route planning queries a day, which we can use an an indication of travel intensities.
 
-The logs are available at \ldots
+Today, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
+This amounts today to an average of 200k queries to the API per day, as the API gained popularity thanks to apps like \emph{BeTrains}\footnote{\todo{\url{http://...}}} and \emph{Railer}\footnote{\todo{\url{http://...}}}.
 
 \section{Looking for patterns}
 \label{sec:method}
 
-There are obvious caveats associated with the use of such data as proxy for actual statistical counts
+There are obvious caveats associated with the use of such data as proxy for actual statistical counts.
 
 \section{Results}
 \label{sec:results}
@@ -257,7 +190,6 @@ We can also observe the effect of "density" in Flanders where people move from t
 Walloon region: everything converges on Brussels
 I found that whereas there's almost no movement from Antwerp city in the week to West Flanders, there is movement from Antwerp in the weekend to the coast and back. 
 }
-
 
 \todo{This pair of chord diagrams capture the aggregated number of queries made between any two stations on weekdays and weekends between 6 to 9 in the morning. The chords that link two distinct stations, are coloured coded by region and proportionately scaled to the number of queries from a station of origin to a destination. For instance, approximately 3,530 queries were made from Leuven to Brussels than in the opposite direction (approximately 1,530) on weekdays. Reading both diagrams in this manner reveals the complexity of movement on the rail system and the significance of cities in daily travel. Brussels serves as the principal centre of rail activity in general, yet its centrality is more distinctive for the walloon region than Flanders. Queries from Walloonia with exception to Liege, are generally made from provincial stations towards Brussels instead of their respective provincial capitals. Queries in Flanders, on the hand, tend to be distributed among major cities otherwise known as the Flemish Diamond (Vlaamse Ruit), a network of four metropolitan areas in Belgium comprised of Ghent, Brussels, Antwerp and Leuven. The difference between both patterns appear to correspond with existing measures of population density, providing valuable insight and alternative perspectives into the function of cities in rural and urban settings.}
 
@@ -269,14 +201,24 @@ I found that whereas there's almost no movement from Antwerp city in the week to
 \subsection{Pattern 2: ...}
 \label{sec:pattern2}
 
-\subsection{Pattern 3: ...}
-\label{sec:pattern3}
+\section{Publishing transport data and the impact on query logs}
+\label{sec:publishing}
 
-\section{Publishing transport data}
+Publishing public transport data today happens in two ways: by publishing a data dump of the timetables or by hosting a public route planning service.
+Linked Data Fragments~\cite{ldf} is a way to think about data publishing as a set of trade-offs between client and servers.
+These trade-offs can be mapped on an axis, cfr. \cref{fig:LDFAxis2}, in which the 2 extremes are identified as: the server does all the processing versus the client does all the processing.
+
+Also for query logs we can make the same trade-off, in which the 2 extremes are the server knows only when someone downloads the entire datadump versus the server has a detailled query log.
+In this paper, we have studied the query logs of an API s
+
+%label: fig:LDFAxis2
+\input{ldfaxis2}
+
+\todo{Also in USEWOD2014 there was a paper on LDF and how we could know which SPARQL queries needed to be solved}
 
 Thoughts on publishing transport data on the web and query logs in the case of GTFS, Linked Connections\cite{lc} (linked data fragments\cite{ldf}) and webservices.
 
-\section{Conclusion}
+\section{Conclusion and discussion}
 \label{sec:conclusion}
 
 Query logs are very interesting
