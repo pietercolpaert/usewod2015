@@ -33,7 +33,7 @@
       \draw[tick,densely dotted] (#1, 1.7) -- (#1, -.4pt);
     }
 
-    \draw[axis] (-100, 0) -- (0, 0);
+    \draw[axis] (-100, 0) -- (-5, 0);
     \node[axislabel,align=left,anchor=north west] at (-100, -2.3)
     {
 %      generic requests\\
@@ -41,27 +41,27 @@
       high server availability\\
       know how many times datadump was downloaded
     };
-    \node[axislabel,align=right,anchor=north east] at (0, -2.3)
+    \node[axislabel,align=right,anchor=north east] at (-5, -2.3)
     {
 %      specific requests\\
       high server effort\\
       low server availability\\
       detailled query logs
     };
-
-    \tick{-93}{GTFS data\\dump}
-    \tick{-10}{route planning\\service}
-    \tick{-50}{Linked\\Connections}
-
-    \vaguetick{-84}    \vaguetick{-70}
-    \vaguetick{-10}
-    \vaguetick{-28}
-    \vaguetick{-20}
+    \node[text,ticklabel] at (-53, 2.4) {Linked\\Connections};
+    \tick{-90}{GTFS data\\dump}
+    \tick{-15}{route planning\\service}
+    \vaguetick{-23}
+    \vaguetick{-32}
+    \vaguetick{-41}
+    \vaguetick{-50}
+    \vaguetick{-60}
+    \vaguetick{-70}
+    \vaguetick{-80}
 
    %\node[align=center,font=\fontsize{8}{9}\selectfont\bfseries] at (0, -8.3)
    %   {various types of\\Linked Data Fragments};
   \end{tikzpicture}
-  \caption{This axis extends \cref{fig:LDFAxis1} with Linked Connections: a different choice of trade-offs for route planning advice over the Web.
-  }
+  \caption{This axis extends \cref{fig:LDFAxis1} with Linked Connections: the different ticks on the axis for client effort versus server expressivity.}
   \label{fig:LDFAxis2}
 \end{figure}

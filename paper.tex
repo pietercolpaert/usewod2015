@@ -69,7 +69,7 @@
 \newcommand{\todo}[1]{\noindent\textcolor{red}{{\bf \{TODO}: #1{\bf \}}}}
 \begin{document}
 
-\title{What we can learn from one year of\\ public transit route planning API queries}
+\title{Studying public transit API query logs\\ to get an indication of travel flows}
 \numberofauthors{6}
 \author{
 \alignauthor
@@ -102,21 +102,21 @@ Andrew Vande Moere\\
 % Context
 %Public transit schedules are made available on the Web in various ways, such as in a GTFS file, a route planning API, or through Linked Connections.
 The iRail project hosts a route planning API for the Belgian railway company.
-This webservice provides a concise answer to a complex question with parameters such as ``departuretime'', ``from'' and ``to''.
+This webservice provides an answer to a route planning question with parameters such as ``departuretime'', ``from'' and ``to''.
 % Need
 In the field of urban planning, researchers need an indication of how people move between cities. 
-Yet, getting this data from official sources has proven to be troublesome.
+%Yet, getting this data from official sources has proven to be troublesome.
 % Task
-In this paper, we analyse the query logs from the iRail API, to tell us something about how people move between cities in Belgium.
+In this paper, we analyse the query logs of the iRail API, to see whether it can tell us something about travel flows between cities in Belgium.
 % Object
-We studied queries for the year 2013, which contains an average of 3000 queries per day.
+We studied queries for the year 2013, which contains an average of $\sim3000$ interesting queries per day ($\sim0.4\%$ of the amount of passengers per weekday).
 % Findings
-We found X, Y, Z interesting patterns (\todo{Alvin}), which correspond with reality.
+We illustrate \todo{X} interesting patterns that correspond to reality and we show an outlier in the data.
 % Conclusion
-This proves that query logs from route planning systems are valuable as an indication of transit flows and may house interesting stories.
+Visualizing the data shows the query logs are a better representation than random data, yet more research is needed to understand how representative for travel flows they may be.
 % Perspectives
-However, many private owned route planners exists, which keep these query logs strictly confidential.
-Bearing this in mind, we discuss the current state of the art in public transit schedule publishing, and formulate opportunities for gathering query logs when using a Linked Data Fragments approach.
+In earlier work, we have suggested the Linked Data Fragments axis to discuss new approaches to publishing queryable public transit data for maximized use.
+We suggest a discussion for gathering query logs when using Linked Data Fragments approaches.
 
 \end{abstract}
 
@@ -178,6 +178,7 @@ The remainder of the file delivers an average of 3000 route planning queries a d
 Today, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
 This amounts today to an average of 200k queries to the API per day, as the API gained popularity thanks to apps like \emph{BeTrains}\footnote{\todo{\url{http://...}}} and \emph{Railer}\footnote{\todo{\url{http://...}}}.
 
+
 \section{Looking for patterns}
 \label{sec:method}
 
@@ -185,15 +186,28 @@ There are obvious caveats associated with the use of such data as proxy for actu
 
 \section{Results}
 \label{sec:results}
+
 \todo{
 We can also observe the effect of "density" in Flanders where people move from the rural towards cities. Look at weekday-mornings: commuting towards Gent, Brussels, Antwerp. This is not as obvious in the Walloon region (except for Liege). The reverse occurs on weekday-evenings. Local patterns can also be observed and this corresponds to what we know: "cities are the central hubs".
 Walloon region: everything converges on Brussels
 I found that whereas there's almost no movement from Antwerp city in the week to West Flanders, there is movement from Antwerp in the weekend to the coast and back. 
 }
 
+\begin{figure}
+\centering
+\includegraphics[width=8.1cm,align=center]{brussels}
+\caption{Double chord visualization of the city of Brussels: transit flows towards Brussels from elsewhere in Belgium and vice versa. Brussels acts as the central hub in the star-shaped railway network of Belgium.}
+\label{fig:brussels}
+\end{figure}
+
 \todo{This pair of chord diagrams capture the aggregated number of queries made between any two stations on weekdays and weekends between 6 to 9 in the morning. The chords that link two distinct stations, are coloured coded by region and proportionately scaled to the number of queries from a station of origin to a destination. For instance, approximately 3,530 queries were made from Leuven to Brussels than in the opposite direction (approximately 1,530) on weekdays. Reading both diagrams in this manner reveals the complexity of movement on the rail system and the significance of cities in daily travel. Brussels serves as the principal centre of rail activity in general, yet its centrality is more distinctive for the walloon region than Flanders. Queries from Walloonia with exception to Liege, are generally made from provincial stations towards Brussels instead of their respective provincial capitals. Queries in Flanders, on the hand, tend to be distributed among major cities otherwise known as the Flemish Diamond (Vlaamse Ruit), a network of four metropolitan areas in Belgium comprised of Ghent, Brussels, Antwerp and Leuven. The difference between both patterns appear to correspond with existing measures of population density, providing valuable insight and alternative perspectives into the function of cities in rural and urban settings.}
 
-\todo{add a couple of nice images with explanation here}
+\begin{figure}
+\centering
+\includegraphics[width=8.1cm,align=center]{antwerp}
+\caption{Double chord visualization of the city of Antwerp: transit flows towards Antwerp from elsewhere in Belgium and vice versa. The biggest transit flows to elsewhere in the province of Antwerp Central station is the hub for the province.}
+\label{fig:antwerp}
+\end{figure}
 
 \subsection{Pattern 1: ...}
 \label{sec:pattern1}
@@ -201,18 +215,24 @@ I found that whereas there's almost no movement from Antwerp city in the week to
 \subsection{Pattern 2: ...}
 \label{sec:pattern2}
 
-\section{Publishing transport data and the impact on query logs}
+\subsection{Pattern 3: cannot be true}
+\label{sec:pattern3}
+
+\section{Publishing transport data: the impact on query logs}
 \label{sec:publishing}
 
 Publishing public transport data today happens in two ways: by publishing a data dump of the timetables or by hosting a public route planning service.
 Linked Data Fragments~\cite{ldf} is a way to think about data publishing as a set of trade-offs between client and servers.
-These trade-offs can be mapped on an axis, cfr. \cref{fig:LDFAxis2}, in which the 2 extremes are identified as: the server does all the processing versus the client does all the processing.
-
-Also for query logs we can make the same trade-off, in which the 2 extremes are the server knows only when someone downloads the entire datadump versus the server has a detailled query log.
-In this paper, we have studied the query logs of an API s
+These trade-offs can be mapped on an axis, cfr. \cref{fig:LDFAxis2}, in which the 2 extremes are identified as: the client does all the processing by downloading all the data at once, versus the server does all the processing by exposing \emph{expressive} APIs.
+Linked Connections~\cite{lc} proposes other ticks on this axis.
+By publishing fragments of the data needed for by the shortest path algorithm, the algorithm can be executed on the client.
+Furthermore, it lowers to load on the server, and it enables clients to federate queries over different servers, including different regions, transit modes and user's need.
 
 %label: fig:LDFAxis2
 \input{ldfaxis2}
+
+The expressivity of the server also affects the way logs can be gathered.
+When the server becomes less expressive, e.g., when it only allows to set a departure station and a departure time, then the server doesn't know the arrival station, which makes it harder to get an indication of the travel flow.
 
 \todo{Also in USEWOD2014 there was a paper on LDF and how we could know which SPARQL queries needed to be solved}
 
