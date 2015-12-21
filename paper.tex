@@ -115,7 +115,7 @@ We illustrate \todo{X} interesting patterns that correspond to reality and we sh
 % Conclusion
 Visualizing the data shows the query logs are a better representation than random data, yet more research is needed to understand how representative for travel flows they may be.
 % Perspectives
-In earlier work, we have suggested the Linked Data Fragments axis to discuss new approaches to publishing queryable public transit data for maximized use.
+In earlier work, we have suggested the Linked Data Fragments axis to discuss new approaches to publish queryable public transit data.
 We suggest a discussion for gathering query logs when using Linked Data Fragments approaches.
 
 \end{abstract}
@@ -169,15 +169,15 @@ Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys
 
 In 2013, we have started to use a MySQL table to store each request in a table, including User-Agent string, the timestamp, whether or not the request succeeded, the departure station and the desired station of arrival.
 From an export of this table, we have filtered out only the route plannning queries that succeeded.
-The resulting dataset, used for the rest of this paper, can be downloaded at \todo{\url{http://datawijs.be/iraillogs.zip}}.
+The resulting dataset, used for the rest of this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 
 We have cleaned this data by removing the requests done by harvesters or search engine bots.
 Thanks to the user agents, this was a fairly straight-forward operation.
 The remainder of the file delivers an average of 3000 route planning queries a day, which we can use an an indication of travel intensities.
 
 Today, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
-This amounts today to an average of 200k queries to the API per day, as the API gained popularity thanks to apps like \emph{BeTrains}\footnote{\todo{\url{http://...}}} and \emph{Railer}\footnote{\todo{\url{http://...}}}.
-
+This amounts today to an average of 86k queries to the API per day, as the API gained popularity thanks to apps like \emph{BeTrains}\footnote{\url{https://play.google.com/store/apps/details?id=tof.cv.mpp}} and \emph{Railer}\footnote{\url{http://railer.be/}}.
+This amounts to $\sim11.4\%$ of all passengers\footnote{According to numbers of the railway maintainer Infrabel, 758,370 people take the train each day.}.
 
 \section{Looking for patterns}
 \label{sec:method}
