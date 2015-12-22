@@ -146,8 +146,11 @@ The data is tedious to get, mainly with public transit systems where passengers 
 Nevertheless, people are calculating their intended routes by using the Web.
 The \emph{iRail} project\footnote{\url{http://hello.irail.be}} started in 2008 to make the data of the Belgian railway accessible for developers.
 Ever since, the project offers developer both a GTFS data dump for third party apps and a route planning API.
+The query logs of this API has been stored since 2013.
+Are these query logs interesting for urban planning purposes?
+Our hypothesis is that, while we should study the data with high level of sceptisicm (given enough data, you can find any pattern), our data will be better than random data.
 
-In this paper, we give a small overview of related work trying to gather data for flow analysis.
+In this paper, we give a small overview of related work to gather data for flow analysis.
 Next, we study the iRail query logs to find out whether we can find interesting patterns.
 Finally, we look at Linked Connections~\cite{lc}, a proposed new way of publishing queryable public transit data, and whether we would still be able to have an indication of the transit flows with a Linked Data Fragments~\cite{ldf} approach.
 
@@ -164,59 +167,67 @@ Termed ``Big Data'' due to the large volume of data records that emerge from rea
 In the domain of ``Smart City'' research, much has been accomplished with the use of ``Big Data'' to monitor human movement.
 Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys~\cite{ferreira} as well as cellular call data~\cite{sevtsuk} have provided planners with new opportunities to develop greater understanding of mobility patterns in urban environments~\cite{batty}.
 
-\section{Gathering the logs}
+\section{The logs}
 \label{sec:logs}
 
-In 2013, we have started to use a MySQL table to store each request in a table, including User-Agent string, the timestamp, whether or not the request succeeded, the departure station and the desired station of arrival.
-From an export of this table, we have filtered out only the route plannning queries that succeeded.
+In 2013, we have started to use a MySQL table to store each request to the iRail API in a table, including User-Agent string, the timestamp, whether or not the request succeeded, the departure station and the desired station of arrival.
+From an export of this table, we have filtered out only the route plannning queries that succeeded for the entire year.
 The resulting dataset, used for the rest of this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 
 We have cleaned this data by removing the requests done by harvesters or search engine bots.
 Thanks to the user agents, this was a fairly straight-forward operation.
 The remainder of the file delivers an average of 3000 route planning queries a day, which we can use an an indication of travel intensities.
+Taking into account that 758,370 people take the train each day on a weekday (according to the railway network maintainer Infrabel) and assuming that each query is a trip done by a certain passenger, this sample equals $\sim0.4\%$ of the railway users in Belgium.
 
-Today, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
+As of the 17th of December 2015, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
 This amounts today to an average of 86k queries to the API per day, as the API gained popularity thanks to apps like \emph{BeTrains}\footnote{\url{https://play.google.com/store/apps/details?id=tof.cv.mpp}} and \emph{Railer}\footnote{\url{http://railer.be/}}.
-This amounts to $\sim11.4\%$ of all passengers\footnote{According to numbers of the railway maintainer Infrabel, 758,370 people take the train each day.}.
+On average, 14,357 of these are valid route planning queries (others include departures in a station, status of a vehicle, or a list of all stations).
+If each query would amount to indeed 1 passenger, this would today be equal to almost 2\% of all passengers.
+As we only gathered a small sample of this data by today, we didn't use the data of 2015, but used the data of 2013 instead, at the time when our servers didn't have caches in place.
 
-\section{Looking for patterns}
+There are obvious caveats associated with the use of such data as proxy for actual statistical counts. 
+For instance, the data only captures an intention of a passenger: it's unsure whether the person actually took the train.
+Furthermore, different requests could be done by one person with an intention to travel.
+On top of that, our sample used for this paper can only represent a maximum of 0.4\% of the daily traffic flow.
+
+\section{Method}
 \label{sec:method}
 
-There are obvious caveats associated with the use of such data as proxy for actual statistical counts.
+In order to show that our data is better than random, we show that the data shows results that correspond with Belgian reality, whereas a random result would not.
+To do so, we have chosen to assemble the smaller stations under their lager administrative unit: provinces.
+The bigger cities, such as Ghent, Antwerp, Brussels, Mons and Liège, we kept.
+This way, we are able to create pair of chord diagrams.
+
+The random dataset was created as follows: \todo{...}
 
 \section{Results}
 \label{sec:results}
 
-\todo{
-We can also observe the effect of "density" in Flanders where people move from the rural towards cities. Look at weekday-mornings: commuting towards Gent, Brussels, Antwerp. This is not as obvious in the Walloon region (except for Liege). The reverse occurs on weekday-evenings. Local patterns can also be observed and this corresponds to what we know: "cities are the central hubs".
-Walloon region: everything converges on Brussels
-I found that whereas there's almost no movement from Antwerp city in the week to West Flanders, there is movement from Antwerp in the weekend to the coast and back. 
-}
-
 \begin{figure}
 \centering
 \includegraphics[width=8.1cm,align=center]{brussels}
-\caption{Double chord visualization of the city of Brussels: transit flows towards Brussels from elsewhere in Belgium and vice versa. Brussels acts as the central hub in the star-shaped railway network of Belgium.}
+\caption{Pair of chord visualization of the city of Brussels: transit flows towards Brussels from elsewhere in Belgium and vice versa. Brussels acts as the central hub in the star-shaped railway network of Belgium.}
 \label{fig:brussels}
 \end{figure}
 
-\todo{This pair of chord diagrams capture the aggregated number of queries made between any two stations on weekdays and weekends between 6 to 9 in the morning. The chords that link two distinct stations, are coloured coded by region and proportionately scaled to the number of queries from a station of origin to a destination. For instance, approximately 3,530 queries were made from Leuven to Brussels than in the opposite direction (approximately 1,530) on weekdays. Reading both diagrams in this manner reveals the complexity of movement on the rail system and the significance of cities in daily travel. Brussels serves as the principal centre of rail activity in general, yet its centrality is more distinctive for the walloon region than Flanders. Queries from Walloonia with exception to Liege, are generally made from provincial stations towards Brussels instead of their respective provincial capitals. Queries in Flanders, on the hand, tend to be distributed among major cities otherwise known as the Flemish Diamond (Vlaamse Ruit), a network of four metropolitan areas in Belgium comprised of Ghent, Brussels, Antwerp and Leuven. The difference between both patterns appear to correspond with existing measures of population density, providing valuable insight and alternative perspectives into the function of cities in rural and urban settings.}
+The pair of chord diagrams in \cref{fig:brussels,fig:antwerp} capture the aggregated number of queries made between any two stations on weekdays and weekends between 6 to 9 in the morning.
+The chords that link two distinct stations, are coloured coded by region and proportionately scaled to the number of queries from a station of origin to a destination.
+For instance, approximately 3,530 queries were made from Leuven to Brussels than in the opposite direction (approximately 1,530) on weekdays.
+Reading both diagrams in this manner reveals the complexity of movement on the rail system and the significance of cities in daily travel.
+Brussels serves as the principal centre of rail activity in general, yet its centrality is more distinctive for the walloon region than Flanders.
+Queries from Walloonia with exception to Liege, are generally made from provincial stations towards Brussels instead of their respective provincial capitals.
+Queries in Flanders, on the hand, tend to be distributed among major cities otherwise known as the Flemish Diamond, a network of four metropolitan areas in Belgium comprised of Ghent, Brussels, Antwerp and Leuven.
+The difference between both patterns appear to correspond with existing measures of population density, providing valuable insight and alternative perspectives into the function of cities in rural and urban settings.
 
+%We can also observe the effect of "density" in Flanders where people move from the rural towards cities. Look at weekday-mornings: commuting towards Gent, Brussels, Antwerp. This is not as obvious in the Walloon region (except for Liege). The reverse occurs on weekday-evenings. Local patterns can also be observed and this corresponds to what we know: "cities are the central hubs".
+%Walloon region: everything converges on Brussels
+%I found that whereas there's almost no movement from Antwerp city in the week to West Flanders, there is movement from Antwerp in the weekend to the coast and back. 
 \begin{figure}
 \centering
 \includegraphics[width=8.1cm,align=center]{antwerp}
-\caption{Double chord visualization of the city of Antwerp: transit flows towards Antwerp from elsewhere in Belgium and vice versa. The biggest transit flows to elsewhere in the province of Antwerp Central station is the hub for the province.}
+\caption{Pair of chord visualization of the city of Antwerp: transit flows towards Antwerp from elsewhere in Belgium and vice versa. The biggest transit flows to elsewhere in the province of Antwerp Central station is the hub for the province.}
 \label{fig:antwerp}
 \end{figure}
-
-\subsection{Pattern 1: ...}
-\label{sec:pattern1}
-
-\subsection{Pattern 2: ...}
-\label{sec:pattern2}
-
-\subsection{Pattern 3: cannot be true}
-\label{sec:pattern3}
 
 \section{Publishing transport data: the impact on query logs}
 \label{sec:publishing}
