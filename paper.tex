@@ -115,8 +115,8 @@ We illustrate \todo{X} interesting patterns that correspond to reality and we sh
 % Conclusion
 Visualizing the data shows the query logs are a better representation than random data, yet more research is needed to understand how representative for travel flows they may be.
 % Perspectives
-In earlier work, we have suggested the Linked Data Fragments axis to discuss new approaches to publish queryable public transit data.
-We suggest a discussion for gathering query logs when using Linked Data Fragments approaches.
+In earlier work, we suggested the Linked Data Fragments axis to discuss new approaches to publish queryable public transit data.
+Now, we suggest a discussion for gathering query logs when using Linked Data Fragments approaches.
 
 \end{abstract}
 
@@ -144,10 +144,11 @@ However, when machines should access these, rate limiters are common place: only
 Getting indications of people flows through public transit networks is a challenge.
 The data is tedious to get, mainly with public transit systems where passengers don't have to check-in and check-out.
 Nevertheless, people are calculating their intended routes by using the Web.
+\emph{Can we get an indication of these transit flows by studying the query logs of Web-services?}
+
 The \emph{iRail} project\footnote{\url{http://hello.irail.be}} started in 2008 to make the data of the Belgian railway accessible for developers.
 Ever since, the project offers developer both a GTFS data dump for third party apps and a route planning API.
 The query logs of this API has been stored since 2013.
-Are these query logs interesting for urban planning purposes?
 Our hypothesis is that, while we should study the data with high level of sceptisicm (given enough data, you can find any pattern), our data will be better than random data.
 
 In this paper, we give a small overview of related work to gather data for flow analysis.
@@ -170,11 +171,11 @@ Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys
 \section{The logs}
 \label{sec:logs}
 
-In 2013, we have started to use a MySQL table to store each request to the iRail API in a table, including User-Agent string, the timestamp, whether or not the request succeeded, the departure station and the desired station of arrival.
-From an export of this table, we have filtered out only the route plannning queries that succeeded for the entire year.
+In 2013, we started to use a MySQL table to store each request to the iRail API in a table, including User-Agent string, the timestamp, whether or not the request succeeded, the departure station and the desired station of arrival.
+From an export of this table, we filtered out only the route plannning queries that succeeded for the entire year.
 The resulting dataset, used for the rest of this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 
-We have cleaned this data by removing the requests done by harvesters or search engine bots.
+We cleaned this data by removing the requests done by harvesters or search engine bots.
 Thanks to the user agents, this was a fairly straight-forward operation.
 The remainder of the file delivers an average of 3000 route planning queries a day, which we can use an an indication of travel intensities.
 Taking into account that 758,370 people take the train each day on a weekday (according to the railway network maintainer Infrabel) and assuming that each query is a trip done by a certain passenger, this sample equals $\sim0.4\%$ of the railway users in Belgium.
@@ -194,7 +195,7 @@ On top of that, our sample used for this paper can only represent a maximum of 0
 \label{sec:method}
 
 In order to show that our data is better than random, we show that the data shows results that correspond with Belgian reality, whereas a random result would not.
-To do so, we have chosen to assemble the smaller stations under their lager administrative unit: provinces.
+To do so, we chose to assemble the smaller stations under their lager administrative unit: provinces.
 The bigger cities, such as Ghent, Antwerp, Brussels, Mons and Liège, we kept.
 This way, we are able to create pair of chord diagrams.
 
