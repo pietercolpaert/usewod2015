@@ -180,16 +180,19 @@ Thanks to the user agents, this was a fairly straight-forward operation.
 The remainder of the file delivers an average of 3000 route planning queries a day, which we can use an an indication of travel intensities.
 Taking into account that 758,370 people take the train each day on a weekday (according to the railway network maintainer Infrabel) and assuming that each query is a trip done by a certain passenger, this sample equals $\sim0.4\%$ of the railway users in Belgium.
 
+There are obvious caveats associated with the use of such data as proxy for actual statistical counts. 
+For instance, the data only captures an intention of a passenger: it's unsure whether the person actually took the train.
+Furthermore, different requests could be done by one person with an intention to travel.
+On top of that, our sample used for this paper can only represent a maximum of 0.4\% of the daily traffic flow.
+
 As of the 17th of December 2015, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
 This amounts today to an average of 86k queries to the API per day, as the API gained popularity thanks to apps like \emph{BeTrains}\footnote{\url{https://play.google.com/store/apps/details?id=tof.cv.mpp}} and \emph{Railer}\footnote{\url{http://railer.be/}}.
 On average, 14,357 of these are valid route planning queries (others include departures in a station, status of a vehicle, or a list of all stations).
 If each query would amount to indeed 1 passenger, this would today be equal to almost 2\% of all passengers.
 As we only gathered a small sample of this data by today, we didn't use the data of 2015, but used the data of 2013 instead, at the time when our servers didn't have caches in place.
 
-There are obvious caveats associated with the use of such data as proxy for actual statistical counts. 
-For instance, the data only captures an intention of a passenger: it's unsure whether the person actually took the train.
-Furthermore, different requests could be done by one person with an intention to travel.
-On top of that, our sample used for this paper can only represent a maximum of 0.4\% of the daily traffic flow.
+As we are dealing with query logs, privacy becomes an issue~\cite{silvestri}.
+However, we do not store the query logs for the data, which 
 
 \section{Method}
 \label{sec:method}
@@ -206,8 +209,8 @@ The random dataset was created as follows: \todo{...}
 
 \begin{figure}
 \centering
-\includegraphics[width=8.1cm,align=center]{brussels}
-\caption{Pair of chord visualization of the city of Brussels: transit flows towards Brussels from elsewhere in Belgium and vice versa. Brussels acts as the central hub in the star-shaped railway network of Belgium.}
+\includegraphics[width=8.1cm,align=center]{histogram}
+\caption{Histogram of one weekday}
 \label{fig:brussels}
 \end{figure}
 
@@ -219,6 +222,14 @@ Brussels serves as the principal centre of rail activity in general, yet its cen
 Queries from Walloonia with exception to Liege, are generally made from provincial stations towards Brussels instead of their respective provincial capitals.
 Queries in Flanders, on the hand, tend to be distributed among major cities otherwise known as the Flemish Diamond, a network of four metropolitan areas in Belgium comprised of Ghent, Brussels, Antwerp and Leuven.
 The difference between both patterns appear to correspond with existing measures of population density, providing valuable insight and alternative perspectives into the function of cities in rural and urban settings.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=8.1cm,align=center]{brussels}
+\caption{Pair of chord visualization of the city of Brussels: transit flows towards Brussels from elsewhere in Belgium and vice versa. Brussels acts as the central hub in the star-shaped railway network of Belgium.}
+\label{fig:brussels}
+\end{figure}
 
 %We can also observe the effect of "density" in Flanders where people move from the rural towards cities. Look at weekday-mornings: commuting towards Gent, Brussels, Antwerp. This is not as obvious in the Walloon region (except for Liege). The reverse occurs on weekday-evenings. Local patterns can also be observed and this corresponds to what we know: "cities are the central hubs".
 %Walloon region: everything converges on Brussels
@@ -248,7 +259,9 @@ When the server becomes less expressive, e.g., when it only allows to set a depa
 
 \todo{Also in USEWOD2014 there was a paper on LDF and how we could know which SPARQL queries needed to be solved}
 
-Thoughts on publishing transport data on the web and query logs in the case of GTFS, Linked Connections\cite{lc} (linked data fragments\cite{ldf}) and webservices.
+\subsection{Intermodal route planning}
+
+Either way, 
 
 \section{Conclusion and discussion}
 \label{sec:conclusion}
