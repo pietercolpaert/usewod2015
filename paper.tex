@@ -127,21 +127,21 @@ Now, we suggest a discussion for gathering query logs when using Linked Data Fra
 
 \todo{Rework introduction at the end}
 
-Today, public transport data still remains absent from the Linked Open Data cloud\footnote{\url{http://lod-cloud.net/}}.
-Bizarre, one could notice, as many open transport datasets are already available, according to the Global Open Data Index of 2014\footnote{\url{http://index.okfn.org/dataset/timetables/2014/}}.
-We can imagine that, what contributed to this, are the de-facto standard ways to publish public transit data to the Web.
+%Today, public transport data still remains absent from the Linked Open Data cloud\footnote{\url{http://lod-cloud.net/}}.
+%Bizarre, one could notice, as many open transport datasets are already available, according to the Global Open Data Index of 2014\footnote{\url{http://index.okfn.org/dataset/timetables/2014/}}.
+%We can imagine that, what contributed to this, are the de-facto standard ways to publish public transit data to the Web.
 There are currently two ways, as illustrated in \cref{fig:LDFAxis1}: publishing data using the General Transit Feed Specification (GTFS) and offering a route planning service.
 
-\emph{GTFS}, on the one hand, is a data dump format: it is a compressed ZIP-file, containing a couple of CSV-files, describing the rules for when a public transit vehicle will pass by on a certain location.
-The specification is a huge success: up to date, it is supported among all current open source route planning software systems, and it is used in products such as \emph{CityMapper}, \emph{Ally}, \emph{Navitia.io}, \emph{Google Maps} and \emph{Bing Maps}.
-Persistence of the identifiers used within these datasets, is not a requirement, neither is it an ambition of the format\footnote{\url{https://groups.google.com/forum/#!msg/gtfs-changes/Z8Mf31MaZms/8Hc9F4psAQAJ}}.
-The goal of GTFS is to create an exchange format which specific software packages can use to transform it into their format of choice.
+%\emph{GTFS}, on the one hand, is a data dump format: it is a compressed ZIP-file, containing a couple of CSV-files, describing the rules for when a public transit vehicle will pass by on a certain location.
+%The specification is a huge success: up to date, it is supported among all current open source route planning software systems, and it is used in products such as \emph{CityMapper}, \emph{Ally}, \emph{Navitia.io}, \emph{Google Maps} and \emph{Bing Maps}.
+%Persistence of the identifiers used within these datasets, is not a requirement, neither is it an ambition of the format\footnote{\url{https://groups.google.com/forum/#!msg/gtfs-changes/Z8Mf31MaZms/8Hc9F4psAQAJ}}.
+%The goal of GTFS is to create an exchange format which specific software packages can use to transform it into their format of choice.
 
-On the other hand, public transit agencies also publish their data by providing \emph{route planners}.
-These route planner offer a query service on top of the data and expose these over the Web.
-However, when machines should access these, rate limiters are common place: only a limited amount of queries should be done in order for the service to be able to stay online.
+%On the other hand, public transit agencies also publish their data by providing \emph{route planners}.
+%These route planner offer a query service on top of the data and expose these over the Web.
+%However, when machines should access these, rate limiters are common place: only a limited amount of queries should be done in order for the service to be able to stay online.
 
-\input{ldfaxis1}
+%\input{ldfaxis1}
 
 Getting indications of people flows through public transit networks is a challenge.
 The data is tedious to get, mainly with public transit systems where passengers don't have to check-in and check-out.
@@ -184,12 +184,6 @@ Thanks to the user agents, this was a fairly straight-forward operation.
 The remainder of the file delivers an average of 3000 route planning queries a day, which we can use an an indication of travel intensities.
 Taking into account that 758,370 people take the train each day on a weekday (according to the railway network maintainer Infrabel) and assuming that each query is a trip done by a certain passenger, this sample equals $\sim0.4\%$ of the railway users in Belgium.
 
-As of the 17th of December 2015, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
-This amounts today to an average of 86k queries to the API per day, as the API gained popularity thanks to apps like \emph{BeTrains}\footnote{\url{https://play.google.com/store/apps/details?id=tof.cv.mpp}} and \emph{Railer}\footnote{\url{http://railer.be/}}.
-On average, 14,357 of these are valid route planning queries (others include departures in a station, status of a vehicle, or a list of all stations).
-If each query would amount to indeed 1 passenger, this would today be equal to almost 2\% of all passengers.
-As we only gathered a small sample of this data by today, we didn't use the data of 2015, but used the data of 2013 instead, at the time when our servers didn't have caches in place.
-
 As we are dealing with query logs, privacy becomes an issue~\cite{silvestri}.
 However, we do not publish the IP addresses with each query, which makes it hard to track single users.
 To remove all doubt, we have asked and received the consent of the privacy commission of Belgium.
@@ -198,21 +192,31 @@ To remove all doubt, we have asked and received the consent of the privacy commi
 \label{sec:method}
 
 \subsection{Processing}
-\todo{Each data record contains the names of both origin and destination (OD) stations, the user agent that made the query todo: Pieter this needs definition, as well as the time when the query was made.
+\todo{Alvin}
 
-As we were specifically interested in examining morning rush hour travel on weekdays, we filtered the dataset to exclude data records created outside the range of xxx hrs and xxx hrs on weekdays, and all data records created over the weekends.
+Each data record contains the names of both origin and destination (OD) stations, the user agent that made the query \todo{Pieter this needs definition}, as well as the time when the query was made.
 
-The iRail API serves a wide range of  applications that vary in terms of software architecture and functionality. End user applications such as BeTrains and Railer Pieter xxx and xxx query for time schedules when explicitly directed by the user. On the other hand, automated services like xxx make routine queries to gather data for further computation. Naturally, such automated queries are detected based on xxx. 
+As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 0600 hrs and 1000 hrs as well as 1700 hrs and 2100hrs on weekdays, and all data records created on weekend. Queries made by automated user agents like xxx and xxx were also excluded from the dataset to remove biases that may over represent connections between certain stations. Similarly, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were removed from the data set.
 
-We exclude all automated queries to refine the dataset and remove potential bias.
+The data is then simplified so that province level flow patterns are emphasised. Figure x provides a diagrammatic representation of the procedure. First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (See Figure xa). If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (See Figure xb). Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (See Figure xc). The following types of flows are observable from the outcome of aggregation:
 
-Queries made by automated user agents like xxx and xxx were also excluded from the dataset to remove biases that may over represent connections between certain stations.
-
-Additionally, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were also removed from the data set.}
+\begin{itemize}
+  \item Travel from any provincial station to a major city.
+  \item Travel between any two major cities.
+  \item Travel between any two provincial stations.
+  \item Travel between any international station to a major city.
+  \item Travel between any international station to a provincial station.
+\end{itemize}
 
 \subsection{Visualization}
 
 \todo{Alvin}
+
+Visualisation is frequently used to make data analysis tangible, so that the results can be communicated and debated {Robinson, 2008 #121}. This is crucial for our research since the questions presented are exploratory in nature {Kraak, 2008 #150} and can be addressed in many ways. Movement data has received substantial attention from the visualisation community and a range of techniques has been developed to support analysis {Andrienko, 2012 #196}. Of these techniques, flow visualisations facilitate the comparison of aggregated movement over space and time. There are three types of flow visualisations: Line based representations preserves the complete trajectory while matrix type representations take only the start and end locations into account.
+
+Line based representations indicate movement on a path with the shape of the line. The thickness of each line is scaled to the volume of flow along a path. The direction of flow is commonly indicated with an arrowhead. This representation is detailed and straightforward to understand but becomes cluttered when lines intersect. A number of solutions have been proposed for clutter reduction. Filtering is the most commonly practiced. The same goal can be achieved by clustering lines that have similar properties like common start, end or intermediate locations {Andrienko, 2007 #198}. Hierarchical {Guo, 2009 #199} and density based {Rinzivillo, 2008 #201} clustering have also been introduced for this purpose. Both solutions are effective at reducing clutter yet it should be noted that excessive aggregation or filtering removes a significant amount of information from the visualisation. Another solution to reduce clutter is to transform the visual representation. This is achieved by rerouting {Phan, 2005 #88} or bundling {Hurter, 2014 #200} lines in close proximity so that they appear grouped. Unlike clustering, this solution changes the shape of lines by way of interpolation to obtain an ideal layout. In most cases, the interpolation is regulated by conditions to avoid intersections and follow key geographic features such as roads, rivers or coastlines so that the layout appears natural. This solution emphasises major flows within the visualisation since large groups gain visual dominance. Nonetheless, there are two drawbacks to this solution. First, short distance flows that may be important at local scales are de-emphasised or lost in the transformation. Next, the lines do not depict actual paths of movement thus this solution may not be suitable for applications that require strict geographic accuracy.
+
+Matrix type representations are frequently used when the origin and destination preside over intermediate locations on the path of movement. This type of representation is referred to as origin-destination (OD) matrix. Rows and columns correspond to locations while cells are coloured to express the volume of flow. OD matrices can be reordered to emphasise connectivity between locations but the lack of geographic context is a distinct disadvantage. Several solutions have been developed to address this shortcoming. These are based on the notion of small multiples: The matrix is arranged in a geographical order so that the cells correspond to locations on the map. Then, a smaller map of the geographical context is nested in each cell to enable more intuitive comparisons {Guo, 2006 #202}. The limitation of this solution is similar to other forms or small multiples in general - the layout space allocated to each nested map becomes smaller as the number of cells increase. In this instance, nesting detailed geographical maps is problematic since majority of the geographical features become illegible due to scaling. OD Map {Wood, 2010 #86} proposes to nests a series of geographically ordered matrices that are more expressive of spatial relations and remain legible even when a small amount of layout space allocated to each cell.
 
 \section{Results}
 \label{sec:results}
@@ -266,26 +270,52 @@ We can only guess\ldots
 \label{fig:antwerp}
 \end{figure}
 
-\section{Publishing transport data: the impact on query logs}
+\section{Publishing transport data}
 \label{sec:publishing}
 
-Publishing public transport data today happens in two ways: by publishing a data dump of the timetables or by hosting a public route planning service.
+It is in the interest of public transit agencies that the use of their time schedule data is maximized.
+We can imagine that when more people are informed about the agency's offer, there will be a higher amount of people that will use the service.
+There are currently two ways to publish transit data, as illustrated in \cref{fig:LDFAxis2}: publishing data using the General Transit Feed Specification (GTFS) and offering a route planning service.
+
+\emph{GTFS}, on the one hand, is a data dump format: it is a compressed ZIP-file, containing a couple of CSV files, describing the rules for when a public transit vehicle will pass by on a certain location.
+GTFS is supported among all current open source route planning software systems and it is used in products/apps such as \emph{CityMapper}, \emph{Ally}, \emph{Navitia.io}, \emph{Google Maps} and \emph{Bing Maps}.
+%Persistence of the identifiers used within these datasets, is not a requirement, neither is it an ambition of the format\footnote{\url{https://groups.google.com/forum/#!msg/gtfs-changes/Z8Mf31MaZms/8Hc9F4psAQAJ}}.
+The goal of GTFS is to create an exchange format which specific software packages can use to transform it into their format of choice.
+
+On the other hand, public transit agencies also publish their data by providing \emph{route planners} such as the French railway company\footnote{\url{http://tech.eu/features/7119/sncf-api-real-time-data/}}, the Dutch railway company\footnote{\url{http://www.ns.nl/reisinformatie/ns-api}} or \ldots\footnote{\url{http://otherapiofadifferentagency}}
+These route planner offer a query service on top of the data and expose these over the Web.
+In this paper we have studied the query logs of such an \emph{expressive} route planning API, which per request offers an interesting log entry.
+
 Linked Data Fragments~\cite{ldf} is a way to think about data publishing as a set of trade-offs between client and servers.
-These trade-offs can be mapped on an axis, cfr. \cref{fig:LDFAxis2}, in which the 2 extremes are identified as: the client does all the processing by downloading all the data at once, versus the server does all the processing by exposing \emph{expressive} APIs.
-Linked Connections~\cite{lc} proposes other ticks on this axis.
-By publishing fragments of the data needed for by the shortest path algorithm, the algorithm can be executed on the client.
-Furthermore, it lowers to load on the server, and it enables clients to federate queries over different servers, including different regions, transit modes and user's need.
+These trade-offs can be visualized on the axis in \cref{fig:LDFAxis2}: ticks in between the extremes indicate different client/server options.
+For route planning services, we call these other ticks Linked Connections~\cite{lc}: 
+by publishing fragments of the data needed by an earliest arrival time algorithm, the algorithm can be executed by a user agent while the downloading data just in time.
+This way, it lowers to load on the server, making it easier to keep the data high available.
+Furhtermore, it enables clients to federate queries over different servers representing different regions, transit modes or different user requirements such as low criminality rates or wheelchair accessibility.
 
 %label: fig:LDFAxis2
 \input{ldfaxis2}
 
-The expressivity of the server also affects the way logs can be gathered.
+The expressiveness of the server also affects the way logs can be gathered.
 When the server becomes less expressive, e.g., when it only allows to set a departure station and a departure time, then the server doesn't know the arrival station, which makes it harder to get an indication of the travel flow.
+However, from a Web-perspective, if we want to log every HTTP GET request, we expect every HTTP GET to reach the server, and we would have to deliberately disable caches to be able to log every request.
+Disabling this cache for high expressive servers is okay: the chance that two requests are exactly the same for a high expressive server is low, however from a low expressive server, we will have to do more requests to 
 
 \todo{Also in USEWOD2014 there was a paper on LDF and how we could know which SPARQL queries needed to be solved}
 
 %\subsection{Intermodal route planning}
 
+\section{Publishing query logs}
+\label{sec:publishingquerylogs}
+
+% Open Anonymized Route Planning Query Logs
+Semantics behind the query logs
+
+As of the 17th of December 2015, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
+This amounts today to an average of 86k queries to the API per day, as the API gained popularity thanks to apps like \emph{BeTrains}\footnote{\url{https://play.google.com/store/apps/details?id=tof.cv.mpp}} and \emph{Railer}\footnote{\url{http://railer.be/}}.
+On average, 14,357 of these are valid route planning queries (others include departures in a station, status of a vehicle, or a list of all stations).
+If each query would amount to indeed 1 passenger, this would today be equal to almost 2\% of all passengers.
+As we only gathered a small sample of this data by today, we didn't use the data of 2015, but used the data of 2013 instead, at the time when our servers didn't have caches in place.
 
 \section{Conclusion and discussion}
 \label{sec:conclusion}
