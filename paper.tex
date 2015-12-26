@@ -286,20 +286,33 @@ On the other hand, public transit agencies also publish their data by providing 
 These route planner offer a query service on top of the data and expose these over the Web.
 In this paper we have studied the query logs of such an \emph{expressive} route planning API, which per request offers an interesting log entry.
 
-Linked Data Fragments~\cite{ldf} is a way to think about data publishing as a set of trade-offs between client and servers.
-These trade-offs can be visualized on the axis in \cref{fig:LDFAxis2}: ticks in between the extremes indicate different client/server options.
-For route planning services, we call these other ticks Linked Connections~\cite{lc}: 
-by publishing fragments of the data needed by an earliest arrival time algorithm, the algorithm can be executed by a user agent while the downloading data just in time.
-This way, it lowers to load on the server, making it easier to keep the data high available.
-Furhtermore, it enables clients to federate queries over different servers representing different regions, transit modes or different user requirements such as low criminality rates or wheelchair accessibility.
 
 %label: fig:LDFAxis2
 \input{ldfaxis2}
 
+Linked Data Fragments~\cite{ldf} is a way to think about data publishing as a set of trade-offs between client and servers.
+These trade-offs can be visualized on the axis in \cref{fig:LDFAxis2}: ticks in between the extremes indicate different client/server options.
+For route planning services, we call these other ticks Linked Connections~\cite{lc}: 
+by publishing fragments of the data needed by an earliest arrival time algorithm, the algorithm can be executed by a user agent while the downloading the data.
+An example of such an implementation is illustrated in \cref{fig:lc}.
+By exploiting the caching mechanisms behind HTTP, it lowers to load on the server, making it easier to keep the data high available.
+Furthermore, it enables clients to federate queries over different servers representing different regions, transit modes or different user requirements such as low criminality rates or wheelchair accessibility.
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.48\textwidth]{LC}
+    \caption{An example implementation of a route planning algorithm: fragments of data needed by a route planning algorithm are published in pages. The route planning algorithm will need multiple requests instead of just one. The fragements of the pages that can be retrieved are however highly cacheable.}
+    \label{fig:lc}
+\end{figure}
+
 The expressiveness of the server also affects the way logs can be gathered.
-When the server becomes less expressive, e.g., when it only allows to set a departure station and a departure time, then the server doesn't know the arrival station, which makes it harder to get an indication of the travel flow.
-However, from a Web-perspective, if we want to log every HTTP GET request, we expect every HTTP GET to reach the server, and we would have to deliberately disable caches to be able to log every request.
-Disabling this cache for high expressive servers is okay: the chance that two requests are exactly the same for a high expressive server is low, however from a low expressive server, we will have to do more requests to 
+If we want to log every HTTP GET request, we expect every HTTP GET to reach the server and we would have to deliberately disable caches to be able to log every request.
+The chance that two requests are exactly the same for a high expressive server is low. 
+We have shown in previous sections that these logs are interesting.
+
+A low expressive server that still publishes the data in a queryable way as illustrated in \cref{fig:lc}, exploits the caching mechanism 
+E.g., when it only allows to set a departure station and a departure time, then the server cannot know the arrival station, which makes it harder to get an indication of the travel flow.
 
 \todo{Also in USEWOD2014 there was a paper on LDF and how we could know which SPARQL queries needed to be solved}
 
