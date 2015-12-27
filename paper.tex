@@ -102,18 +102,19 @@ Andrew Vande Moere\\
 % Context
 %Public transit schedules are made available on the Web in various ways, such as in a GTFS file, a route planning API, or through Linked Connections.
 The iRail project hosts a route planning API for the Belgian railway company.
-This webservice provides an answer to a route planning question with parameters such as ``departuretime'', ``from'' and ``to''.
+It is a high expresive webservice, of which the query logs are able to tell us something about the public transit demand at a certain moment.
+%This webservice provides an answer to a route planning question with parameters such as ``departuretime'', ``from'' and ``to''.
 % Need
 In the field of urban planning, researchers need an indication of how people move between cities. 
-%Yet, getting this data from official sources has proven to be troublesome.
+Yet, getting indications of these travel flows has proven to be troublesome.
 % Task
 In this paper, we analyse the query logs of the iRail API, to see whether it can tell us something about travel flows between cities in Belgium.
 % Object
 We studied queries for the year 2013, which contains an average of $\sim3000$ interesting queries per day ($\sim0.4\%$ of the amount of passengers per weekday).
 % Findings
-We illustrate \todo{X} interesting patterns that correspond to reality and we show an outlier in the data.
+Using data visualizations, we illustrate two interesting patterns that correspond to reality, as confirmed by experts, and we show one that does not.
 % Conclusion
-We could not find a way \todo{to validate \ldots}, yet more research is needed to understand how representative for travel flows they may be.
+More research is needed to understand how representative for travel flows query logs may be.
 % Perspectives
 In earlier work, we suggested the Linked Data Fragments axis to discuss new approaches to publish queryable public transit data.
 Now, we suggest a discussion for gathering query logs when using Linked Data Fragments approaches.
@@ -130,7 +131,7 @@ Now, we suggest a discussion for gathering query logs when using Linked Data Fra
 %Today, public transport data still remains absent from the Linked Open Data cloud\footnote{\url{http://lod-cloud.net/}}.
 %Bizarre, one could notice, as many open transport datasets are already available, according to the Global Open Data Index of 2014\footnote{\url{http://index.okfn.org/dataset/timetables/2014/}}.
 %We can imagine that, what contributed to this, are the de-facto standard ways to publish public transit data to the Web.
-There are currently two ways, as illustrated in \cref{fig:LDFAxis1}: publishing data using the General Transit Feed Specification (GTFS) and offering a route planning service.
+%There are currently two ways, as illustrated in \cref{fig:LDFAxis1}: publishing data using the General Transit Feed Specification (GTFS) and offering a route planning service.
 
 %\emph{GTFS}, on the one hand, is a data dump format: it is a compressed ZIP-file, containing a couple of CSV-files, describing the rules for when a public transit vehicle will pass by on a certain location.
 %The specification is a huge success: up to date, it is supported among all current open source route planning software systems, and it is used in products such as \emph{CityMapper}, \emph{Ally}, \emph{Navitia.io}, \emph{Google Maps} and \emph{Bing Maps}.
@@ -151,7 +152,8 @@ Nevertheless, people are calculating their intended routes by using the Web.
 The \emph{iRail} project\footnote{\url{http://hello.irail.be}} started in 2008 to make the data of the Belgian railway accessible for developers.
 Ever since, the project offers developer both a GTFS data dump for third party apps and a route planning API.
 The query logs of this API has been stored since 2013.
-Our hypothesis is that, while we should study the data with high level of sceptisicm (given enough data, you can find any pattern), \todo{\ldots}
+We study these query logs by creating a couple of visualizations which illustrate a couple of patterns.
+Two of the documented patterns in this paper correspond to reality, another does not.
 
 In this paper, we give a small overview of related work to gather data for flow analysis.
 Next, we study the iRail query logs to find out whether we can find interesting patterns.
@@ -292,7 +294,7 @@ In this paper we have studied the query logs of such an \emph{expressive} route 
 
 Linked Data Fragments~\cite{ldf} is a way to think about data publishing as a set of trade-offs between client and servers.
 These trade-offs can be visualized on the axis in \cref{fig:LDFAxis2}: ticks in between the extremes indicate different client/server options.
-For route planning services, we call these other ticks Linked Connections~\cite{lc}: 
+For route planning systems, we call these other ticks Linked Connections~\cite{lc}: 
 by publishing fragments of the data needed by an earliest arrival time algorithm, the algorithm can be executed by a user agent while the downloading the data.
 An example of such an implementation is illustrated in \cref{fig:lc}.
 By exploiting the caching mechanisms behind HTTP, it lowers to load on the server, making it easier to keep the data high available.
@@ -308,11 +310,18 @@ Furthermore, it enables clients to federate queries over different servers repre
 
 The expressiveness of the server also affects the way logs can be gathered.
 If we want to log every HTTP GET request, we expect every HTTP GET to reach the server and we would have to deliberately disable caches to be able to log every request.
-The chance that two requests are exactly the same for a high expressive server is low. 
-We have shown in previous sections that these logs are interesting.
+The chance that two requests are exactly the same for a high expressive server is low, as there are more URLs which can be requested. 
+We have shown in previous sections that these logs are interesting: each request contains an entire query which can be used as an indication of travel ``demand''.
 
-A low expressive server that still publishes the data in a queryable way as illustrated in \cref{fig:lc}, exploits the caching mechanism 
+A low expressive server that still publishes the data in a queryable way as illustrated in \cref{fig:lc}, has less interesting results. 
 E.g., when it only allows to set a departure station and a departure time, then the server cannot know the arrival station, which makes it harder to get an indication of the travel flow.
+Furthermore, on the Linked Data Fragments axis, less expressive servers --which have less URLs to be requested-- can exploit the caching mechanism~\cite{ldf}.
+The drawback of having higher cacheability, is that intermediate proxies may have cached the HTTP response somewhere in between and there will not be a log entry.
+
+When the expressiveness of the servers is lower in order to maximize the reuse of the data, such as in the case of Linked Connections or a GTFS datadump, we suggest to, instead of logging each GET-request, to have an analytics server that gathers all the logs.
+
+\todo{\ldots}
+
 
 \todo{Also in USEWOD2014 there was a paper on LDF and how we could know which SPARQL queries needed to be solved}
 
@@ -321,14 +330,14 @@ E.g., when it only allows to set a departure station and a departure time, then 
 \section{Publishing query logs}
 \label{sec:publishingquerylogs}
 
+As of the 17th of December 2015, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
+This amounts today to an average of 86k queries to the API per day, as the API gained popularity thanks to apps like \emph{BeTrains}\footnote{\url{https://play.google.com/store/apps/details?id=tof.cv.mpp}} and \emph{Railer}\footnote{\url{http://railer.be/}}.
+On average, 14,357 of these are valid route planning queries (other queries include requesting departures in a station, status of a vehicle, or a list of all stations).
+If each query would amount to indeed one passenger, this would today be equal to almost 2\% of all passengers.
+
 % Open Anonymized Route Planning Query Logs
 Semantics behind the query logs
 
-As of the 17th of December 2015, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
-This amounts today to an average of 86k queries to the API per day, as the API gained popularity thanks to apps like \emph{BeTrains}\footnote{\url{https://play.google.com/store/apps/details?id=tof.cv.mpp}} and \emph{Railer}\footnote{\url{http://railer.be/}}.
-On average, 14,357 of these are valid route planning queries (others include departures in a station, status of a vehicle, or a list of all stations).
-If each query would amount to indeed 1 passenger, this would today be equal to almost 2\% of all passengers.
-As we only gathered a small sample of this data by today, we didn't use the data of 2015, but used the data of 2013 instead, at the time when our servers didn't have caches in place.
 
 \section{Conclusion and discussion}
 \label{sec:conclusion}
