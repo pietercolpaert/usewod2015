@@ -67,6 +67,8 @@
 
 \usepackage{color}
 \newcommand{\todo}[1]{\noindent\textcolor{red}{{\bf \{TODO}: #1{\bf \}}}}
+\newdef{definition}{Definition}
+
 \begin{document}
 
 \title{Studying public transit API query logs\\ to get an indication of travel flows}
@@ -177,30 +179,48 @@ Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys
 \section{The logs}
 \label{sec:logs}
 
-In 2013, we started to use a MySQL table to store each request to the iRail API in a table, including User-Agent string, the timestamp, whether or not the request succeeded, the departure station and the desired station of arrival.
+The iRail API is a plain old XML/JSON HTTP API: one request documented for humans at $api.iRail.be$, will result in an answer that can be used directly in an end-user app.
+It contains four features: a route planning query, a query for the next departures in a certain station, a query for the status of a certain train and a query for a list of all stations.
+In 2013, we started to use a MySQL table to store each log entry to the iRail API in a table.
+The columns of this table are:
+\begin{itemize}
+  \item User-Agent (defined in \cref{def:ua}), 
+  \item the timestamp,
+  \item whether or not the request succeeded,
+  \item the departure station and
+  \item the desired station of arrival.
+\end{itemize}
 From an export of this table, we filtered out only the route plannning queries that succeeded for the entire year.
 The resulting dataset, used for the rest of this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 
-We cleaned this data by removing the requests done by harvesters or search engine bots.
-Thanks to the user agents, this was a fairly straight-forward operation.
-The remainder of the file delivers an average of 3000 route planning queries a day, which we can use an an indication of travel intensities.
-Taking into account that 758,370 people take the train each day on a weekday (according to the railway network maintainer Infrabel) and assuming that each query is a trip done by a certain passenger, this sample equals $\sim0.4\%$ of the railway users in Belgium.
+\begin{definition}
+The User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations.
+\label{def:ua}
+\end{definition}
 
 As we are dealing with query logs, privacy becomes an issue~\cite{silvestri}.
 However, we do not publish the IP addresses with each query, which makes it hard to track single users.
-To remove all doubt, we have asked and received the consent of the privacy commission of Belgium.
+To remove all doubt, we have asked and received the consent of the privacy commission of Belgium, which declared we can study the logs without any restrictions.
 
 \section{Method}
 \label{sec:method}
 
 \subsection{Processing}
-\todo{Alvin}
 
-Each data record contains the names of both origin and destination (OD) stations, the user agent that made the query \todo{Pieter this needs definition}, as well as the time when the query was made.
+We cleaned the logs by removing the requests done by harvesters or search engine bots.
+Thanks to the user agents, this was a fairly straight-forward operation.
+The remainder of the file delivers an average of 3000 route planning queries a day, which we can use an an indication of travel intensities.
+Taking into account that 758,370 people take the train each day on a weekday (according to official number of the Belgian Railway company in 2013\footnote{\url{http://www.treintrambus.be/images/OpstappendeReizigers_2013_2.pdf}}) and assuming that each query is a trip done by a certain passenger, this sample equals $\sim0.4\%$ of the railway users in Belgium.
 
-As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 0600 hrs and 1000 hrs as well as 1700 hrs and 2100hrs on weekdays, and all data records created on weekend. Queries made by automated user agents like xxx and xxx were also excluded from the dataset to remove biases that may over represent connections between certain stations. Similarly, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were removed from the data set.
+Each data record contains the names of both origin and destination (OD) stations, the user agent that made the query, as well as the time when the query was made.
+As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00~hrs and 10:00~hrs as well as 17:00~hrs and 21:00~hrs on weekdays, and all data records created on weekend. Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. Similarly, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were removed as well.
 
-The data is then simplified so that province level flow patterns are emphasised. Figure x provides a diagrammatic representation of the procedure. First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (See Figure xa). If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (See Figure xb). Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (See Figure xc). The following types of flows are observable from the outcome of aggregation:
+The data is then simplified so that province level flow patterns are emphasised.
+\cref{fig:brussels} provides a diagrammatic representation of the procedure.
+First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (See Figure xa).
+If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (See Figure xb).
+Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (See Figure xc).
+The following types of flows are observable from the outcome of aggregation:
 
 \begin{itemize}
   \item Travel from any provincial station to a major city.
@@ -247,16 +267,6 @@ The difference between both patterns appear to correspond with existing measures
 
 \subsection{Flanders is polycentric, Wallonia monocentric}
 
-We can also observe the effect of "density" in Flanders where people move from the rural towards cities. Look at weekday-mornings: commuting towards Gent, Brussels, Antwerp. This is not as obvious in the Walloon region (except for Liege). The reverse occurs on weekday-evenings. Local patterns can also be observed and this corresponds to what we know: ``cities are the central hubs''.
-Walloon region: everything converges on Brussels
-
-\subsection{Inexplicable results}
-
-We also see weird things happening in Antwerp, where a large amount of people go to the province in the morning on weekdays, while the oposite happens in Liege.
-When looking into the data, the Antwerp pattern appears due to one specific route which is queried each morning.
-Is there a group of colleagues all using the same app taking the same train daily?
-Is it someone who checks this trip over and over again for delays?
-We can only guess\ldots
 
 \begin{figure}
 \centering
@@ -271,6 +281,17 @@ We can only guess\ldots
 \caption{Pair of chord visualization of the city of Antwerp: transit flows towards Antwerp from elsewhere in Belgium and vice versa.}
 \label{fig:antwerp}
 \end{figure}
+
+We can also observe the effect of "density" in Flanders where people move from the rural towards cities. Look at weekday-mornings: commuting towards Gent, Brussels, Antwerp. This is not as obvious in the Walloon region (except for Liege). The reverse occurs on weekday-evenings. Local patterns can also be observed and this corresponds to what we know: ``cities are the central hubs''.
+Walloon region: everything converges on Brussels
+
+\subsection{Inexplicable results}
+
+We also see weird things happening in Antwerp, where a large amount of people go to the province in the morning on weekdays, while the oposite happens in Liege.
+When looking into the data, the Antwerp pattern appears due to one specific route which is queried each morning.
+Is there a group of colleagues all using the same app taking the same train daily?
+Is it someone who checks this trip over and over again for delays?
+We can only guess\ldots
 
 \section{Publishing transport data}
 \label{sec:publishing}
