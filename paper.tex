@@ -159,7 +159,7 @@ Two of the documented patterns in this paper correspond to reality, another does
 
 In this paper, we give a small overview of related work to gather data for flow analysis.
 Next, we study the iRail query logs to find out whether we can find interesting patterns.
-Finally, we look at Linked Connections~\cite{lc}, a proposed new way of publishing queryable public transit data, and whether we would still be able to have an indication of the transit flows with a Linked Data Fragments~\cite{ldf} approach.
+Finally, we look at Linked~Connections~\cite{lc}, a proposed new way of publishing queryable public transit data, and whether we would still be able to have an indication of the transit flows with a Linked Data Fragments~\cite{ldf} approach.
 
 \section{Related work}
 \label{sec:relwork}
@@ -184,19 +184,15 @@ It contains four features: a route planning query, a query for the next departur
 In 2013, we started to use a MySQL table to store each log entry to the iRail API in a table.
 The columns of this table are:
 \begin{itemize}
-  \item User-Agent (defined in \cref{def:ua}), 
+  \item User-Agent as defined by RFC2616\footnote{\url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}: \emph{the User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations};
   \item the timestamp,
   \item whether or not the request succeeded,
   \item the departure station and
   \item the desired station of arrival.
 \end{itemize}
+
 From an export of this table, we filtered out only the route plannning queries that succeeded for the entire year.
 The resulting dataset, used for the rest of this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
-
-\begin{definition}
-The User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations.
-\label{def:ua}
-\end{definition}
 
 As we are dealing with query logs, privacy becomes an issue~\cite{silvestri}.
 However, we do not publish the IP addresses with each query, which makes it hard to track single users.
@@ -315,7 +311,7 @@ In this paper we have studied the query logs of such an \emph{expressive} route 
 
 Linked Data Fragments~\cite{ldf} is a way to think about data publishing as a set of trade-offs between client and servers.
 These trade-offs can be visualized on the axis in \cref{fig:LDFAxis2}: ticks in between the extremes indicate different client/server options.
-For route planning systems, we call these other ticks Linked Connections~\cite{lc}: 
+For route planning systems, we call these other ticks Linked~Connections~\cite{lc}: 
 by publishing fragments of the data needed by an earliest arrival time algorithm, the algorithm can be executed by a user agent while the downloading the data.
 An example of such an implementation is illustrated in \cref{fig:lc}.
 By exploiting the caching mechanisms behind HTTP, it lowers to load on the server, making it easier to keep the data high available.
@@ -339,7 +335,7 @@ E.g., when it only allows to set a departure station and a departure time, then 
 Furthermore, on the Linked Data Fragments axis, less expressive servers --which have less URLs to be requested-- can exploit the caching mechanism~\cite{ldf}.
 The drawback of having higher cacheability, is that intermediate proxies may have cached the HTTP response somewhere in between and there will not be a log entry.
 
-When the expressiveness of the servers is lower in order to maximize the reuse of the data, such as in the case of Linked Connections or a GTFS datadump, we suggest to, instead of logging each GET-request, to have an analytics server that gathers all the logs.
+When the expressiveness of the servers is lower in order to maximize the reuse of the data, such as in the case of Linked~Connections or a GTFS~datadump, we suggest to, instead of logging each GET-request, to have an analytics server that gathers all the logs.
 
 \todo{\ldots}
 
