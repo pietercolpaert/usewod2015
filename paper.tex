@@ -106,20 +106,17 @@ Andrew Vande Moere\\
 %This webservice provides an answer to a route planning question with parameters such as ``departuretime'', ``from'' and ``to''.
 % Context & % Need
 In the field of urban planning, researchers need an indication of how people move between cities. 
-Yet, getting statistics of travel flows has proven to be troublesome.
-The iRail project hosts a high expressive route planning API for the Belgian railway company.
+Yet, getting statistics of travel flows within public transit systems has proven to be troublesome.
 % Task
-We analyse the query logs of this API, to get an indication of travel flows between cities in Belgium.
-We were able to study $\sim$100k to 500k requests for each month between October 2012 and November 2015, which amount to \todo{between $0.3\%$ and $2\%$} of the amount of monthly passengers.
-% Object
-Using data visualizations, we illustrate the commuting patterns in Belgium and show that Brussels, the captial, acts as a central hub. 
-% Findings
-The visualizations correspond to reality, as confirmed by experts. 
+We analysed the query logs of the iRail API, a high expressive route planning API for the Belgian railways, to get an indication of travel flows between cities in Belgium.
+We were able to study $\sim$100k to 500k requests for each month between October 2012 and November 2015, which is between $0.5\%$ and $1.7\%$ of the amount of monthly passengers.
+% Object & Findings
+Using data visualizations, we illustrated the commuting patterns in Belgium and show that Brussels, the capital, acts as a central hub. The Flemish region appears to be polycentric, while in the Walloon region, everything converges on Brussels.
+The findings correspond to the real travel demand, say experts of the passenger federation Trein Tram Bus.
 % Conclusion
-More research is needed to understand how representative for travel flows query logs may be.
+We concluded that query logs of route planners are of high importance in getting an indication of the travel flows.
 % Perspectives
-In earlier work, we suggested the Linked Data Fragments axis to discuss new approaches to publish queryable public transit data.
-Now, we suggest a discussion for gathering query logs when using Linked Data Fragments approaches.
+\todo{another sentence about publishing transit data for maximized reuse and how to gather analytics}
 
 \end{abstract}
 
@@ -179,21 +176,19 @@ Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys
 \section{The logs}
 \label{sec:logs}
 
-The iRail API is a plain old XML/JSON HTTP API: one request documented for humans at $api.iRail.be$, will result in an answer that can be used directly in an end-user app.
-It contains four features: a route planning query, a query for the next departures in a certain station, a query for the status of a certain train and a query for a list of all stations.
-In 2013, we started to use a MySQL table to store each log entry to the iRail API in a table.
-The columns of this table are:
+The iRail API is a XML/JSON HTTP API in which one request on \url{http://api.irail.be} will result in a response that can be used directly in an end-user app.
+It contains four features: a route planning query (\url{http://api.irail.be/connections/{?from,to,date,time}}), a query for the next departures in a certain station (\url{http://api.irail.be/liveboard/{?station,date,time}}), a query for the status of a certain train (\url{http://api.irail.be/vehicle/{?id,date}}) and a query for a list of all stations (\url{http://api.irail.be/stations/}).
+We have gathered the \emph{Apache} \emph{access.log} files 
 \begin{itemize}
-  \item User-Agent as defined by RFC2616\footnote{\url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}: \emph{the User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations};
   \item the timestamp,
   \item whether or not the request succeeded,
-  \item the departure station and
-  \item the desired station of arrival.
+  \item the path of the query (e.g., \emph{/connections/?from=Ghent\&to=Antwerp}) and
+  \item the User-Agent (cfr. RFC2616\footnote{The User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations -- \url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}})
 \end{itemize}
 
 \begin{figure}
 \centering
-\includegraphics[width=193,align=center]{querylogs}
+\includegraphics[width=8.6cm,align=center]{querylogs}
 \caption{Amount of queries on the route planning part of the iRail API between 2012 and 2016. In April 2015 an official app of the Belgian railways was discontinued, which explains the sudden raise of iRail API queries.}
 \label{fig:querylogs}
 \end{figure}
@@ -205,10 +200,9 @@ As we are dealing with query logs, privacy becomes an issue~\cite{silvestri}.
 However, we do not publish the IP addresses with each query, which makes it hard to track single users.
 To remove all doubt, we have asked and received the consent of the privacy commission of Belgium, which declared we can study the logs without any restrictions.
 
-
 \begin{figure}
 \centering
-\includegraphics[width=8.3cm,align=center]{avg-all}
+\includegraphics[width=8.6cm,align=center]{avg-all}
 \caption{Distribution of iRail route planning API queries on average per day of the week between 2012 and 2016}
 \label{fig:average}
 \end{figure}
@@ -222,13 +216,14 @@ To remove all doubt, we have asked and received the consent of the privacy commi
 
 \begin{figure}
 \centering
-\includegraphics[width=8.3cm,align=center]{dec24}
+\includegraphics[width=8.6cm,align=center]{dec24}
 \caption{Comparison of route planning queries on December 24th (Christmass eve) 2015 with the average on a Thursday between 2012 and 2016. The illustration shows that people started going home earlier than usual.}
 \label{fig:dec24}
 \end{figure}
 
 \section{Method}
 \label{sec:method}
+
 
 \subsection{Processing}
 
