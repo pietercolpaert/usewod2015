@@ -178,7 +178,18 @@ Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys
 \label{sec:logs}
 
 The iRail API is a XML/JSON HTTP API where each request on \url{http://api.irail.be} returns a response that can be used directly in an end-user app.
-It contains four features: a route planning query (\url{http://api.irail.be/connections/{?from,to,date,time}}), a query for the next departures in a certain station (\url{http://api.irail.be/liveboard/{?station,date,time}}), a query for the status of a certain train (\url{http://api.irail.be/vehicle/{?id,date}}) and a query for a list of all stations (\url{http://api.irail.be/stations/}).
+It contains four features: 
+\begin{itemize}
+\item Route Planning Feature (\url{http://api.irail.be/connections/{?from,to,date,time}}).
+\item Next Departures Feature (\url{http://api.irail.be/liveboard/{?station,date,time}}).
+\item Train Status Feature query (\url{http://api.irail.be/vehicle/{?id,date}}).
+\item List All Stations Feature (\url{http://api.irail.be/stations/}).
+\end{itemize}
+
+\todo{what are the intended functions of each feature? We should mention that the route planning feature is perhaps the most popular among lay users? Thus is also has good potential to be used as a proxy for analysis...}
+
+We are particularly intersted in studying the potential application of route planning queries for flow analysis thus  only requests to (\url{http://api.irail.be/connections/{?from,to,date,time}}) were extracted for further investigation. The resulting dataset described in this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
+
 We have gathered the \emph{Apache} \emph{access.log} files generated between 2012 and 2015 containing: 
 \begin{itemize}
   \item Timestamp,
@@ -187,7 +198,6 @@ We have gathered the \emph{Apache} \emph{access.log} files generated between 201
   \item User-Agent (cfr. RFC2616\footnote{The User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations -- \url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}})
 \end{itemize}
 
-We are particularly intersted in studying the potential application of route planning queries for flow analysis thus  only requests to (\url{http://api.irail.be/connections/{?from,to,date,time}}) were extracted for further investigation. The resulting dataset described in this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 
 As we are dealing with query logs, privacy becomes an issue~\cite{silvestri}.
 However, we do not publish the IP addresses with each query, which makes it hard to track single users.
