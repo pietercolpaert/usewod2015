@@ -178,19 +178,20 @@ Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys
 \label{sec:logs}
 
 The iRail API is a XML/JSON HTTP API where each request on \url{http://api.irail.be} returns a response that can be used directly in an end-user app.
-It contains four features: 
+It contains four features:
+
 \begin{itemize}
-\item Route Planning Feature (\url{http://api.irail.be/connections/{?from,to,date,time}}).
-\item Next Departures Feature (\url{http://api.irail.be/liveboard/{?station,date,time}}).
-\item Train Status Feature query (\url{http://api.irail.be/vehicle/{?id,date}}).
-\item List All Stations Feature (\url{http://api.irail.be/stations/}).
+\item Route Planning (\url{http://api.irail.be/connections/{?from,to,date,time}}).
+\item Next Departures (\url{http://api.irail.be/liveboard/{?station,date,time}}).
+\item Train Status (\url{http://api.irail.be/vehicle/{?id,date}}).
+\item List All Stations (\url{http://api.irail.be/stations/}).
 \end{itemize}
 
 \todo{what are the intended functions of each feature? We should mention that the route planning feature is perhaps the most popular among lay users? Thus is also has good potential to be used as a proxy for analysis...}
 
 We are particularly intersted in studying the potential application of route planning queries for flow analysis thus  only requests to (\url{http://api.irail.be/connections/{?from,to,date,time}}) were extracted for further investigation. The resulting dataset described in this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 
-We have gathered the \emph{Apache} \emph{access.log} files generated between 2012 and 2015 containing: 
+This dataset is compiled from the \emph{Apache} \emph{access.log} files generated between 2012 and 2015. Each data entry contains a: 
 \begin{itemize}
   \item Timestamp,
   \item HTTP Status Code,
@@ -253,13 +254,11 @@ Can we also find interesting patterns when we study where people are heading bet
 \section{Method}
 \label{sec:method}
 
-For flow analysis, we need to analyse where people are going on what part of the day.
-In this section we first discuss how we processed the data in order to find the locations people are heading to and then discuss how we visualise the data in order to show proper results.
+Flow analysis involves the comparison of aggregated movement between distinct locations within a specific time frame. Data visualisation is typically employed to facilate in this process thus the input data must be transformed into a format that expresses the quantity and directional flow of human movment. In this section we describe the data transformation procedure and data visualisation technique  employed in our case study.
 
 \subsection{Processing}
 
-We processed the the data so that for both every origin and destination we have a unique identifier and the longitude and latitude.
-We have done this using the open-source reconciliator at \url{https://github.com/irail/stations}.
+We processed the the data so that for both every origin and destination we have a unique identifier and the geographic coordinates. This is facilitaed with the open-source reconciliator \todo{one liner that describes how this works} situated at \url{https://github.com/irail/stations}.
 
 Each data record now contains the station object of both origin and destination (OD), the user agent that made the query, as well as the time when the query was made.
 As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of \todo{PC: we will have to explain ourselves why we'd choose different hours than what we've found above} 06:00~hrs and 10:00~hrs as well as 17:00~hrs and 21:00~hrs on weekdays, and all data records created on weekend. Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. Similarly, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were removed as well.
