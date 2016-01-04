@@ -116,8 +116,10 @@ The findings correspond to the real travel demand, say experts of the passenger 
 % Conclusion
 We conclude that query logs of route planners are of high importance in getting an indication of the travel flows.
 % Perspectives
-High expressive transport data publishing methods such as route planning API exist, as well as low expressive data dumps or data fragments.
-In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
+Nevertheless, we should be cautious about what we measure as GET requests on the Web are cacheable.
+In order to have a query log for studying travel demand that works for all publishing strategies, we suggest future work to send anonymized POST requests from the end-user applications to an analytics server.
+%High expressive transport data publishing methods such as route planning API exist, as well as low expressive data dumps or data fragments.
+%In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
 
 \end{abstract}
 
