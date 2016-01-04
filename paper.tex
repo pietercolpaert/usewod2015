@@ -84,7 +84,7 @@ Alvin Chua\\
 \and
 \alignauthor
 Ruben Verborgh\\
-\affaddr{\email{\texttt{ruben.verborg@ugent.be}}}
+\affaddr{\email{\texttt{ruben.verborgh@ugent.be}}}
 \and
 \alignauthor
 Erik Mannens\\
@@ -187,21 +187,15 @@ It contains four features:
 \item \emph{List of all stations} (\url{http://api.irail.be/stations/}) gives an overview of all stations Belgian trains can arrive at.
 \end{enumerate}
 
-All except the Route Planning 
-We are particularly intersted in studying the potential application of route planning queries for flow analysis thus only requests to (\url{http://api.irail.be/connections/{?from,to,date,time}}) were extracted for further investigation.
+We are particularly intersted in studying the potential application of route planning queries for flow analysis.
+The other queries are commonly used by digital signage providers or status boards, which poll the data on a regular basis.
+We extracted the route planning requests (\url{http://api.irail.be/connections/{?from,to,date,time}}) for further investigation.
 The resulting dataset described in this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 
-This dataset is compiled from the \emph{Apache} \emph{access.log} files generated between 2012 and 2015. Each data entry contains a: 
-\begin{itemize}
-  \item Timestamp,
-  \item HTTP Status Code,
-  \item Request Path (e.g., \url{/connections/?from=Ghent\&to=Antwerp})
-  \item User-Agent (cfr. RFC2616\footnote{The User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations -- \url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}})
-\end{itemize}
-
+This dataset is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015. Each data entry contains a timestamp of when the request was executed, the HTTP status code of the response, the request path (e.g., \url{/connections/?from=Ghent\&to=Antwerp}) and the User-Agent (cfr. RFC2616\footnote{The User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations -- \url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}).
 
 As we are dealing with query logs, privacy becomes an issue~\cite{silvestri}.
-However, we do not publish the IP addresses with each query, which makes it hard to track single users.
+However, we do not publish or process the IP addresses with each query, which makes it hard to track single users.
 To remove all doubt, we have asked and received the consent of the Belgian privacy commission, which declared we can study the logs without any restrictions.
 
 We established three preliminary questions to  investigate the potential of this dataset:
@@ -214,7 +208,7 @@ We established three preliminary questions to  investigate the potential of this
 \begin{figure}
 \centering
 \includegraphics[width=8.6cm]{querylogs}
-\caption{Amount of queries on the route planning part of the iRail API between 2012 and 2016. In April 2015 an official app of the Belgian railways was discontinued, which explains the sudden raise of iRail API queries.}
+\caption{Amount of queries on the route planning part of the iRail API between October 2012 and December 2015. In April 2015 an official app of the Belgian railways was discontinued, which explains the sudden raise of iRail API queries.}
 \label{fig:querylogs}
 \end{figure}
 
@@ -227,7 +221,7 @@ If we assume that each request is a travel intention, this would result in respe
 \begin{figure}
 \centering
 \includegraphics[width=8.6cm]{avg-all}
-\caption{Distribution of iRail route planning API queries on average per day of the week between 2012 and 2016}
+\caption{Distribution of iRail route planning API queries on average per day of the week between October 2012 and December 2015}
 \label{fig:average}
 \end{figure}
 
@@ -241,7 +235,7 @@ On Sundays, we see most requests happen in the evening, which can be explained b
 \begin{figure}
 \centering
 \includegraphics[width=8.6cm]{dec24}
-\caption{Comparison of route planning queries on December 24th (Christmass Eve) 2015 with the average on a Thursday between 2012 and 2016. The illustration shows that people started going home earlier than usual.}
+\caption{Comparison of route planning queries on December 24th (Christmass Eve) 2015 with the average on a Thursday between October 2012 and December 2015. The illustration shows that people started going home earlier than usual.}
 \label{fig:dec24}
 \end{figure}
 
