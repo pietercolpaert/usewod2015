@@ -251,13 +251,11 @@ In this section we first discuss how we processed the data in order to find the 
 
 \subsection{Processing}
 
-We cleaned the logs by removing the requests done by harvesters or search engine bots.
-Thanks to the user agents, this was a fairly straight-forward operation.
-\todo{The remainder of the file delivers an average of 3000 route planning queries a day, which we can use an an indication of travel intensities.
-Taking into account that 758,370 people take the train each day on a weekday (according to official number of the Belgian Railway company in 2013\footnote{\url{http://www.treintrambus.be/images/OpstappendeReizigers_2013_2.pdf}}) and assuming that each query is a trip done by a certain passenger, this sample equals $\sim0.4\%$ of the railway users in Belgium.}
+We processed the the data so that for both every origin and destination we have a unique identifier and the longitude and latitude.
+We have done this using the open-source reconciliator at \url{https://github.com/irail/stations}.
 
-Each data record contains the names of both origin and destination (OD) stations, the user agent that made the query, as well as the time when the query was made.
-As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00~hrs and 10:00~hrs as well as 17:00~hrs and 21:00~hrs on weekdays, and all data records created on weekend. Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. Similarly, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were removed as well.
+Each data record now contains the station object of both origin and destination (OD), the user agent that made the query, as well as the time when the query was made.
+As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of \todo{PC: we will have to explain ourselves why we'd choose different hours than what we've found above} 06:00~hrs and 10:00~hrs as well as 17:00~hrs and 21:00~hrs on weekdays, and all data records created on weekend. Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. Similarly, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were removed as well.
 
 The data is then simplified so that province level flow patterns are emphasised.
 \cref{fig:brussels} provides a diagrammatic representation of the procedure.
