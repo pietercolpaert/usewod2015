@@ -174,18 +174,34 @@ Termed ``Big Data'' due to the large volume of data records that emerge from rea
 In the domain of ``Smart City'' research, much has been accomplished with the use of ``Big Data'' to monitor human movement.
 Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys~\cite{ferreira} as well as cellular call data~\cite{sevtsuk} have provided planners with new opportunities to develop greater understanding of mobility patterns in urban environments~\cite{batty}.
 
-\section{The logs}
+\section{The query logs}
 \label{sec:logs}
 
 The iRail API is a XML/JSON HTTP API in which one request on \url{http://api.irail.be} will result in a response that can be used directly in an end-user app.
 It contains four features: a route planning query (\url{http://api.irail.be/connections/{?from,to,date,time}}), a query for the next departures in a certain station (\url{http://api.irail.be/liveboard/{?station,date,time}}), a query for the status of a certain train (\url{http://api.irail.be/vehicle/{?id,date}}) and a query for a list of all stations (\url{http://api.irail.be/stations/}).
-We have gathered the \emph{Apache} \emph{access.log} files 
+We have gathered the \emph{Apache} \emph{access.log} files from the past years. 
+These log files contain:
 \begin{itemize}
   \item the timestamp,
   \item whether or not the request succeeded,
-  \item the path of the query (e.g., \emph{/connections/?from=Ghent\&to=Antwerp}) and
+  \item the path of the request (e.g., \url{/connections/?from=Ghent\&to=Antwerp}) and
   \item the User-Agent (cfr. RFC2616\footnote{The User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations -- \url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}})
 \end{itemize}
+
+For this paper, we were only interested in route planning requests and we filtered out the requests to \emph{connections/}.
+We then parsed the \emph{access.log} path of the request and filtered out the from and to. 
+The resulting dataset, in CSV, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
+
+As we are dealing with query logs, privacy becomes an issue~\cite{silvestri}.
+However, we do not publish the IP addresses with each query, which makes it hard to track single users.
+To remove all doubt, we have asked and received the consent of the Belgian privacy commission, which declared we can study the logs without any restrictions.
+
+We researched these three initial questions on this dataset:
+\begin{enumerate}
+  \item How many queries were done monthly and how does this compare with the real number of passengers?
+  \item How are the requests distributed within a day?
+  \item Can we see deviations on an average request distribution on e.g., public holidays?
+\end{enumerate}
 
 \begin{figure}
 \centering
@@ -194,12 +210,11 @@ We have gathered the \emph{Apache} \emph{access.log} files
 \label{fig:querylogs}
 \end{figure}
 
-From an export of this table, we filtered out only the route plannning queries that succeeded for the entire year.
-The resulting dataset, used for the rest of this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
-
-As we are dealing with query logs, privacy becomes an issue~\cite{silvestri}.
-However, we do not publish the IP addresses with each query, which makes it hard to track single users.
-To remove all doubt, we have asked and received the consent of the privacy commission of Belgium, which declared we can study the logs without any restrictions.
+In \cref{fig:querylogs} we show the amount of queries per month.
+We can see a sudden grow in April 2015: this is when an official app of the Belgian railway company was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}} and many people started looking for an alternative within the apps built on top of the iRail API.
+In 2012, 2013, 2014 and 2015, there were respectively 19.3, 19.4, 19,6 and 19.7 million passengers per month on average\footnote{Calculated by using indicators of the Flemish government and extrapolating the numbers for 2015 \url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}.
+The amount of iRail queries per month, on average in these years are respectively 0.11, 0.17, 0.15 and 0.33 million.
+If we assume that each request is a travel intention, this would result in respectively $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the travels that are captured with the iRail API.
 
 \begin{figure}
 \centering
@@ -208,33 +223,39 @@ To remove all doubt, we have asked and received the consent of the privacy commi
 \label{fig:average}
 \end{figure}
 
-%\begin{figure}
-%\centering
-%\includegraphics[width=8.3cm]{dec21}
-%\caption{Comparison of route planning queries on December 21st 2015 with the average on a Monday between 2012 and 2016. Whilst being a school holiday, there is no notable difference, except for the peek hours being a bit later, }
-%\label{fig:dec21}
-%\end{figure}
+Next, we made a distribution of the requests done on each day of the week, which resulted in \cref{fig:average}.
+In this chart we can spot, on Monday until Friday, the morning peak between 5 and 9 and the evening peak between 15 and 18.
+We see a small dent during noon \todo{any explanation for this?}.
+On Fridays we see that the morning peak is stronger than the morning peak, which can be explained by many students that go home to visit their parents for the weekend \todo{Can we give a link to more reading material about this behaviour? This might be weird for US people?}.
+On Saturdays, we see almost do not see the peaks, which can be explained by people not going to work during weekends.
+On Sundays, we see most requests happen in the evening, which can be explained by students going back to their student homes.
 
 \begin{figure}
 \centering
 \includegraphics[width=8.6cm]{dec24}
-\caption{Comparison of route planning queries on December 24th (Christmass eve) 2015 with the average on a Thursday between 2012 and 2016. The illustration shows that people started going home earlier than usual.}
+\caption{Comparison of route planning queries on December 24th (Christmass Eve) 2015 with the average on a Thursday between 2012 and 2016. The illustration shows that people started going home earlier than usual.}
 \label{fig:dec24}
 \end{figure}
+
+Finally, we compared the average distribution of Thursdays with the distribution on Thursday the 24th of December 2015 (Christmass Eve).
+Our hypothesis that we would now see an earlier evening peak can be confirmed by \cref{fig:dec24}.
+
+We conclude that the timing of the queries look interesting for flow analysis. 
+Can we also find interesting patterns when we study where people are heading between certain time intervals?
 
 \section{Method}
 \label{sec:method}
 
+For flow analysis, we need to analyse where people are going on what part of the day.
+In this section we first discuss how we processed the data in order to find the locations people are heading to and then discuss how we visualise the data in order to show proper results.
 
 \subsection{Processing}
 
-We cleaned the logs by removing the requests done by harvesters or search engine bots.
-Thanks to the user agents, this was a fairly straight-forward operation.
-\todo{The remainder of the file delivers an average of 3000 route planning queries a day, which we can use an an indication of travel intensities.
-Taking into account that 758,370 people take the train each day on a weekday (according to official number of the Belgian Railway company in 2013\footnote{\url{http://www.treintrambus.be/images/OpstappendeReizigers_2013_2.pdf}}) and assuming that each query is a trip done by a certain passenger, this sample equals $\sim0.4\%$ of the railway users in Belgium.}\footnote{Calculated by using indicators of the Flemish government and extrapolating the numbers for 2015 \url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}
+We processed the the data so that for both every origin and destination we have a unique identifier and the longitude and latitude.
+We have done this using the open-source reconciliator at \url{https://github.com/irail/stations}.
 
-Each data record contains the names of both origin and destination (OD) stations, the user agent that made the query, as well as the time when the query was made.
-As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00~hrs and 10:00~hrs as well as 17:00~hrs and 21:00~hrs on weekdays, and all data records created on weekend. Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. Similarly, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were removed as well.
+Each data record now contains the station object of both origin and destination (OD), the user agent that made the query, as well as the time when the query was made.
+As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of \todo{PC: we will have to explain ourselves why we'd choose different hours than what we've found above} 06:00~hrs and 10:00~hrs as well as 17:00~hrs and 21:00~hrs on weekdays, and all data records created on weekend. Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. Similarly, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were removed as well.
 
 The data is then simplified so that province level flow patterns are emphasised.
 \cref{fig:brussels} provides a diagrammatic representation of the procedure.
@@ -375,6 +396,10 @@ Again, we are not able to rely on the query logs.
 \section{Publishing query logs}
 \label{sec:publishingquerylogs}
 
+The iRail project is a mediator: it is a not for profit organization to stimulate digital creativity concerning mobility.
+The interface that takes care of the route planning interface is open source and we suggested a change to the system in which the query logs become open\footnote{\url{https://github.com/iRail/iRail/pull/138}}.
+As of the 17th of December 2015, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
+
 \todo{When the expressiveness of the servers is lower in order to maximize the reuse of the data, such as in the case of Linked~Connections or a GTFS~datadump, we suggest to, instead of logging each GET-request, to have an analytics server that gathers all the logs.}
 
 \todo{Also in USEWOD2014 there was a paper on LDF and how we could know which SPARQL queries needed to be solved}
@@ -384,7 +409,7 @@ This amounts today to an average of 86k queries to the API per day, as the API g
 On average, 14,357 of these are valid route planning queries (other queries include requesting departures in a station, status of a vehicle, or a list of all stations).
 If each query would amount to indeed one passenger, this would today be equal to almost 2\% of all passengers.}
 
-\section{Conclusion and discussion}
+\section{Conclusion and future work}
 \label{sec:conclusion}
 
 The contribution of this paper is twofold.
@@ -397,6 +422,7 @@ On top of that, our sample used for this paper can only represent a maximum of 0
 
 The second contribution is our position that we suggest to decouple the query logs from the query execution.
 
+In future work, iRail will try to use these to predict train congestion.
 % Fix spacing after References header (as line 1308 of sig-alternate.cls breaks it)
 \let\oldsection\section
 \renewcommand{\section}[2][1]{\oldsection{#1}\vspace{-3pt}}
