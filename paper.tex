@@ -178,18 +178,18 @@ Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys
 \label{sec:logs}
 
 The iRail API is a XML/JSON HTTP API where each request on \url{http://api.irail.be} returns a response that can be used directly in an end-user app.
-It contains four features:
 
-\begin{itemize}
-\item Route Planning (\url{http://api.irail.be/connections/{?from,to,date,time}}).
-\item Next Departures (\url{http://api.irail.be/liveboard/{?station,date,time}}).
-\item Train Status (\url{http://api.irail.be/vehicle/{?id,date}}).
-\item List All Stations (\url{http://api.irail.be/stations/}).
-\end{itemize}
+It contains four features: 
+\begin{enumerate}
+\item \emph{Route Planning} (\url{http://api.irail.be/connections/{?from,to,date,time}}) plans a route from one station to another, taking into account a preferred start time.
+\item \emph{Next Departures} (\url{http://api.irail.be/liveboard/{?station,date,time}}) shows the next train departures in a certain station, useful for creating quick overviews.
+\item \emph{Trip Status} (\url{http://api.irail.be/vehicle/{?id,date}}) returns the stations this train passes by on the day of the request.
+\item \emph{List of all stations} (\url{http://api.irail.be/stations/}) gives an overview of all stations Belgian trains can arrive at.
+\end{enumerate}
 
-\todo{what are the intended functions of each feature? We should mention that the route planning feature is perhaps the most popular among lay users? Thus is also has good potential to be used as a proxy for analysis...}
-
-We are particularly intersted in studying the potential application of route planning queries for flow analysis thus  only requests to (\url{http://api.irail.be/connections/{?from,to,date,time}}) were extracted for further investigation. The resulting dataset described in this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
+All except the Route Planning 
+We are particularly intersted in studying the potential application of route planning queries for flow analysis thus only requests to (\url{http://api.irail.be/connections/{?from,to,date,time}}) were extracted for further investigation.
+The resulting dataset described in this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 
 This dataset is compiled from the \emph{Apache} \emph{access.log} files generated between 2012 and 2015. Each data entry contains a: 
 \begin{itemize}
@@ -397,16 +397,21 @@ The logs are however lost.
 
 In \cref{fig:LDFAxis2} we illustrate these two options as two extremes, with other options that are yet to be discovered.
 When a \emph{rather low expressive} server only allows to set e.g., a departure station and a departure time, then the server cannot log the arrival station, yet the client is still able to plan a route by executing the algorithm on the client-side~\cite{lc}.
-Again, we are not able to rely on the query logs.
+We would be able to fully rely on the query logs if the expressivity would be maximal (extreme right) and caching would be turned off.
+Turning off caching may work in a private setting where you know how much and what kind of queries you can expect, yet on the Web, it will not scale up.\todo{PC: Just being devil's advocate here: is caching really necessary to scale sufficiently?}
 
 \section{Publishing query logs}
 \label{sec:publishingquerylogs}
 
-The iRail project is a mediator: it is a not for profit organization to stimulate digital creativity concerning mobility.
-The interface that takes care of the route planning interface is open source and we suggested a change to the system in which the query logs become open\footnote{\url{https://github.com/iRail/iRail/pull/138}}.
+IRail is a not for profit organization that stimulates digital creativity concerning mobility.
+The interface that takes care of the route planning interface is open source, and we could easily suggest a change to the system in which the query logs become open\footnote{\url{https://github.com/iRail/iRail/pull/138}}.
 As of the 17th of December 2015, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
 
-\todo{When the expressiveness of the servers is lower in order to maximize the reuse of the data, such as in the case of Linked~Connections or a GTFS~datadump, we suggest to, instead of logging each GET-request, to have an analytics server that gathers all the logs.}
+In order to publish this data, we chose a newline-based format: each new line contains a new query object encoded in JSON. 
+We call this a \emph{JSON-stream}, as the JSON objects can be read one per one.
+Unix commands such as \emph{grep} work well with this format.
+We chose this over CSV as we have more flexibility towards changing the object properties.
+
 
 \todo{Also in USEWOD2014 there was a paper on LDF and how we could know which SPARQL queries needed to be solved}
 
