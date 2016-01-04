@@ -177,20 +177,27 @@ Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys
 \section{The query logs}
 \label{sec:logs}
 
-The iRail API is a XML/JSON HTTP API in which one request on \url{http://api.irail.be} will result in a response that can be used directly in an end-user app.
-It contains four features: a route planning query (\url{http://api.irail.be/connections/{?from,to,date,time}}), a query for the next departures in a certain station (\url{http://api.irail.be/liveboard/{?station,date,time}}), a query for the status of a certain train (\url{http://api.irail.be/vehicle/{?id,date}}) and a query for a list of all stations (\url{http://api.irail.be/stations/}).
-We have gathered the \emph{Apache} \emph{access.log} files from the past years. 
-These log files contain:
+The iRail API is a XML/JSON HTTP API where each request on \url{http://api.irail.be} returns a response that can be used directly in an end-user app.
+It contains four features: 
 \begin{itemize}
-  \item the timestamp,
-  \item whether or not the request succeeded,
-  \item the path of the request (e.g., \url{/connections/?from=Ghent\&to=Antwerp}) and
-  \item the User-Agent (cfr. RFC2616\footnote{The User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations -- \url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}})
+\item Route Planning Feature (\url{http://api.irail.be/connections/{?from,to,date,time}}).
+\item Next Departures Feature (\url{http://api.irail.be/liveboard/{?station,date,time}}).
+\item Train Status Feature query (\url{http://api.irail.be/vehicle/{?id,date}}).
+\item List All Stations Feature (\url{http://api.irail.be/stations/}).
 \end{itemize}
 
-For this paper, we were only interested in route planning requests and we filtered out the requests to \emph{connections/}.
-We then parsed the \emph{access.log} path of the request and filtered out the from and to. 
-The resulting dataset, in CSV, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
+\todo{what are the intended functions of each feature? We should mention that the route planning feature is perhaps the most popular among lay users? Thus is also has good potential to be used as a proxy for analysis...}
+
+We are particularly intersted in studying the potential application of route planning queries for flow analysis thus  only requests to (\url{http://api.irail.be/connections/{?from,to,date,time}}) were extracted for further investigation. The resulting dataset described in this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
+
+We have gathered the \emph{Apache} \emph{access.log} files generated between 2012 and 2015 containing: 
+\begin{itemize}
+  \item Timestamp,
+  \item HTTP Status Code,
+  \item Request Path (e.g., \url{/connections/?from=Ghent\&to=Antwerp})
+  \item User-Agent (cfr. RFC2616\footnote{The User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations -- \url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}})
+\end{itemize}
+
 
 As we are dealing with query logs, privacy becomes an issue~\cite{silvestri}.
 However, we do not publish the IP addresses with each query, which makes it hard to track single users.
