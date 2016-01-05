@@ -286,12 +286,18 @@ Of these techniques, flow visualisations are commonly employed to facilitate the
 Flow visualisations can be broadly categorized into two groups. Representations that preserve the complete trajectory and OD type representations that take only the start and end locations into account.
 Since our data solely consists of OD information, we narrow our description to the latter group of visualisation techniques.
 
-OD type representations are frequently used when the origin and destination preside over intermediate locations on the path of movement. 
+OD type representations are used when the origin and destination preside over intermediate locations on the path of movement. 
 The OD Matrix is most common visualization technique in this type of representation. 
 Rows and columns correspond to locations while cells are coloured to express the volume of flow.
 OD matrices can be reordered to emphasise connectivity between locations.
-While this feature is particularly useful for identifying trends in the data, the tabular display is challenging for lay users to interpret and  less expressive of connections between locations than representations based on the node-link metaphor.
+While this feature is particularly useful for identifying trends and outliers in the data, the tabular display is challenging for lay users to interpret and less expressive of connections between locations than representations based on the node-link metaphor.
+In recent years, such representations have become increasingly prominent for  displaying movement in scientific publications as well as popular culture.
+Locations are depicted as nodes and arrows are drawn between them to indicate movement in a certain direction, allowing for exact and individual relationships to be traced.
 
+The chord diagram is a visualisation technique based on the node-link metaphor that arranges nodes along the circumference of a cirle. 
+Each node is represented by an arc where its length is proportional to the total volume of incoming and outging flows. 
+Chords or curved line segements are drawn to connect nodes. 
+The width at the head or tail of each chord indicates the amount of movement that occured between a certain location to another at the other end.
 
 \section{Results}
 \label{sec:results}
