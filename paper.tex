@@ -116,10 +116,8 @@ The findings correspond to the real travel demand, say experts of the passenger 
 % Conclusion
 We conclude that query logs of route planners are of high importance in getting an indication of the travel flows.
 % Perspectives
-Nevertheless, we should be cautious about what we measure as GET requests on the Web are cacheable.
-In order to have a query log for studying travel demand that works for all publishing strategies, we suggest future work to send anonymized POST requests from the end-user applications to an analytics server.
-%High expressive transport data publishing methods such as route planning API exist, as well as low expressive data dumps or data fragments.
-%In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
+High expressive transport data publishing methods such as route planning API exist, as well as low expressive data dumps or data fragments.
+In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
 
 \end{abstract}
 
@@ -254,13 +252,14 @@ Data visualization is typically employed to facilate in this process thus the in
 
 \subsection{Processing}
 
-We processed the the data so that data records with matching pairs of origin and destination (OD) station names are aggregated. To do so, several technical 
+The data is formatted in a manner where data records with matching pairs of origin and destination (OD) station names are aggregated. 
+To arrive at this outcome several technical challenges must be addressed.
+One distinctive challenge is the substantial amount of inconsistency in the manner where origin and destination (OD) station names are defined. 
+Spelling mistakes as well as the use of unstandardized abbreviations in particular, reduce the quality and accuracy of aggregation.
+To overcome this challenge, an open-source reconciliator (\url{https://github.com/irail/stations}) was employed to reduce spelling variations and correct identifiable errors.
 
- This is facilitaed with the open-source reconciliator \todo{one liner that describes how this works} situated at \url{https://github.com/irail/stations}.
 
-To address this challenge, an open-source reconciliator (\url{https://github.com/irail/stations}) was employed to reduce spelling variations and correct errors.
 
-Each data record now contains the station object of both origin and destination (OD), the user agent that made the query, as well as the time when the query was made.
 As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of \todo{PC: we will have to explain ourselves why we'd choose different hours than what we've found above} 06:00~hrs and 10:00~hrs as well as 17:00~hrs and 21:00~hrs on weekdays, and all data records created on weekend. Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. Similarly, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were removed as well.
 
 The data is then simplified so that province level flow patterns are emphasised.
