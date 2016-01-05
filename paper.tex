@@ -185,18 +185,18 @@ The iRail API is a XML/JSON HTTP API where each request on \url{http://api.irail
 \item \emph{List of all stations} (\url{http://api.irail.be/stations/}) gives an overview of all stations Belgian trains can arrive at.
 \end{enumerate}
 
-We are particularly intersted in studying the potential application of route planning queries for flow analysis as this feature is of greatest relevance to human users.
-The other features are commonly used by digital signage providers or status boards, which poll the data on a regular basis.
-We extracted the route planning requests (\url{http://api.irail.be/connections/{?from,to,date,time}}) for further investigation.
-The resulting dataset described in this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
+We are particularly interested in studying the potential application of route planning queries as an information resource for flow analysis due to the input it captures from human users.
+The remaining features are less relevant for this purpose as they are generally polled by digital signage providers or status boards.
+The dataset described in this paper is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015.
+A copy of this dataset in CSV format can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
+Each data entry contains a unique identifier, a timestamp of the request executed, the HTTP status code of the response indicating a successful or failed operation, the request path between two stations and information of the user agent (cfr. RFC2616) including details like the type of device, protocol and ip address.
+User agent information is important for statistical reasons and is essential for API management operations like tracing protocol violations or imposing rate limitations\footnote{\url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}. 
+Automated recognition of user agents also enables our API to provide tailored responses certain services such as \todo{Pieter}.
+Privacy preservation is paramount~\cite{silvestri} when dealing with query logs and IP addresses have been removed to protect the privacy of our users. 
 
-This dataset is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015. 
-Each data entry contains a unique identifier for database management, a timestamp of the request  executed, the HTTP status code of the response, the request path (e.g., \url{/connections/?from=Ghent\&to=Antwerp}) and the User-Agent (cfr. RFC2616\footnote{The User-Agent request-header field contains information about the user agent originating the request. 
-This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations -- \url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}).
+Additionally, the integrity of this dataset has been vetted by the Belgian Privacy Commission and permission has been granted for these query logs to be utilised in scientific studies without further restrictions.
 
-Privacy preservation is paramount~\cite{silvestri} when dealing with query logs. To protect privacy of our users, IP addresses have been removed from the queries. Additionally, the Belgian privacy commission has granted us the right to study these query logs without any restrictions.
-
-We established three preliminary questions to  investigate the potential of this dataset:
+We established three research questions to investigate the potential of this dataset:
 \begin{enumerate}
   \item How many queries were done monthly and how does this compare with the real number of passengers?
   \item How are the requests distributed within a day?
@@ -263,6 +263,7 @@ Spelling mistakes as well as the use of unstandardized abbreviations in particul
 To overcome this challenge, an open-source reconciliator (https:// github.com/ irail/ stations) was employed to reduce spelling variations and correct identifiable errors. 
 
 The data is then aggregated so that province level flow patterns are emphasised.
+\todo{Alvin: Figure must be drawn}
 \cref{fig:brussels} provides a diagrammatic representation of the procedure.
 First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (See \cref{fig:brussels}a).
 If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (See \cref{fig:brussels}b).
