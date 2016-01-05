@@ -177,9 +177,7 @@ Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys
 \section{The query logs}
 \label{sec:logs}
 
-The iRail API is a XML/JSON HTTP API where each request on \url{http://api.irail.be} returns a response that can be used directly in an end-user app.
-
-It contains four features: 
+The iRail API is a XML/JSON HTTP API where each request on \url{http://api.irail.be} returns a response that can be used directly in an end-user app. It contains four features: 
 \begin{enumerate}
 \item \emph{Route Planning} (\url{http://api.irail.be/connections/{?from,to,date,time}}) plans a route from one station to another, taking into account a preferred start time.
 \item \emph{Next Departures} (\url{http://api.irail.be/liveboard/{?station,date,time}}) shows the next train departures in a certain station, useful for creating quick overviews.
@@ -187,16 +185,16 @@ It contains four features:
 \item \emph{List of all stations} (\url{http://api.irail.be/stations/}) gives an overview of all stations Belgian trains can arrive at.
 \end{enumerate}
 
-We are particularly intersted in studying the potential application of route planning queries for flow analysis.
-The other queries are commonly used by digital signage providers or status boards, which poll the data on a regular basis.
+We are particularly intersted in studying the potential application of route planning queries for flow analysis as this feature is of greatest relevance to human users.
+The other features are commonly used by digital signage providers or status boards, which poll the data on a regular basis.
 We extracted the route planning requests (\url{http://api.irail.be/connections/{?from,to,date,time}}) for further investigation.
 The resulting dataset described in this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 
-This dataset is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015. Each data entry contains a timestamp of when the request was executed, the HTTP status code of the response, the request path (e.g., \url{/connections/?from=Ghent\&to=Antwerp}) and the User-Agent (cfr. RFC2616\footnote{The User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations -- \url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}).
+This dataset is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015. 
+Each data entry contains a unique identifier for database management, a timestamp of the request  executed, the HTTP status code of the response, the request path (e.g., \url{/connections/?from=Ghent\&to=Antwerp}) and the User-Agent (cfr. RFC2616\footnote{The User-Agent request-header field contains information about the user agent originating the request. 
+This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations -- \url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}).
 
-As we are dealing with query logs, privacy becomes an issue~\cite{silvestri}.
-However, we do not publish or process the IP addresses with each query, which makes it hard to track single users.
-To remove all doubt, we have asked and received the consent of the Belgian privacy commission, which declared we can study the logs without any restrictions.
+Privacy preservation is paramount~\cite{silvestri} when dealing with query logs. To protect privacy of our users, IP addresses have been removed from the queries. Additionally, the Belgian privacy commission has granted us the right to study these query logs without any restrictions.
 
 We established three preliminary questions to  investigate the potential of this dataset:
 \begin{enumerate}
@@ -248,11 +246,17 @@ Can we also find interesting patterns when we study where people are heading bet
 \section{Method}
 \label{sec:method}
 
-Flow analysis involves the comparison of aggregated movement between distinct locations within a specific time frame. Data visualisation is typically employed to facilate in this process thus the input data must be transformed into a format that expresses the quantity and directional flow of human movment. In this section we describe the data transformation procedure and data visualisation technique  employed in our case study.
+Flow analysis involves the comparison of aggregated movement between distinct locations within a specific time frame. 
+In most cases, the analytical objective is to identify trends that occur in journeys made  between pairs of locations and allow for their sensitivites to be explored. 
+Data visualization is typically employed to facilate in this process thus the input data must be transformed into a format that allows for the quantity and directional flow of movment to be visually encoded. In this section we describe the data transformation procedure and data visualisation technique employed in our case study.
 
 \subsection{Processing}
 
-We processed the the data so that for both every origin and destination we have a unique identifier and the geographic coordinates. This is facilitaed with the open-source reconciliator \todo{one liner that describes how this works} situated at \url{https://github.com/irail/stations}.
+We processed the the data so that data records with matching pairs of origin and destination (OD) station names are aggregated. To do so, several technical 
+
+ This is facilitaed with the open-source reconciliator \todo{one liner that describes how this works} situated at \url{https://github.com/irail/stations}.
+
+To address this challenge, an open-source reconciliator (\url{https://github.com/irail/stations}) was employed to reduce spelling variations and correct errors.
 
 Each data record now contains the station object of both origin and destination (OD), the user agent that made the query, as well as the time when the query was made.
 As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of \todo{PC: we will have to explain ourselves why we'd choose different hours than what we've found above} 06:00~hrs and 10:00~hrs as well as 17:00~hrs and 21:00~hrs on weekdays, and all data records created on weekend. Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. Similarly, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were removed as well.
