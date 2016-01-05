@@ -189,19 +189,11 @@ We are particularly interested in studying the potential application of route pl
 The remaining features are less relevant for this purpose as they are generally polled by digital signage providers or status boards.
 The dataset described in this paper is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015.
 A copy of this dataset in CSV format can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
-Each data entry contains a unique identifier, a timestamp of the request executed, the HTTP status code of the response indicating a successful or failed operation, the request path between two stations and information of the user agent (cfr. RFC2616) including details like the type of device, protocol and ip address.
-User agent information is important for statistical reasons and is essential for API management operations like tracing protocol violations or imposing rate limitations\footnote{\url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}. 
-Automated recognition of user agents also enables our API to provide tailored responses certain services such as \todo{Pieter}.
+Each data entry contains a unique identifier, a timestamp of the request executed, the HTTP status code of the response indicating a successful or failed operation, the request path between two stations and information of the user-agent (cfr. RFC2616) including details like the type of device, protocol and ip address.
+User-agent information is important for statistical reasons and is essential for API management operations like tracing protocol violations or imposing rate limitations\footnote{\url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}. 
+Automated recognition of user-agents also enables our API to provide tailored responses certain services such as \todo{Pieter}.
 Privacy preservation is paramount~\cite{silvestri} when dealing with query logs and IP addresses have been removed to protect the privacy of our users. 
-
 Additionally, the integrity of this dataset has been vetted by the Belgian Privacy Commission and permission has been granted for these query logs to be utilised in scientific studies without further restrictions.
-
-We established three research questions to investigate the potential of this dataset:
-\begin{enumerate}
-  \item How many queries were done monthly and how does this compare with the real number of passengers?
-  \item How are the requests distributed within a day?
-  \item Can we see deviations on an average request distribution on e.g., public holidays?
-\end{enumerate}
 
 \begin{figure}
 \centering
@@ -210,8 +202,11 @@ We established three research questions to investigate the potential of this dat
 \label{fig:querylogs}
 \end{figure}
 
-In \cref{fig:querylogs} we show the amount of queries per month.
-We can see a sudden grow in April 2015: this is when an official app of the Belgian railway company was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}} and many people started looking for an alternative within the apps built on top of the iRail API.
+Results from preliminary analysis of this dataset reveal trends in route planning queries that may provide insights into rail travel demand. 
+Three observations in particular prompted further analysis of the data in greater detail. 
+First, there has been a steady increase in the number of queries made between 2012 and 2015. 
+\cref{fig:querylogs} provides a break down of the numbers on a monthly basis. 
+A sharp rise in the amount of queries can be observed in April 2015 when the official route planning service provided by of the Belgian rail company was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}}, resulting in widespread adoption of alternative software applications built on top of the iRail API.
 In 2012, 2013, 2014 and 2015, there were respectively 19.3, 19.4, 19,6 and 19.7 million passengers per month on average\footnote{Calculated by using indicators of the Flemish government and extrapolating the numbers for 2015 \url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}.
 The amount of iRail queries per month, on average in these years are respectively 0.11, 0.17, 0.15 and 0.33 million.
 If we assume that each request is a travel intention, this would result in respectively $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the travels that are captured with the iRail API.
