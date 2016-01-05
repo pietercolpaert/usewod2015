@@ -191,7 +191,6 @@ The dataset described in this paper is compiled from the \emph{Apache} \emph{acc
 A copy of this dataset in CSV format can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 Each data entry contains a unique identifier, a timestamp of the request executed, the HTTP status code of the response indicating a successful or failed operation, the request path between two stations and information of the user-agent (cfr. RFC2616) including details like the type of device, protocol and ip address.
 User-agent information is important for statistical reasons and is essential for API management operations like tracing protocol violations or imposing rate limitations\footnote{\url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}. 
-Automated recognition of user-agents also enables our API to provide tailored responses certain services such as \todo{Pieter}.
 Privacy preservation is paramount~\cite{silvestri} when dealing with query logs and IP addresses have been removed to protect the privacy of our users. 
 Additionally, the integrity of this dataset has been vetted by the Belgian Privacy Commission and permission has been granted for these query logs to be utilised in scientific studies without further restrictions.
 
@@ -405,6 +404,7 @@ When a \emph{rather low expressive} server only allows to set e.g., a departure 
 We would be able to fully rely on the query logs if the expressivity would be maximal (extreme right) and caching would be turned off.
 Turning off caching may work in a private setting where you know how much and what kind of queries you can expect, yet on the Web, it will not scale up.\todo{PC: Just being devil's advocate here: is caching really necessary to scale sufficiently?}
 
+
 \section{Publishing query logs}
 \label{sec:publishingquerylogs}
 
@@ -415,17 +415,26 @@ As of the 17th of December 2015, iRail publishes the most recent 1000 requests d
 In order to publish this data, we chose a newline-based format: each new line contains a new query object encoded in JSON. 
 We call this a \emph{JSON-stream}, as the JSON objects can be read one per one.
 Unix commands such as \emph{grep} work well with this format.
-We chose this over CSV as we have more flexibility towards changing the object properties.
+We chose this over CSV as we have more flexibility towards changing the object properties in the future.
+Next, we chose to add an object to the stream which only contains an object with key \emph{@context}.
+This is the JSON-LD context of all the objects in the, JSON-stream. Subsequentially, we call this a \emph{JSONLD-stream} and this has been formalized at \emph{https://github.com/pietercolpaert/jsonld-stream}.
 
+%As a new version of the logs are put at \url{http://api.irail.be/logs/} only each second, we have added cache-headers to the document with max-age equal to 1 second.
+%\todo{Also in USEWOD2014 there was a paper on LDF and how we could know which SPARQL queries needed to be solved}
 
-\todo{Also in USEWOD2014 there was a paper on LDF and how we could know which SPARQL queries needed to be solved}
+\section{Future Work}
 
-\todo{As of the 17th of December 2015, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
-This amounts today to an average of 86k queries to the API per day, as the API gained popularity thanks to apps like \emph{BeTrains}\footnote{\url{https://play.google.com/store/apps/details?id=tof.cv.mpp}} and \emph{Railer}\footnote{\url{http://railer.be/}}.
-On average, 14,357 of these are valid route planning queries (other queries include requesting departures in a station, status of a vehicle, or a list of all stations).
-If each query would amount to indeed one passenger, this would today be equal to almost 2\% of all passengers.}
+Query logs are thus an indication of travel intentions. 
+Yet we can identify some hiatuses in query logs as travel intentions:
+\begin{enumerate}
+  \item Caching may mask peak hours, as \ldots
+  \item Multiple requests may be needed to cover a travel intention
+  \item \ldots
+\end{enumerate}
 
-\section{Conclusion and future work}
+In order to create a better representation of travel intentions, we would recommend apps to do a POST-request instead of a 
+
+\section{Conclusion}
 \label{sec:conclusion}
 
 The contribution of this paper is twofold.
