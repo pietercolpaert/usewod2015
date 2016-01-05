@@ -252,21 +252,21 @@ Data visualization is typically employed to facilate in this process thus the in
 
 \subsection{Processing}
 
-The data is formatted in a manner where data records with matching pairs of origin and destination (OD) station names are aggregated. 
-To arrive at this outcome several technical challenges must be addressed.
-One distinctive challenge is the substantial amount of inconsistency in the manner where origin and destination (OD) station names are defined. 
-Spelling mistakes as well as the use of unstandardized abbreviations in particular, reduce the quality and accuracy of aggregation.
-To overcome this challenge, an open-source reconciliator (\url{https://github.com/irail/stations}) was employed to reduce spelling variations and correct identifiable errors.
+Matching pairs of origin and destination (OD) stations must be aggregated prior to visualisation.
+Several stages of data processing are required to arrive at this outcome.
+As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00 hrs and 10:00 hrs as well as 17:00 hrs and 21:00 hrs on weekdays, and all data records created on weekend.
+\todo{PC: we will have to explain ourselves why we'd choose different hours than what we've found above} 
+Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. 
+Similarly, data records with unparsable origin or destination station names due to invalid character encoding were removed. 
+One distinctive challenge is the substantial amount of inconsistency in the way station names are logged. 
+Spelling mistakes as well as the use of unstandardized abbreviations in particular, reduce the quality and accuracy of the resulting visualisation.
+To overcome this challenge, an open-source reconciliator (https:// github.com/ irail/ stations) was employed to reduce spelling variations and correct identifiable errors. 
 
-
-
-As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of \todo{PC: we will have to explain ourselves why we'd choose different hours than what we've found above} 06:00~hrs and 10:00~hrs as well as 17:00~hrs and 21:00~hrs on weekdays, and all data records created on weekend. Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. Similarly, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were removed as well.
-
-The data is then simplified so that province level flow patterns are emphasised.
+The data is then aggregated so that province level flow patterns are emphasised.
 \cref{fig:brussels} provides a diagrammatic representation of the procedure.
-First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (See Figure xa).
-If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (See Figure xb).
-Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (See Figure xc).
+First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (See \cref{fig:brussels}a).
+If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (See \cref{fig:brussels}b).
+Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (See \cref{fig:brussels}c).
 The following types of flows are observable from the outcome of aggregation:
 
 \begin{itemize}
