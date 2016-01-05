@@ -388,11 +388,11 @@ Hosting a route planning API as the only way to publish transport data comes wit
 % GTFS
 In order to overcome these limitations, the General Transit Feed Specification (GTFS)\footnote{\url{https://developers.google.com/transit/gtfs/reference}} can be used. 
 GTFS is a compressed ZIP-file containing a couple of CSV files, describing the rules for when a public transit vehicle will pass by on a certain location.
-It is supported among all current open source route planning software systems and it is used in products/apps such as \emph{CityMapper}, \emph{Ally}, \emph{Navitia.io}, \emph{Google Maps} and \emph{Bing Maps}.
+It is supported among all current open-source route planning software systems and it is used in products/apps such as \emph{CityMapper}, \emph{Ally}, \emph{Navitia.io}, \emph{Google Maps} and \emph{Bing Maps}.
 %Persistence of the identifiers used within these datasets, is not a requirement, neither is it an ambition of the format\footnote{\url{https://groups.google.com/forum/#!msg/gtfs-changes/Z8Mf31MaZms/8Hc9F4psAQAJ}}.
 %The goal of the format is to  an exchange format which specific software packages can use to transform it into their format of choice.
 It succesfully enabled reuse for intermodal travel, engineers can rely on the data dumps even if the servers of the transit agency are offline and there is no limitation to the features that can be implemented.
-The logs are however lost.
+The public transit agency however has no access any longer to an indication of travel demand.
 
 In \cref{fig:LDFAxis2} we illustrate these two options as two extremes, with other options that are yet to be discovered.
 When a \emph{rather low expressive} server only allows to set e.g., a departure station and a departure time, then the server cannot log the arrival station, yet the client is still able to plan a route by executing the algorithm on the client-side~\cite{lc}.
@@ -403,7 +403,7 @@ Turning off caching may work in a private setting where you know how much and wh
 \label{sec:publishingquerylogs}
 
 IRail is a not for profit organization that stimulates digital creativity concerning mobility.
-The interface that takes care of the route planning interface is open source, and we could easily suggest a change to the system in which the query logs become open\footnote{\url{https://github.com/iRail/iRail/pull/138}}.
+The interface that takes care of the route planning interface is open source, and we could easily suggest a change to the system in which the query logs become open data\footnote{\url{https://github.com/iRail/iRail/pull/138}}.
 As of the 17th of December 2015, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
 
 In order to publish this data, we chose a newline-based format: each new line contains a new query object encoded in JSON. 
