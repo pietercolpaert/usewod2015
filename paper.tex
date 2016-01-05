@@ -116,10 +116,8 @@ The findings correspond to the real travel demand, say experts of the passenger 
 % Conclusion
 We conclude that query logs of route planners are of high importance in getting an indication of the travel flows.
 % Perspectives
-Nevertheless, we should be cautious about what we measure as GET requests on the Web are cacheable.
-In order to have a query log for studying travel demand that works for all publishing strategies, we suggest future work to send anonymized POST requests from the end-user applications to an analytics server.
-%High expressive transport data publishing methods such as route planning API exist, as well as low expressive data dumps or data fragments.
-%In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
+High expressive transport data publishing methods such as route planning API exist, as well as low expressive data dumps or data fragments.
+In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
 
 \end{abstract}
 
@@ -176,12 +174,16 @@ Termed ``Big Data'' due to the large volume of data records that emerge from rea
 In the domain of ``Smart City'' research, much has been accomplished with the use of ``Big Data'' to monitor human movement.
 Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys~\cite{ferreira} as well as cellular call data~\cite{sevtsuk} have provided planners with new opportunities to develop greater understanding of mobility patterns in urban environments~\cite{batty}.
 
+Visualisation is frequently used to make data analysis tangible, so that the results can be communicated and debated \todo{Robinson, 2008 -121}. This is crucial for our research since the questions presented are exploratory in nature \todo{Kraak, 2008 -150} and can be addressed in many ways. Movement data has received substantial attention from the visualisation community and a range of techniques has been developed to support analysis \todo{Andrienko, 2012 -196}. Of these techniques, flow visualisations facilitate the comparison of aggregated movement over space and time. There are three types of flow visualisations: Line based representations preserves the complete trajectory while matrix type representations take only the start and end locations into account.
+
+Line based representations indicate movement on a path with the shape of the line. The thickness of each line is scaled to the volume of flow along a path. The direction of flow is commonly indicated with an arrowhead. This representation is detailed and straightforward to understand but becomes cluttered when lines intersect. A number of solutions have been proposed for clutter reduction. Filtering is the most commonly practiced. The same goal can be achieved by clustering lines that have similar properties like common start, end or intermediate locations \todo{Andrienko, 2007 -198}. Hierarchical \todo{Guo, 2009 -199} and density based \todo{Rinzivillo, 2008 -201} clustering have also been introduced for this purpose. Both solutions are effective at reducing clutter yet it should be noted that excessive aggregation or filtering removes a significant amount of information from the visualisation. Another solution to reduce clutter is to transform the visual representation. This is achieved by rerouting \todo{Phan, 2005 -88} or bundling \todo{Hurter, 2014 -200} lines in close proximity so that they appear grouped. Unlike clustering, this solution changes the shape of lines by way of interpolation to obtain an ideal layout. In most cases, the interpolation is regulated by conditions to avoid intersections and follow key geographic features such as roads, rivers or coastlines so that the layout appears natural. This solution emphasises major flows within the visualisation since large groups gain visual dominance. Nonetheless, there are two drawbacks to this solution. First, short distance flows that may be important at local scales are de-emphasised or lost in the transformation. Next, the lines do not depict actual paths of movement thus this solution may not be suitable for applications that require strict geographic accuracy.
+
+Matrix type representations are frequently used when the origin and destination preside over intermediate locations on the path of movement. This type of representation is referred to as origin-destination (OD) matrix. Rows and columns correspond to locations while cells are coloured to express the volume of flow. OD matrices can be reordered to emphasise connectivity between locations but the lack of geographic context is a distinct disadvantage. Several solutions have been developed to address this shortcoming. These are based on the notion of small multiples: The matrix is arranged in a geographical order so that the cells correspond to locations on the map. Then, a smaller map of the geographical context is nested in each cell to enable more intuitive comparisons \todo{Guo, 2006 -202}. The limitation of this solution is similar to other forms or small multiples in general - the layout space allocated to each nested map becomes smaller as the number of cells increase. In this instance, nesting detailed geographical maps is problematic since majority of the geographical features become illegible due to scaling. OD Map \todo{Wood, 2010 -86} proposes to nests a series of geographically ordered matrices that are more expressive of spatial relations and remain legible even when a small amount of layout space allocated to each cell.
+
 \section{The query logs}
 \label{sec:logs}
 
-The iRail API is a XML/JSON HTTP API where each request on \url{http://api.irail.be} returns a response that can be used directly in an end-user app.
-
-It contains four features: 
+The iRail API is a XML/JSON HTTP API where each request on \url{http://api.irail.be} returns a response that can be used directly in an end-user app. It contains four features: 
 \begin{enumerate}
 \item \emph{Route Planning} (\url{http://api.irail.be/connections/{?from,to,date,time}}) plans a route from one station to another, taking into account a preferred start time.
 \item \emph{Next Departures} (\url{http://api.irail.be/liveboard/{?station,date,time}}) shows the next train departures in a certain station, useful for creating quick overviews.
@@ -189,16 +191,16 @@ It contains four features:
 \item \emph{List of all stations} (\url{http://api.irail.be/stations/}) gives an overview of all stations Belgian trains can arrive at.
 \end{enumerate}
 
-We are particularly intersted in studying the potential application of route planning queries for flow analysis.
-The other queries are commonly used by digital signage providers or status boards, which poll the data on a regular basis.
+We are particularly intersted in studying the potential application of route planning queries for flow analysis as this feature is of greatest relevance to human users.
+The other features are commonly used by digital signage providers or status boards, which poll the data on a regular basis.
 We extracted the route planning requests (\url{http://api.irail.be/connections/{?from,to,date,time}}) for further investigation.
 The resulting dataset described in this paper, can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 
-This dataset is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015. Each data entry contains a timestamp of when the request was executed, the HTTP status code of the response, the request path (e.g., \url{/connections/?from=Ghent\&to=Antwerp}) and the User-Agent (cfr. RFC2616\footnote{The User-Agent request-header field contains information about the user agent originating the request. This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations -- \url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}).
+This dataset is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015. 
+Each data entry contains a unique identifier for database management, a timestamp of the request  executed, the HTTP status code of the response, the request path (e.g., \url{/connections/?from=Ghent\&to=Antwerp}) and the User-Agent (cfr. RFC2616\footnote{The User-Agent request-header field contains information about the user agent originating the request. 
+This is for statistical purposes, the tracing of protocol violations, and automated recognition of user agents for the sake of tailoring responses to avoid particular user agent limitations -- \url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}).
 
-As we are dealing with query logs, privacy becomes an issue~\cite{silvestri}.
-However, we do not publish or process the IP addresses with each query, which makes it hard to track single users.
-To remove all doubt, we have asked and received the consent of the Belgian privacy commission, which declared we can study the logs without any restrictions.
+Privacy preservation is paramount~\cite{silvestri} when dealing with query logs. To protect privacy of our users, IP addresses have been removed from the queries. Additionally, the Belgian privacy commission has granted us the right to study these query logs without any restrictions.
 
 We established three preliminary questions to  investigate the potential of this dataset:
 \begin{enumerate}
@@ -250,20 +252,27 @@ Can we also find interesting patterns when we study where people are heading bet
 \section{Method}
 \label{sec:method}
 
-Flow analysis involves the comparison of aggregated movement between distinct locations within a specific time frame. Data visualisation is typically employed to facilate in this process thus the input data must be transformed into a format that expresses the quantity and directional flow of human movment. In this section we describe the data transformation procedure and data visualisation technique  employed in our case study.
+Flow analysis involves the comparison of aggregated movement between distinct locations within a specific time frame. 
+In most cases, the analytical objective is to identify trends that occur in journeys made  between pairs of locations and allow for their sensitivites to be explored. 
+Data visualization is typically employed to facilate in this process thus the input data must be transformed into a format that allows for the quantity and directional flow of movment to be visually encoded. In this section we describe the data transformation procedure and data visualisation technique employed in our case study.
 
 \subsection{Processing}
 
-We processed the the data so that for both every origin and destination we have a unique identifier and the geographic coordinates. This is facilitaed with the open-source reconciliator \todo{one liner that describes how this works} situated at \url{https://github.com/irail/stations}.
+Matching pairs of origin and destination (OD) stations must be aggregated prior to visualisation.
+Several stages of data processing are required to arrive at this outcome.
+As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00 hrs and 10:00 hrs as well as 17:00 hrs and 21:00 hrs on weekdays, and all data records created on weekend.
+\todo{PC: we will have to explain ourselves why we'd choose different hours than what we've found above} 
+Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. 
+Similarly, data records with unparsable origin or destination station names due to invalid character encoding were removed. 
+One distinctive challenge is the substantial amount of inconsistency in the way station names are logged. 
+Spelling mistakes as well as the use of unstandardized abbreviations in particular, reduce the quality and accuracy of the resulting visualisation.
+To overcome this challenge, an open-source reconciliator (https:// github.com/ irail/ stations) was employed to reduce spelling variations and correct identifiable errors. 
 
-Each data record now contains the station object of both origin and destination (OD), the user agent that made the query, as well as the time when the query was made.
-As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of \todo{PC: we will have to explain ourselves why we'd choose different hours than what we've found above} 06:00~hrs and 10:00~hrs as well as 17:00~hrs and 21:00~hrs on weekdays, and all data records created on weekend. Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. Similarly, data records with unparsable origin or destination station names due to spelling mistakes or invalid character encoding were removed as well.
-
-The data is then simplified so that province level flow patterns are emphasised.
+The data is then aggregated so that province level flow patterns are emphasised.
 \cref{fig:brussels} provides a diagrammatic representation of the procedure.
-First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (See Figure xa).
-If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (See Figure xb).
-Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (See Figure xc).
+First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (See \cref{fig:brussels}a).
+If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (See \cref{fig:brussels}b).
+Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (See \cref{fig:brussels}c).
 The following types of flows are observable from the outcome of aggregation:
 
 \begin{itemize}
@@ -276,13 +285,7 @@ The following types of flows are observable from the outcome of aggregation:
 
 \subsection{Visualization}
 
-\todo{Alvin}
-
-Visualisation is frequently used to make data analysis tangible, so that the results can be communicated and debated \todo{Robinson, 2008 -121}. This is crucial for our research since the questions presented are exploratory in nature \todo{Kraak, 2008 -150} and can be addressed in many ways. Movement data has received substantial attention from the visualisation community and a range of techniques has been developed to support analysis \todo{Andrienko, 2012 -196}. Of these techniques, flow visualisations facilitate the comparison of aggregated movement over space and time. There are three types of flow visualisations: Line based representations preserves the complete trajectory while matrix type representations take only the start and end locations into account.
-
-Line based representations indicate movement on a path with the shape of the line. The thickness of each line is scaled to the volume of flow along a path. The direction of flow is commonly indicated with an arrowhead. This representation is detailed and straightforward to understand but becomes cluttered when lines intersect. A number of solutions have been proposed for clutter reduction. Filtering is the most commonly practiced. The same goal can be achieved by clustering lines that have similar properties like common start, end or intermediate locations \todo{Andrienko, 2007 -198}. Hierarchical \todo{Guo, 2009 -199} and density based \todo{Rinzivillo, 2008 -201} clustering have also been introduced for this purpose. Both solutions are effective at reducing clutter yet it should be noted that excessive aggregation or filtering removes a significant amount of information from the visualisation. Another solution to reduce clutter is to transform the visual representation. This is achieved by rerouting \todo{Phan, 2005 -88} or bundling \todo{Hurter, 2014 -200} lines in close proximity so that they appear grouped. Unlike clustering, this solution changes the shape of lines by way of interpolation to obtain an ideal layout. In most cases, the interpolation is regulated by conditions to avoid intersections and follow key geographic features such as roads, rivers or coastlines so that the layout appears natural. This solution emphasises major flows within the visualisation since large groups gain visual dominance. Nonetheless, there are two drawbacks to this solution. First, short distance flows that may be important at local scales are de-emphasised or lost in the transformation. Next, the lines do not depict actual paths of movement thus this solution may not be suitable for applications that require strict geographic accuracy.
-
-Matrix type representations are frequently used when the origin and destination preside over intermediate locations on the path of movement. This type of representation is referred to as origin-destination (OD) matrix. Rows and columns correspond to locations while cells are coloured to express the volume of flow. OD matrices can be reordered to emphasise connectivity between locations but the lack of geographic context is a distinct disadvantage. Several solutions have been developed to address this shortcoming. These are based on the notion of small multiples: The matrix is arranged in a geographical order so that the cells correspond to locations on the map. Then, a smaller map of the geographical context is nested in each cell to enable more intuitive comparisons \todo{Guo, 2006 -202}. The limitation of this solution is similar to other forms or small multiples in general - the layout space allocated to each nested map becomes smaller as the number of cells increase. In this instance, nesting detailed geographical maps is problematic since majority of the geographical features become illegible due to scaling. OD Map \todo{Wood, 2010 -86} proposes to nests a series of geographically ordered matrices that are more expressive of spatial relations and remain legible even when a small amount of layout space allocated to each cell.
+\todo{Alvin} 
 
 \section{Results}
 \label{sec:results}
