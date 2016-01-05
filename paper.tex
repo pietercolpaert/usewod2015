@@ -206,10 +206,10 @@ Results from preliminary analysis of this dataset reveal trends in route plannin
 Three observations in particular prompted further analysis of the data in greater detail. 
 First, there has been a steady increase in the number of queries made between 2012 and 2015. 
 \cref{fig:querylogs} provides a break down of the numbers on a monthly basis. 
-A sharp rise in the amount of queries can be observed in April 2015 when the official route planning service provided by of the Belgian rail company was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}}, resulting in widespread adoption of alternative software applications built on top of the iRail API.
-In 2012, 2013, 2014 and 2015, there were respectively 19.3, 19.4, 19,6 and 19.7 million passengers per month on average\footnote{Calculated by using indicators of the Flemish government and extrapolating the numbers for 2015 \url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}.
-The amount of iRail queries per month, on average in these years are respectively 0.11, 0.17, 0.15 and 0.33 million.
-If we assume that each request is a travel intention, this would result in respectively $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the travels that are captured with the iRail API.
+A dinstinctive increase in the number of queries can be observed in April 2015 when the official route planning service provided by of the Belgian rail company was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}}, resulting in widespread adoption of alternative software applications built on top of the iRail API.
+Calculated with indicators provided by the Flemish regional government of Belgium\footnote{\url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}, we infer a monthly average of 19.3, 19.4, 19,6 and 19.7 million passengers in 2012, 2013, 2014 and 2015 respectively. 
+Correspondingly, the average number of iRail queries per month amounts to 0.11, 0.17, 0.15 and 0.33 million respectively.
+Assuming that each request reciprocates with an intention to travel by rail, our data captures a respective $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the actual journeys that have occurred. This suggests that \todo{Pieter: what does this mean? The numbers appear rather small though}.
 
 \begin{figure}
 \centering
@@ -218,12 +218,14 @@ If we assume that each request is a travel intention, this would result in respe
 \label{fig:average}
 \end{figure}
 
-Next, we made a distribution of the requests done on each day of the week, which resulted in \cref{fig:average}.
-In this chart we can spot, on Monday until Friday, the morning peak between 5 and 9 and the evening peak between 15 and 18.
-We see a small dent during noon \todo{any explanation for this?}.
-On Fridays we see that the morning peak is stronger than the morning peak, which can be explained by many students that go home to visit their parents for the weekend \todo{Can we give a link to more reading material about this behaviour? This might be weird for US people?}.
-On Saturdays, we almost do not see the peaks, which can be explained by people not going to work on weekends.
-On Sundays, we see most requests happen in the evening, which can be explained by students returning to college accomodations.
+Secondly, the daily and hourly distribution of queries appear to correspond with known commuting patterns. 
+\cref{fig:average} depicts an break down of the queries that occur on an hourly basis for each day of the week.
+Several trends can be observed in this chart. 
+Morning and evening peak periods in particular, are clearly distinguishable.
+In this regard, the peak hours on weekdays are distinctively different from those of the weekends. 
+Similarly, the frequency of queries during the morning peak period on Fridays appear to be substantially lower than those that occur between Monday and Thursday.
+The discrepancy maybe explained by a decrease in the number students who travel home from college over the weekends. \todo{Can we give a link to more reading material about this behaviour? This might be weird for US people? --> not sure if this is really case. We need to explain this in a clear way}.
+The absence of a clear peak on Saturdays can be attributed to lack of journey to work queries while the evening peak on Sundays may emerge from students returning to college accommodations.
 
 \begin{figure}
 \centering
@@ -231,12 +233,6 @@ On Sundays, we see most requests happen in the evening, which can be explained b
 \caption{Comparison of route planning queries on December 24th (Christmass Eve) 2015 with the average on a Thursday between October 2012 and December 2015. The illustration shows that people started going home earlier than usual.}
 \label{fig:dec24}
 \end{figure}
-
-Finally, we compared the average distribution of Thursdays with the distribution on Thursday the 24th of December 2015 (Christmass Eve).
-Our hypothesis that we would now see an earlier evening peak can be confirmed by \cref{fig:dec24}.
-
-We conclude that the timing of the queries look interesting for flow analysis. 
-Can we also find interesting patterns when we study where people are heading between certain time intervals?
 
 \section{Method}
 \label{sec:method}
