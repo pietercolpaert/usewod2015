@@ -174,12 +174,6 @@ Termed ``Big Data'' due to the large volume of data records that emerge from rea
 In the domain of ``Smart City'' research, much has been accomplished with the use of ``Big Data'' to monitor human movement.
 Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys~\cite{ferreira} as well as cellular call data~\cite{sevtsuk} have provided planners with new opportunities to develop greater understanding of mobility patterns in urban environments~\cite{batty}.
 
-Visualisation is frequently used to make data analysis tangible, so that the results can be communicated and debated \todo{Robinson, 2008 -121}. This is crucial for our research since the questions presented are exploratory in nature \todo{Kraak, 2008 -150} and can be addressed in many ways. Movement data has received substantial attention from the visualisation community and a range of techniques has been developed to support analysis \todo{Andrienko, 2012 -196}. Of these techniques, flow visualisations facilitate the comparison of aggregated movement over space and time. There are three types of flow visualisations: Line based representations preserves the complete trajectory while matrix type representations take only the start and end locations into account.
-
-Line based representations indicate movement on a path with the shape of the line. The thickness of each line is scaled to the volume of flow along a path. The direction of flow is commonly indicated with an arrowhead. This representation is detailed and straightforward to understand but becomes cluttered when lines intersect. A number of solutions have been proposed for clutter reduction. Filtering is the most commonly practiced. The same goal can be achieved by clustering lines that have similar properties like common start, end or intermediate locations \todo{Andrienko, 2007 -198}. Hierarchical \todo{Guo, 2009 -199} and density based \todo{Rinzivillo, 2008 -201} clustering have also been introduced for this purpose. Both solutions are effective at reducing clutter yet it should be noted that excessive aggregation or filtering removes a significant amount of information from the visualisation. Another solution to reduce clutter is to transform the visual representation. This is achieved by rerouting \todo{Phan, 2005 -88} or bundling \todo{Hurter, 2014 -200} lines in close proximity so that they appear grouped. Unlike clustering, this solution changes the shape of lines by way of interpolation to obtain an ideal layout. In most cases, the interpolation is regulated by conditions to avoid intersections and follow key geographic features such as roads, rivers or coastlines so that the layout appears natural. This solution emphasises major flows within the visualisation since large groups gain visual dominance. Nonetheless, there are two drawbacks to this solution. First, short distance flows that may be important at local scales are de-emphasised or lost in the transformation. Next, the lines do not depict actual paths of movement thus this solution may not be suitable for applications that require strict geographic accuracy.
-
-Matrix type representations are frequently used when the origin and destination preside over intermediate locations on the path of movement. This type of representation is referred to as origin-destination (OD) matrix. Rows and columns correspond to locations while cells are coloured to express the volume of flow. OD matrices can be reordered to emphasise connectivity between locations but the lack of geographic context is a distinct disadvantage. Several solutions have been developed to address this shortcoming. These are based on the notion of small multiples: The matrix is arranged in a geographical order so that the cells correspond to locations on the map. Then, a smaller map of the geographical context is nested in each cell to enable more intuitive comparisons \todo{Guo, 2006 -202}. The limitation of this solution is similar to other forms or small multiples in general - the layout space allocated to each nested map becomes smaller as the number of cells increase. In this instance, nesting detailed geographical maps is problematic since majority of the geographical features become illegible due to scaling. OD Map \todo{Wood, 2010 -86} proposes to nests a series of geographically ordered matrices that are more expressive of spatial relations and remain legible even when a small amount of layout space allocated to each cell.
-
 \section{The query logs}
 \label{sec:logs}
 
@@ -253,7 +247,7 @@ Can we also find interesting patterns when we study where people are heading bet
 \label{sec:method}
 
 Flow analysis involves the comparison of aggregated movement between distinct locations within a specific time frame. 
-In most cases, the analytical objective is to identify trends that occur in journeys made  between pairs of locations and allow for their sensitivites to be explored. 
+In most cases, the analytical objective is to identify trends that occur in journeys made between pairs of locations and allow for the sensitivites to be explored. 
 Data visualization is typically employed to facilate in this process thus the input data must be transformed into a format that allows for the quantity and directional flow of movment to be visually encoded. In this section we describe the data transformation procedure and data visualisation technique employed in our case study.
 
 \subsection{Processing}
@@ -285,7 +279,27 @@ The following types of flows are observable from the outcome of aggregation:
 
 \subsection{Visualization}
 
-\todo{Alvin} 
+Visualization is crucial for making the analysis tangible, so that results can be communicated and debated \todo{Robinson, 2008 -121}. 
+This is key for our research since the questions presented are exploratory in nature \todo{Kraak, 2008 -150} and can be addressed in many ways. 
+Movement data has received substantial attention from the visualisation community and a range of techniques has been developed to support analysis \todo{Andrienko, 2012 -196}. 
+Of these techniques, flow visualisations are commonly employed to facilitate the comparison of aggregated movement. 
+Flow visualisations can be broadly categorized into two groups. Representations that preserve the complete trajectory and OD type representations that take only the start and end locations into account.
+Since our data solely consists of OD information, we narrow our description to the latter group of visualisation techniques.
+
+OD type representations are used when the origin and destination preside over intermediate locations on the path of movement. 
+The OD Matrix is most common visualization technique in this type of representation. 
+Rows and columns correspond to locations while cells are coloured to express the volume of flow.
+OD matrices can be reordered to emphasise connectivity between locations.
+While this feature is particularly useful for identifying trends and outliers in the data, the tabular display is challenging for lay users to interpret and less expressive of connections between locations than representations based on the node-link metaphor.
+In recent years, such representations have become increasingly prominent for  displaying movement in scientific publications as well as popular culture.
+Locations are depicted as nodes and arrows are drawn between them to indicate movement in a certain direction, allowing for exact and individual relationships to be traced.
+
+The chord diagram is a visualisation technique based on the node-link metaphor that arranges nodes along the circumference of a cirle. 
+Each node is represented by an arc where its length is proportional to the total volume of incoming and outging flows. 
+Chords or curved line segements are drawn to connect nodes. 
+The width at the head or tail of each chord indicates the amount of movement relative frequency of movement from a certain location to another. 
+In our implementation, nodes are colour coded to indicate individual provinces and the major cities located within their administrative boundaries. 
+Interactive filtering is introduced to simplify the visualisation and details are provided in popup dialogue when upon mouse-over.
 
 \section{Results}
 \label{sec:results}
