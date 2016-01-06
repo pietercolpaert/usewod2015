@@ -209,7 +209,7 @@ First, there has been a steady increase in the number of queries made between 20
 A dinstinctive increase in the number of queries can be observed in April 2015 when the official route planning service provided by of the Belgian rail company was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}}, resulting in widespread adoption of alternative software applications built on top of the iRail API.
 Calculated with indicators provided by the Flemish regional government of Belgium\footnote{\url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}, we infer a monthly average of 19.3, 19.4, 19,6 and 19.7 million passengers in 2012, 2013, 2014 and 2015 respectively. 
 Correspondingly, the average number of iRail queries per month amounts to 0.11, 0.17, 0.15 and 0.33 million respectively.
-Assuming that each request reciprocates with an intention to travel by rail, our data captures a respective $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the actual journeys that have occurred. This suggests that \todo{Pieter: what does this mean? The numbers appear rather small though}.
+Assuming that each request reciprocates with an intention to travel by rail, our data captures a respective $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the actual journeys that have occurred. This suggests that \todo{Pieter: what does this mean? The numbers appear rather small though. Ideally this should be reflected in figure 1}.
 
 \begin{figure}
 \centering
@@ -276,7 +276,7 @@ The following types of flows are observable from the outcome of aggregation:
 
 \subsection{Visualization}
 
-Visualization is crucial for making the analysis tangible, so that results can be communicated and debated \cite{robinson2008collaborative}. 
+Visualization is crucial for making data analysis tangible, so that results can be communicated and debated \cite{robinson2008collaborative}. 
 This is key for our research since the questions presented are exploratory in nature \cite{kraak2008exploratory} and can be addressed in many ways. 
 Movement data has received substantial attention from the visualisation community and a range of techniques has been developed to support analysis \cite{andrienko2012visual}. 
 Of these techniques, flow visualisations are commonly employed to facilitate the comparison of aggregated movement. 
@@ -301,23 +301,17 @@ Interactive filtering is introduced to simplify the visualisation and details ar
 \section{Results}
 \label{sec:results}
 
-In this chapter, we report on the results of studying visualizations with experts of Trein Tram Bus, a not for profit passenger federation.
+In this chapter, we report on the results of studying visualizations with experts of Trein Tram Bus, a not for profit passenger federation. \todo{Trein Tram Bus needs to be introduced in the introduction}
 
-\subsection{Commuting pattern}
+\subsection{Structure of flows in belgium}
 
-We see people leaving in the morning and return in the evening (see \cref{fig:brussels} and todo)
-
-The pair of chord diagrams in \cref{fig:brussels,fig:antwerp} capture the aggregated number of queries made between any two stations on weekdays and weekends between 6 to 9 in the morning.
-The chords that link two distinct stations, are coloured coded by region and proportionately scaled to the number of queries from a station of origin to a destination.
-For instance, approximately 3,530 queries were made from Leuven to Brussels than in the opposite direction (approximately 1,530) on weekdays.
-Reading both diagrams in this manner reveals the complexity of movement on the rail system and the significance of cities in daily travel.
-Brussels serves as the principal centre of rail activity in general, yet its function as a centre is more distinctive for the walloon region than Flanders.
-Queries from Walloonia with exception to Liege, are generally made from provincial stations towards Brussels instead of their respective provincial capitals.
-Queries in Flanders, on the hand, tend to be distributed among major cities otherwise known as the Flemish Diamond, a network of four metropolitan areas in Belgium comprised of Ghent, Brussels, Antwerp and Leuven.
-The difference between both patterns appear to correspond with existing measures of population density, providing valuable insight and alternative perspectives into the function of cities in rural and urban settings.
-
-\subsection{Flanders is polycentric, Wallonia monocentric}
-
+The chord diagrams shown in \cref{fig:brussels} and \cref{fig:antwerp} depict the aggregated number of queries made between any two stations in the morning and evening respectively. 
+Visualising our dataset in this manner reveals the complexity of flows on the Belgian rail system and the significance of cities in weekday travel.
+Brussels stands out as the most distinctive visual element in both figures, indicating its function as the principal centre of rail activity.
+On a regional level, its function as a centre appears to be more distinctive for the Walloon region than Flanders.
+With exception to Liege, queries from the Walloon region are generally made from provincial stations towards Brussels instead of major cities within their administrative boundaries. 
+Queries from Flanders, on the hand, tend to be distributed among four major cities otherwise known as the Flemish Diamond, a network of metropolitan areas in Belgium comprised of Ghent, Brussels, Antwerp and Leuven.
+The difference between both regions appear to correspond with existing measures of population density and degree of urbanisation, providing valuable insight as well as alternative perspectives into the function of cities in rural and urban settings.
 
 \begin{figure}
 \centering
