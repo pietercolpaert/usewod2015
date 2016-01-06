@@ -221,10 +221,15 @@ Secondly, the daily and hourly distribution of queries appear to correspond with
 \cref{fig:average} depicts an break down of the queries that occur on an hourly basis for each day of the week.
 Several trends can be observed in this chart. 
 Morning and evening peak periods in particular, are clearly distinguishable.
-In this regard, the peak hours on weekdays are distinctively different from those of the weekends. 
+Peak hours on weekdays are also distinctively different from those of weekends.
 Similarly, the frequency of queries during the morning peak period on Fridays appear to be substantially lower than those that occur between Monday and Thursday.
 The discrepancy maybe explained by a decrease in the number students who travel home from college over the weekends. \todo{Can we give a link to more reading material about this behaviour? This might be weird for US people? --> not sure if this is really case. We need to explain this in a clear way}.
 The absence of a clear peak on Saturdays can be attributed to lack of journey to work queries while the evening peak on Sundays may emerge from students returning to college accommodations.
+
+Finally, the distribution of queries on public holidays is observed to deviate from that of an average day. 
+Figure 3 provides a breakdown of queries per hour on Christmas eve, 24th December 2015, in comparison to an average Thursday of the same year. 
+As illustrated, the evening peak on Christmas eve occurs earlier than that of an average Thursday. 
+For these reasons, we believe that route planning query data maybe a viable source of information for flow analysis. \todo{where people are heading between certain time intervals?}
 
 \begin{figure}
 \centering
@@ -270,9 +275,9 @@ The following types of flows are observable from the outcome of aggregation:
 
 \subsection{Visualization}
 
-Visualization is crucial for making the analysis tangible, so that results can be communicated and debated \todo{Robinson, 2008 -121}. 
-This is key for our research since the questions presented are exploratory in nature \todo{Kraak, 2008 -150} and can be addressed in many ways. 
-Movement data has received substantial attention from the visualisation community and a range of techniques has been developed to support analysis \todo{Andrienko, 2012 -196}. 
+Visualization is crucial for making the analysis tangible, so that results can be communicated and debated \cite{robinson2008collaborative}. 
+This is key for our research since the questions presented are exploratory in nature \cite{kraak2008exploratory} and can be addressed in many ways. 
+Movement data has received substantial attention from the visualisation community and a range of techniques has been developed to support analysis \cite{andrienko2012visual}. 
 Of these techniques, flow visualisations are commonly employed to facilitate the comparison of aggregated movement. 
 Flow visualisations can be broadly categorized into two groups. Representations that preserve the complete trajectory and OD type representations that take only the start and end locations into account.
 Since our data solely consists of OD information, we narrow our description to the latter group of visualisation techniques.
@@ -305,7 +310,7 @@ The pair of chord diagrams in \cref{fig:brussels,fig:antwerp} capture the aggreg
 The chords that link two distinct stations, are coloured coded by region and proportionately scaled to the number of queries from a station of origin to a destination.
 For instance, approximately 3,530 queries were made from Leuven to Brussels than in the opposite direction (approximately 1,530) on weekdays.
 Reading both diagrams in this manner reveals the complexity of movement on the rail system and the significance of cities in daily travel.
-Brussels serves as the principal centre of rail activity in general, yet its centrality is more distinctive for the walloon region than Flanders.
+Brussels serves as the principal centre of rail activity in general, yet its function as a centre is more distinctive for the walloon region than Flanders.
 Queries from Walloonia with exception to Liege, are generally made from provincial stations towards Brussels instead of their respective provincial capitals.
 Queries in Flanders, on the hand, tend to be distributed among major cities otherwise known as the Flemish Diamond, a network of four metropolitan areas in Belgium comprised of Ghent, Brussels, Antwerp and Leuven.
 The difference between both patterns appear to correspond with existing measures of population density, providing valuable insight and alternative perspectives into the function of cities in rural and urban settings.
