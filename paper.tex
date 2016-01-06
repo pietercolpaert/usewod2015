@@ -111,16 +111,16 @@ Yet, getting statistics of travel flows within public transit systems has proven
 % Task
 In order to get an indication of travel flows between cities in Belgium,
 we analyzed the query logs of the iRail API, a highly expressive route planning API for the Belgian railways.
-We were able to study $\sim$100k to 500k requests for each month between October 2012 and November 2015, which is between $0.5\%$ and $1.7\%$ of the amount of monthly passengers.
+We were able to study $\sim$100k to 500k requests for each month between October 2012 and November 2015, which is between $0.56\%$ and $1.66\%$ of the amount of monthly passengers.
 % Object & Findings
-Using data visualizations, we illustrate the commuting patterns in Belgium and confirm that Brussels, the capital, acts as a central hub. The Flemish region appears to be polycentric, while in the Walloon region, everything converges on Brussels.
+Using data visualizations, we illustrate that expected patterns such as 
+Moreover, using origin-destination visualizations, we can confirm that Brussels, the capital, acts as a central hub. The Flemish region appears to be polycentric, while in the Walloon region, everything converges on Brussels.
 The findings correspond to the real travel demand, according to experts of the passenger federation Trein Tram Bus.
 % Conclusion
-We conclude that query logs of route planners are of high importance in getting an indication of travel flows.
+We conclude that query logs of route planners are of high importance in getting an indication of travel flows, yet better analytics would be acquirable using dedicated write-requests to capture travel intentions.
 % Perspectives
-\rv{These last sentences don't fit well. They could be removed.}
-Highly expressive transport data publishing methods such as route planning API exist, as well as low expressive data dumps or data fragments.
-In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
+%Highly expressive transport data publishing methods such as route planning API exist, as well as data dumps or data fragments.
+%In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
 
 \end{abstract}
 
@@ -207,7 +207,7 @@ Additionally, the integrity of this dataset has been vetted by the Belgian Priva
 We are particularly interested in studying the potential application of route planning queries as an information resource for flow analysis due to the input it captures from human users.
 The remaining features are less relevant for this purpose as they are generally polled by digital signage providers or status boards, and thus do not reflect direct human demands.
 The dataset described in this paper is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015, filtered by ``connections'' entries.
-We made a copy of this dataset available in CSV format can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
+We made a copy of this dataset in CSV format available at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 %CSV header of the final logs: datetime,requested_datetime,from_id,from_name,from_long,from_lat,to_id,to_name,to_long,to_lat,user_agent,operating_system,is_bot
 Each row within this dataset contains:
 \begin{enumerate}
@@ -287,7 +287,8 @@ Interactive filtering is introduced to simplify the visualization and details ar
 \section{Results}
 \label{sec:results}
 
-In this chapter, we report on the results of studying visualizations with experts of Trein Tram Bus, a not for profit passenger federation. \todo{Trein Tram Bus needs to be introduced in the introduction}
+In this chapter, we report on the results of studying visualizations with experts of Trein Tram Bus, a not for profit passenger federation.
+%\todo{Trein Tram Bus needs to be introduced in the introduction}
 
 \subsection{Time based analysis}
 
@@ -433,8 +434,7 @@ It succesfully enabled reuse for intermodal travel, engineers can rely on the da
 The public transit agency however has no access any longer to an indication of travel demand.
 
 In \cref{fig:LDFAxis2} we illustrate these two options as two extremes, with other options that are yet to be discovered.
-\rv{\emph{low expressive} is not correct, but I don't know what the right term is. (It is also high\emph{ly} expressive, I corrected that.)}
-When a \emph{rather low expressive} server only allows to set e.g., a departure station and a departure time, then the server cannot log the arrival station, yet the client is still able to plan a route by executing the algorithm on the client-side~\cite{lc}.
+When a server only allows to set e.g., a departure station and a departure time, then the server cannot log the arrival station, yet the client is still able to plan a route by executing the algorithm on the client-side~\cite{lc}.
 We would be able to fully rely on the query logs if the expressivity would be maximal (extreme right) and caching would be turned off. 
 Turning off caching may work in a private setting where you know how much and what kind of queries you can expect, yet on the open Web, caching helps decrease load on servers at peak moments.
 
