@@ -271,19 +271,22 @@ Later, the research can be reproduced with more data.
 \label{sec:method}
 
 Flow analysis involves the comparison of aggregated movement between distinct locations within a specific time frame. 
-In most cases, the analytical objective is to identify trends that occur in journeys made between pairs of locations and allow for the sensitivites to be explored. 
-Data visualization is typically employed to facilate in this process thus the input data must be transformed into a format that allows for the quantity and directional flow of movment to be visually encoded. In this section we describe the data transformation procedure and data visualization technique employed in our case study.
+In most cases, the analytical objective is to identify trends that occur in journeys made between pairs of locations and allow for the sensitivities to be explored. 
+Data visualization is typically employed to facilitate in this process thus the input data must be transformed into a format that allows for the quantity and directional flow of movement to be visually encoded. In this section we describe the data transformation procedure and data visualization technique employed in our case study.
 
 \subsection{Processing}
 
 Matching pairs of origin and destination (OD) stations must be aggregated prior to visualization.
 Several stages of data processing are required to arrive at this outcome.
-As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00 hrs and 10:00 hrs as well as 17:00 hrs and 21:00 hrs on weekdays, and all data records created on weekend.
+As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays,
+\rv{why? and is it just you, or also the reader?}
+we filtered the dataset to exclude data records created outside the time range of 06:00 hrs and 10:00 hrs as well as 17:00 hrs and 21:00 hrs on weekdays, and all data records created on weekend.
 \todo{PC: we will have to explain ourselves why we'd choose different hours than what we've found above} 
-Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. 
+Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may overrepresent connections between certain stations. 
+\rv{Be a bit more precise here: they are valid traffic, but not helpful for prediction of human behavior.}
 Similarly, data records with unparsable origin or destination station names due to invalid character encoding were removed. 
 One distinctive challenge is the substantial amount of inconsistency in the way station names are logged. 
-Spelling mistakes as well as the use of unstandardized abbreviations in particular, reduce the quality and accuracy of the resulting visualization.
+Spelling mistakes, and the use of unstandardized abbreviations in particular, reduce the quality and accuracy of the resulting visualization.
 To overcome this challenge, an open-source reconciliator (\url{https://github.com/irail/stations}) in PHP was employed to reduce spelling variations and link this with a geographical location. 
 
 The data is then aggregated so that province level flow patterns are emphasised.
@@ -308,9 +311,11 @@ Visualization is crucial for making data analysis tangible, so that results can 
 This is key for our research since the questions presented are exploratory in nature \cite{kraak2008exploratory} and can be addressed in many ways. 
 Movement data has received substantial attention from the visualization community and a range of techniques has been developed to support analysis \cite{andrienko2012visual}. 
 Of these techniques, flow visualizations are commonly employed to facilitate the comparison of aggregated movement. 
+\rv{OD, I'm assuming origin--destination, or something else? Is it necessary to use the abbreviation the whole time?}
 Flow visualizations can be broadly categorized into two groups. Representations that preserve the complete trajectory and OD type representations that take only the start and end locations into account.
 Since our data solely consists of OD information, we narrow our description to the latter group of visualization techniques.
 
+\rv{Starting here, this section isn't really going anywhere, at least not to a point. Consider removing the next two paragraphs and start talking about your data.}
 OD type representations are used when the origin and destination preside over intermediate locations on the path of movement. 
 The OD Matrix is most common visualization technique in this type of representation. 
 Rows and columns correspond to locations while cells are coloured to express the volume of flow.
@@ -319,12 +324,12 @@ While this feature is particularly useful for identifying trends and outliers in
 In recent years, such representations have become increasingly prominent for  displaying movement in scientific publications as well as popular culture.
 Locations are depicted as nodes and arrows are drawn between them to indicate movement in a certain direction, allowing for exact and individual relationships to be traced.
 
-The chord diagram is a visualization technique based on the node-link metaphor that arranges nodes along the circumference of a cirle. 
-Each node is represented by an arc where its length is proportional to the total volume of incoming and outging flows. 
-Chords or curved line segements are drawn to connect nodes. 
+The chord diagram is a visualization technique based on the node-link metaphor that arranges nodes along the circumference of a circle. 
+Each node is represented by an arc where its length is proportional to the total volume of incoming and outgoing flows. 
+Chords or curved line segments are drawn to connect nodes. 
 The width at the head or tail of each chord indicates the amount of movement relative frequency of movement from a certain location to another. 
 In our implementation, nodes are colour coded to indicate individual provinces and the major cities located within their administrative boundaries. 
-Interactive filtering is introduced to simplify the visualization and details are provided in popup dialogue when upon mouse-over.
+Interactive filtering is introduced to simplify the visualization and details are provided in pop-up dialogue when upon mouse-over.
 
 \section{Results}
 \label{sec:results}
