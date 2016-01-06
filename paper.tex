@@ -181,9 +181,8 @@ Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys
 \label{sec:logs}
 
 \subsection{Historical logs}
-
 The iRail API is an XML/JSON HTTP API: each request on \url{http://api.irail.be} returns a response that can be used directly in an end-user app.
-It contains four features: 
+It exposes four features: 
 \begin{enumerate}
 \item \emph{Route Planning} (\url{http://api.irail.be/connections/{?from,to,date,time}}) plans a route from one station to another, taking into account a preferred start time.
 \item \emph{Next Departures} (\url{http://api.irail.be/liveboard/{?station,date,time}}) shows the next train departures in a certain station, useful for creating quick overviews.
@@ -192,10 +191,13 @@ It contains four features:
 \end{enumerate}
 
 We are particularly interested in studying the potential application of route planning queries as an information resource for flow analysis due to the input it captures from human users.
-The remaining features are less relevant for this purpose as they are generally polled by digital signage providers or status boards.
+The remaining features are less relevant for this purpose as they are generally polled by digital signage providers or status boards,
+and thus do not reflect direct human demands.
 The dataset described in this paper is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015.
+\rv{Perhaps say \emph{we} made this copy available?}
 A copy of this dataset in CSV format can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
-Each data entry contains a unique identifier, a timestamp of the request executed, the HTTP status code of the response indicating a successful or failed operation, the request path between two stations and information of the user-agent (cfr. RFC2616) including details like the type of device, protocol and ip address.
+\rv{I would set the following in a list, preferably one line per thing, but an inline enumeration would also work.}
+Each data entry contains a unique identifier, a timestamp of the request executed, the HTTP status code of the response indicating a successful or failed operation, the request path between two stations and information of the user-agent (cfr. RFC2616) including details like the type of device, protocol and IP address.
 User-agent information is important for statistical reasons and is essential for API management operations like tracing protocol violations or imposing rate limitations\footnote{\url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}. 
 Privacy preservation is paramount~\cite{silvestri} when dealing with query logs and IP addresses have been removed to protect the privacy of our users. 
 Additionally, the integrity of this dataset has been vetted by the Belgian Privacy Commission and permission has been granted for these query logs to be utilised in scientific studies without further restrictions.
@@ -207,10 +209,11 @@ Additionally, the integrity of this dataset has been vetted by the Belgian Priva
 \label{fig:querylogs}
 \end{figure}
 
+\rv{Here, you start with results. This seems to be a new section---I would recommend to start one.}
 Results from preliminary analysis of this dataset reveal trends in route planning queries that may provide insights into rail travel demand. 
 Three observations in particular prompted further analysis of the data in greater detail. 
 First, there has been a steady increase in the number of queries made between 2012 and 2015. 
-\cref{fig:querylogs} provides a break down of the numbers on a monthly basis. 
+\cref{fig:querylogs} provides a breakdown of the numbers on a monthly basis. 
 A dinstinctive increase in the number of queries can be observed in April 2015 when the official route planning service provided by of the Belgian rail company was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}}, resulting in widespread adoption of alternative software applications built on top of the iRail API.
 Calculated with indicators provided by the Flemish regional government of Belgium\footnote{\url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}, we infer a monthly average of 19.3, 19.4, 19,6 and 19.7 million passengers in 2012, 2013, 2014 and 2015 respectively. 
 Correspondingly, the average number of iRail queries per month amounts to 0.11, 0.17, 0.15 and 0.33 million respectively.
@@ -236,24 +239,24 @@ The absence of a clear peak on Saturdays can be attributed to lack of journeys t
 \begin{figure}
 \centering
 \includegraphics[width=8.6cm]{dec24}
-\caption{Comparison of route planning queries on December 24th (Christmass Eve) 2015 with the average on a Thursday between October 2012 and December 2015. The illustration shows that people started going home earlier than usual.}
+\caption{Comparison of route planning queries on December 24th (Christmas Eve) 2015 with the average on a Thursday between October 2012 and December 2015. The illustration shows that people started going home earlier than usual.}
 \label{fig:dec24}
 \end{figure}
 
 Finally, the distribution of queries on public holidays is observed to deviate from that of an average day. 
-\cref{fig:dec24} provides a breakdown of queries per hour on Christmas eve, 24th December 2015, in comparison to an average Thursday of the same year. 
-As illustrated, the evening peak on Christmas eve occurs earlier than that of an average Thursday. 
+\cref{fig:dec24} provides a breakdown of queries per hour on 24th December 2015 (Christmas Eve, on which Belgian families typically gather) in comparison to an average Thursday of the same year. 
+As illustrated, the evening peak on Christmas Eve occurs earlier than that of an average Thursday. 
 For these reasons, we believe that route planning query data maybe a viable source of information for flow analysis.%\todo{where people are heading between certain time intervals?}
 
 \subsection{Real-time logs}
 \label{sec:realtimelogs}
 
-IRail is a not for profit organization that stimulates digital creativity concerning mobility.
+iRail is a not for profit organization that stimulates digital creativity concerning mobility.
 The interface that takes care of the route planning interface is open source, and we could easily suggest a change to the system in which the query logs become open data\footnote{\url{https://github.com/iRail/iRail/pull/138}}.
 As of the 17th of December 2015, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
 
 In order to publish this data, we chose a newline-based format: each new line contains a new query object encoded in JSON. 
-The JSON objects can be read one per one, so unix commands such as \emph{grep} work well with this format.
+The JSON objects can be read one per one, so UNIX commands such as \emph{grep} work well with this format.
 We chose this over CSV as we have more flexibility towards changing the object properties in the future.
 Next, we chose to add an object to the stream which only contains an object with key \emph{@context}.
 This is the JSON-LD context of all the objects in the, JSON-stream. Subsequentially, we call this a \emph{JSONLD-stream} and this has been formalized at \emph{https://github.com/pietercolpaert/jsonld-stream}.
