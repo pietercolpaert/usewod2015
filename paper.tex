@@ -418,9 +418,9 @@ Nevertheless, we cannot fully guarantee that each HTTP GET request to the server
 %intermodality, features and availability
 Hosting a route planning API as the only way to publish transport data comes with three identified limitations, as the server will need to handle the requests from different use cases with different needs:
 \begin{enumerate}
-  \item When an application developer would like a \emph{new feature}, such as taking wheelchair accessibility information into account, the feature would have to be implemented on the server of the data publisher
-  \item Keeping the server \emph{high available} is costly, as any question can be asked by anyone for any purpose.
-  \item Federated querying, which would allow for \emph{intermodal} route planning for route planning APIs, is unexistent up to date.
+  \item When an application developer would like a \emph{new feature}, such as taking wheelchair accessibility information into account, the feature would have to be implemented on the server of the data publisher.
+  \item Keeping the server \emph{highly available} is costly, as any question can be asked by anyone for any purpose.
+  \item Federated querying, which would allow for \emph{intermodal} route planning for route planning APIs, is inexistent up to date.
 \end{enumerate}
 
 % GTFS
@@ -433,9 +433,10 @@ It succesfully enabled reuse for intermodal travel, engineers can rely on the da
 The public transit agency however has no access any longer to an indication of travel demand.
 
 In \cref{fig:LDFAxis2} we illustrate these two options as two extremes, with other options that are yet to be discovered.
+\rv{\emph{low expressive} is not correct, but I don't know what the right term is. (It is also high\emph{ly} expressive, I corrected that.)}
 When a \emph{rather low expressive} server only allows to set e.g., a departure station and a departure time, then the server cannot log the arrival station, yet the client is still able to plan a route by executing the algorithm on the client-side~\cite{lc}.
 We would be able to fully rely on the query logs if the expressivity would be maximal (extreme right) and caching would be turned off. 
-Turning off caching may work in a private setting where you know how much and what kind of queries you can expect, yet on the open Web, caching helps decrease the CPU load on servers at peak moments.
+Turning off caching may work in a private setting where you know how much and what kind of queries you can expect, yet on the open Web, caching helps decrease load on servers at peak moments.
 
 \section{Conclusion and future work}
 \label{sec:conclusion}
