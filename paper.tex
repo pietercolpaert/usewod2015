@@ -365,9 +365,10 @@ The difference between both regions appear to correspond with existing measures 
 
 \subsection{Inexplicable results}
 
-There are several inconsistent patterns in the data that do not correspond with existing understanding of flows in Belgium.
+There are several inconsistent patterns in the data that do not correspond with an existing understanding of flows in Belgium.
 In particular, the large number of trips made between Antwerp city and other stations within the province of Antwerp in the morning, is not observable in other major cities in Flanders.
 Further investigation led to the identification of an isolated connection originating from Antwerp city towards a suburb, suggesting anomalous usage of the iRail API or a high concentration people who utilise route planning applications on a regular basis.
+\rv{Earlier, you said you filtered bots. Is this still the case?}
 Accordingly, the reverse is identified in Liege where an unusually large connection originating from a suburb towards Liege city prompted speculation as well as discussions on how such outliers should be treated or what may have led to their existence.
 
 \section{Publishing transport data}
@@ -410,7 +411,7 @@ Accordingly, the reverse is identified in Liege where an unusually large connect
 %%% EXPLAIN:
 %%%
 The expressiveness of a server affects the way logs can be gathered~\cite{usewod2015}.
-We have shown in previous sections that the query logs of a \emph{high expressive server}, such as the iRail API, are interesting: each request contains an entire query which can be interpreted as a travel intention.
+We have shown in previous sections that the query logs of a \emph{highly expressive server}, such as the iRail API, are interesting: each request contains an entire query which can be interpreted as a travel intention.
 The possibility that two requests are exactly the same is low, as there are many URLs which can be requested.
 Nevertheless, we cannot fully guarantee that each HTTP GET request to the server will trigger a log entry, due to caching mechanisms on the Web~\cite{fielding}, which might lead to a false representation.
 
