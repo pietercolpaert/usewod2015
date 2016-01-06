@@ -67,6 +67,7 @@
 
 \usepackage{color}
 \newcommand{\todo}[1]{\noindent\textcolor{red}{{\bf \{TODO}: #1{\bf \}}}}
+\newcommand{\rv}[1]{\noindent\textcolor{red}{{\bf \{RV}: #1{\bf \}}}}
 \newdef{definition}{Definition}
 
 \begin{document}
@@ -108,15 +109,17 @@ Andrew Vande Moere\\
 In the field of urban planning, researchers need an indication of how people move between cities. 
 Yet, getting statistics of travel flows within public transit systems has proven to be troublesome.
 % Task
-We analyzed the query logs of the iRail API, a high expressive route planning API for the Belgian railways, to get an indication of travel flows between cities in Belgium.
+In order to get an indication of travel flows between cities in Belgium,
+we analyzed the query logs of the iRail API, a highly expressive route planning API for the Belgian railways.
 We were able to study $\sim$100k to 500k requests for each month between October 2012 and November 2015, which is between $0.5\%$ and $1.7\%$ of the amount of monthly passengers.
 % Object & Findings
-Using data visualizations, we illustrated the commuting patterns in Belgium and show that Brussels, the capital, acts as a central hub. The Flemish region appears to be polycentric, while in the Walloon region, everything converges on Brussels.
-The findings correspond to the real travel demand, say experts of the passenger federation Trein Tram Bus.
+Using data visualizations, we illustrate the commuting patterns in Belgium and confirm that Brussels, the capital, acts as a central hub. The Flemish region appears to be polycentric, while in the Walloon region, everything converges on Brussels.
+The findings correspond to the real travel demand, according to experts of the passenger federation Trein Tram Bus.
 % Conclusion
-We conclude that query logs of route planners are of high importance in getting an indication of the travel flows.
+We conclude that query logs of route planners are of high importance in getting an indication of travel flows.
 % Perspectives
-High expressive transport data publishing methods such as route planning API exist, as well as low expressive data dumps or data fragments.
+\rv{These last sentences don't fit well. They could be removed.}
+Highly expressive transport data publishing methods such as route planning API exist, as well as low expressive data dumps or data fragments.
 In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
 
 \end{abstract}
