@@ -177,7 +177,7 @@ Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys
 \section{The query logs}
 \label{sec:logs}
 
-\subsection{Historical logs}
+%\subsection{Historical logs}
 
 The iRail API is an XML/JSON HTTP API: each request on \url{http://api.irail.be} returns a response that can be used directly in an end-user app.
 It contains four features: 
@@ -188,78 +188,30 @@ It contains four features:
 \item \emph{List of all stations} (\url{http://api.irail.be/stations/}) gives an overview of all stations Belgian trains can arrive at.
 \end{enumerate}
 
-We are particularly interested in studying the potential application of route planning queries as an information resource for flow analysis due to the input it captures from human users.
-The remaining features are less relevant for this purpose as they are generally polled by digital signage providers or status boards.
-The dataset described in this paper is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015.
-A copy of this dataset in CSV format can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
-Each data entry contains a unique identifier, a timestamp of the request executed, the HTTP status code of the response indicating a successful or failed operation, the request path between two stations and information of the user-agent (cfr. RFC2616) including details like the type of device, protocol and ip address.
-User-agent information is important for statistical reasons and is essential for API management operations like tracing protocol violations or imposing rate limitations\footnote{\url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}. 
-Privacy preservation is paramount~\cite{silvestri} when dealing with query logs and IP addresses have been removed to protect the privacy of our users. 
-Additionally, the integrity of this dataset has been vetted by the Belgian Privacy Commission and permission has been granted for these query logs to be utilised in scientific studies without further restrictions.
-
-\begin{figure}
-\centering
-\includegraphics[width=8.6cm]{querylogs}
-\caption{Amount of queries on the route planning part of the iRail API between October 2012 and December 2015. In April 2015 an official app of the Belgian railways was discontinued, which explains the sudden raise of iRail API queries.}
-\label{fig:querylogs}
-\end{figure}
-
-Results from preliminary analysis of this dataset reveal trends in route planning queries that may provide insights into rail travel demand. 
-Three observations in particular prompted further analysis of the data in greater detail. 
-First, there has been a steady increase in the number of queries made between 2012 and 2015. 
-\cref{fig:querylogs} provides a break down of the numbers on a monthly basis. 
-A dinstinctive increase in the number of queries can be observed in April 2015 when the official route planning service provided by of the Belgian rail company was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}}, resulting in widespread adoption of alternative software applications built on top of the iRail API.
-Calculated with indicators provided by the Flemish regional government of Belgium\footnote{\url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}, we infer a monthly average of 19.3, 19.4, 19,6 and 19.7 million passengers in 2012, 2013, 2014 and 2015 respectively. 
-Correspondingly, the average number of iRail queries per month amounts to 0.11, 0.17, 0.15 and 0.33 million respectively.
-Assuming that each request reciprocates with an intention to travel by rail, our data captures a respective $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the actual journeys that have occurred.
-
-\begin{figure}
-\centering
-\includegraphics[width=8.6cm]{avg-all}
-\caption{Distribution of iRail route planning API queries on average per day of the week between October 2012 and December 2015}
-\label{fig:average}
-\end{figure}
-
-Secondly, the daily and hourly distribution of queries appear to correspond with known commuting patterns. 
-\cref{fig:average} depicts a break down of the queries that occur, on average, on an hourly basis for each day of the week.
-Several trends can be observed in this chart. 
-Morning and evening peak periods in particular, are clearly distinguishable.
-At noon, a small dent is noticable, which may be attributed to part time workers and meetings on location after or before noon.
-Peak hours on weekdays are also distinctively different from those of weekends.
-Similarly, the frequency of queries during the evening peak period on Fridays appear to be substantially higher than those that occur between Monday and Thursday.
-The discrepancy maybe explained by students that travel home from their student homes over the weekends. 
-The absence of a clear peak on Saturdays can be attributed to lack of journeys to work queries while the evening peak on Sundays may emerge from students returning to college accommodations.
-
-\begin{figure}
-\centering
-\includegraphics[width=8.6cm]{dec24}
-\caption{Comparison of route planning queries on December 24th (Christmass Eve) 2015 with the average on a Thursday between October 2012 and December 2015. The illustration shows that people started going home earlier than usual.}
-\label{fig:dec24}
-\end{figure}
-
-Finally, the distribution of queries on public holidays is observed to deviate from that of an average day. 
-\cref{fig:dec24} provides a breakdown of queries per hour on Christmas eve, 24th December 2015, in comparison to an average Thursday of the same year. 
-As illustrated, the evening peak on Christmas eve occurs earlier than that of an average Thursday. 
-For these reasons, we believe that route planning query data maybe a viable source of information for flow analysis.%\todo{where people are heading between certain time intervals?}
-
-\subsection{Real-time logs}
-\label{sec:realtimelogs}
-
-IRail is a not for profit organization that stimulates digital creativity concerning mobility.
-The interface that takes care of the route planning interface is open source, and we could easily suggest a change to the system in which the query logs become open data\footnote{\url{https://github.com/iRail/iRail/pull/138}}.
-As of the 17th of December 2015, iRail publishes the most recent 1000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
-
+%IRail is a not for profit organization that stimulates digital creativity concerning mobility.
+This interface is open source and we were able to suggest changes to the system in which the query logs become open data\footnote{\url{https://github.com/iRail/iRail/pull/138}}.
+As of the 17th of December 2015, iRail publishes the most recent 1,000 requests done on the API as open data, each second, at \url{http://api.irail.be/logs/}.
 In order to publish this data, we chose a newline-based format: each new line contains a new query object encoded in JSON. 
 The JSON objects can be read one per one, so unix commands such as \emph{grep} work well with this format.
 We chose this over CSV as we have more flexibility towards changing the object properties in the future.
-Next, we chose to add an object to the stream which only contains an object with key \emph{@context}.
-This is the JSON-LD context of all the objects in the, JSON-stream. Subsequentially, we call this a \emph{JSONLD-stream} and this has been formalized at \emph{https://github.com/pietercolpaert/jsonld-stream}.
+Next, we chose to add an HTTP header with a link to the query log context according to the JSON-LD specification\footnote{\url{}} to turn it into Linked Data.
+%This is the JSON-LD context of all the objects in the, JSON-stream. Subsequentially, we call this a \emph{JSONLD-stream} and this has been formalized at \emph{https://github.com/pietercolpaert/jsonld-stream}.
 
 Using this data, everyone can build their own historic query log dataset.
 The server costs for iRail to host this dataset stay limited.
 Furthermore, this way of publishing data enables research for real-time predictions of travel intentions.
-For this paper, we will focus on using the historic logs.
-Later, the research can be reproduced with more data. 
+Privacy preservation is paramount~\cite{silvestri} when dealing with query logs and IP addresses have been removed to protect the privacy of our users. 
+Additionally, the integrity of this dataset has been vetted by the Belgian Privacy Commission and permission has been granted for these query logs to be published as open data.
+
+We are particularly interested in studying the potential application of route planning queries as an information resource for flow analysis due to the input it captures from human users.
+The remaining features are less relevant for this purpose as they are generally polled by digital signage providers or status boards.
+The dataset described in this paper is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015, filtered by ``connections'' entries.
+A copy of this dataset in CSV format can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
+%CSV header of the final logs: datetime,requested_datetime,from_id,from_name,from_long,from_lat,to_id,to_name,to_long,to_lat,user_agent,operating_system,is_bot
+Each row within this dataset contains a timestamp of when the request was executed, the request path between two stations with longitudes and latitudes, the user-agent string cfr. RFC2616, the operating system of the user-agent and whether or not the user-agent is a bot.
+%After analysis, it appeared 10\% of the request where performed by Google bots.
+%User-agent information is important for statistical reasons and is essential for API management operations like tracing protocol violations or imposing rate limitations\footnote{\url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}. 
+%\todo{add glue to Method section?}
 
 \section{Method}
 \label{sec:method}
@@ -273,14 +225,14 @@ Data visualization is typically employed to facilate in this process thus the in
 Matching pairs of origin and destination (OD) stations must be aggregated prior to visualization.
 Several stages of data processing are required to arrive at this outcome.
 As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00 hrs and 10:00 hrs as well as 17:00 hrs and 21:00 hrs on weekdays, and all data records created on weekend.
-\todo{PC: we will have to explain ourselves why we'd choose different hours than what we've found above} 
+\todo{PC: we will have to explain ourselves why we'd choose different hours than what we've found further on: could you change the intervals int he visualizations to what matches \cref{fig:average}?} 
 Queries made by automated user agents like search engine bots and data harvesters were also excluded from the dataset to remove biases that may over represent connections between certain stations. 
 Similarly, data records with unparsable origin or destination station names due to invalid character encoding were removed. 
 One distinctive challenge is the substantial amount of inconsistency in the way station names are logged. 
 Spelling mistakes as well as the use of unstandardized abbreviations in particular, reduce the quality and accuracy of the resulting visualization.
 To overcome this challenge, an open-source reconciliator (\url{https://github.com/irail/stations}) in PHP was employed to reduce spelling variations and link this with a geographical location. 
 
-The data is then aggregated so that province level flow patterns are emphasised.
+The data is then aggregated so that province level flow patterns are emphasized.
 \todo{Alvin: Figure must be drawn}
 \cref{fig:brussels} provides a diagrammatic representation of the procedure.
 First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (See \cref{fig:brussels}a).
@@ -324,6 +276,53 @@ Interactive filtering is introduced to simplify the visualization and details ar
 \label{sec:results}
 
 In this chapter, we report on the results of studying visualizations with experts of Trein Tram Bus, a not for profit passenger federation. \todo{Trein Tram Bus needs to be introduced in the introduction}
+
+\subsection{Time based analysis}
+
+\begin{figure}
+\centering
+\includegraphics[width=8.6cm]{querylogs}
+\caption{Amount of queries on the route planning part of the iRail API between October 2012 and December 2015. In April 2015 an official app of the Belgian railways was discontinued, which explains the sudden raise of iRail API queries.}
+\label{fig:querylogs}
+\end{figure}
+
+Results from the analysis of this dataset reveal trends in route planning queries that may provide insights into rail travel demand. 
+Three observations in particular prompted further analysis of the data in greater detail. 
+First, there has been a steady increase in the number of queries made between 2012 and 2015. 
+\cref{fig:querylogs} provides a break down of the numbers on a monthly basis. 
+A dinstinctive increase in the number of queries can be observed in April 2015 when the official route planning service provided by of the Belgian rail company was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}}, resulting in widespread adoption of alternative software applications built on top of the iRail API.
+Calculated with indicators provided by the Flemish regional government of Belgium\footnote{\url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}, we infer a monthly average of 19.3, 19.4, 19,6 and 19.7 million passengers in 2012, 2013, 2014 and 2015 respectively. 
+Correspondingly, the average number of iRail queries per month amounts to 0.11, 0.17, 0.15 and 0.33 million respectively.
+Assuming that each request reciprocates with an intention to travel by rail, our data captures a respective $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the actual journeys that have occurred.
+
+\begin{figure}
+\centering
+\includegraphics[width=8.6cm]{avg-all}
+\caption{Distribution of iRail route planning API queries on average per day of the week between October 2012 and December 2015}
+\label{fig:average}
+\end{figure}
+
+Secondly, the daily and hourly distribution of queries appear to correspond with known commuting patterns. 
+\cref{fig:average} depicts a break down of the queries that occur, on average, on an hourly basis for each day of the week.
+Several trends can be observed in this chart. 
+Morning and evening peak periods in particular, are clearly distinguishable.
+At noon, a small dent is noticable, which may be attributed to part time workers and meetings on location after or before noon.
+Peak hours on weekdays are also distinctively different from those of weekends.
+Similarly, the frequency of queries during the evening peak period on Fridays appear to be substantially higher than those that occur between Monday and Thursday.
+The discrepancy maybe explained by students that travel home from their student homes over the weekends. 
+The absence of a clear peak on Saturdays can be attributed to lack of journeys to work queries while the evening peak on Sundays may emerge from students returning to college accommodations.
+
+\begin{figure}
+\centering
+\includegraphics[width=8.6cm]{dec24}
+\caption{Comparison of route planning queries on December 24th (Christmass Eve) 2015 with the average on a Thursday between October 2012 and December 2015. The illustration shows that people started going home earlier than usual.}
+\label{fig:dec24}
+\end{figure}
+
+Finally, the distribution of queries on public holidays is observed to deviate from that of an average day. 
+\cref{fig:dec24} provides a breakdown of queries per hour on Christmas eve, 24th December 2015, in comparison to an average Thursday of the same year. 
+As illustrated, the evening peak on Christmas eve occurs earlier than that of an average Thursday. 
+For these reasons, we believe that route planning query data maybe a viable source of information for flow analysis.%\todo{where people are heading between certain time intervals?}
 
 \subsection{Structure of flows in Belgium}
 
@@ -428,15 +427,18 @@ Turning off caching may work in a private setting where you know how much and wh
 \section{Conclusion and future work}
 \label{sec:conclusion}
 
-First we studied query logs to find travel patterns in Belgium and can conclude this is up to now, the best representation of travel flows over the railway network in Belgium. %, as no alternatives are available.
+Firstly, we studied query logs to find travel patterns in Belgium.
+We conclude that this is up to now, the best representation of travel flows over the Belgian railway network.%, as no alternatives are available.
 We studied data which represent a maximum of 1.66\% of the passengers.
-\todo{ALVIN: Visualizing our dataset reveals the complexity of movement on the Belgian rail system and the significance of cities in weekday travel.
-Furthermore, we found evidence that Flanders is polycentric, while Walloon traffic converges on Brussels.}
+By visualizing the average distribution of requests on workdays and Saturday and Sunday, we were able to recognize the patterns we would expect: a.o. a morning and evening peak on workdays and a bigger evening peak on Friday and Sunday.
+More interestingly, we were able to see that the evening peak on Christmass Eve, Thursday the 24th of December 2015, started earlier than average on Thursdays.
+Visualizing our dataset using the origin and destination reveals the complexity of movement on the Belgian rail system and the significance of cities in weekday travel.
+Furthermore, we found evidence that Flanders is polycentric, while Walloon traffic is monocentric.
 
-Next, we also concluded that there are obvious caveats associated with the use of such data as proxy for actual statistical counts. 
+Secondly, we also concluded that there are obvious caveats associated with the use of such data as proxy for actual statistical counts. 
 We identified a couple of gaps:
 \begin{enumerate}
-  \item The data only captures an intention of a passenger: it's unsure whether the person actually took the train.
+  \item The data only captures an intention of an end-user: it's unsure whether the person actually took the train.
   \item Multiple user queries may be needed to cover a travel intention.
   \item Caching may mask peak hours, as many of the same requests in one minute is only stored in the logs once.
 \end{enumerate}
