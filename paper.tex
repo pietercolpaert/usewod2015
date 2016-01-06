@@ -329,10 +329,13 @@ In this chapter, we report on the results of studying visualizations with expert
 
 The chord diagrams shown in \cref{fig:brussels} and \cref{fig:antwerp} depict the aggregated number of queries made between any two stations in the morning and evening respectively. 
 Visualising our dataset in this manner reveals the complexity of flows on the Belgian rail system and the significance of cities in weekday travel.
+Turning our attention to morning commutes, we can observe that Antwerp, Brussels and Gent are the dominant destinations.
+The reverse occurs in the evening when trips are made towards provincial stations.
 Brussels stands out as the most distinctive visual element in both figures, indicating its function as the principal centre of rail activity.
 On a regional level, its function as a centre appears to be more distinctive for the Walloon region than Flanders.
 With exception to Liege, queries from the Walloon region are generally made from provincial stations towards Brussels instead of major cities within their administrative boundaries. 
-Queries from Flanders, on the hand, tend to be distributed among four major cities otherwise known as the Flemish Diamond, a network of metropolitan areas in Belgium comprised of Ghent, Brussels, Antwerp and Leuven.
+Queries from Flanders, on the hand, tend to be distributed among four major cities otherwise known as the Flemish Diamond, a network of metropolitan areas in Belgium comprised of Ghent, Brussels, Antwerp and Leuven. 
+These insights indicate that the structure of flows in Flanders appear to follow a polycentric pattern while that of the Walloon region is relatively monocentric, with   Brussels as a major centre.
 The difference between both regions appear to correspond with existing measures of population density and degree of urbanisation, providing valuable insight as well as alternative perspectives into the function of cities in rural and urban settings.
 
 \begin{figure}
@@ -348,9 +351,6 @@ The difference between both regions appear to correspond with existing measures 
 \caption{Pair of chord visualization of the city of Antwerp: transit flows towards Antwerp from elsewhere in Belgium and vice versa.}
 \label{fig:antwerp}
 \end{figure}
-
-We can also observe the effect of "density" in Flanders where people move from the rural towards cities. Look at weekday-mornings: commuting towards Gent, Brussels, Antwerp. This is not as obvious in the Walloon region (except for Liege). The reverse occurs on weekday-evenings. Local patterns can also be observed and this corresponds to what we know: ``cities are the central hubs''.
-Walloon region: everything converges on Brussels
 
 \subsection{Inexplicable results}
 
@@ -423,8 +423,8 @@ The public transit agency however has no access any longer to an indication of t
 
 In \cref{fig:LDFAxis2} we illustrate these two options as two extremes, with other options that are yet to be discovered.
 When a \emph{rather low expressive} server only allows to set e.g., a departure station and a departure time, then the server cannot log the arrival station, yet the client is still able to plan a route by executing the algorithm on the client-side~\cite{lc}.
-We would be able to fully rely on the query logs if the expressivity would be maximal (extreme right) and caching would be turned off.
-Turning off caching may work in a private setting where you know how much and what kind of queries you can expect, yet on the open Web, caching helps decrease the CPU load on servers on  peak moments.
+We would be able to fully rely on the query logs if the expressivity would be maximal (extreme right) and caching would be turned off. 
+Turning off caching may work in a private setting where you know how much and what kind of queries you can expect, yet on the open Web, caching helps decrease the CPU load on servers at peak moments.
 
 \section{Conclusion and future work}
 \label{sec:conclusion}
