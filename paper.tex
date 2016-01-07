@@ -252,6 +252,13 @@ In this section we describe the data transformation procedure and data visualiza
 
 \subsection{Processing}
 
+\begin{figure*}
+  \centering
+  \includegraphics[width=14cm]{method-c.pdf}\\
+  \caption{Yet another figure \todo{Alvin: caption to explain what this is}}
+  \label{fig:method-c}
+\end{figure*}
+
 Matching pairs of origin and destination (OD) stations must be aggregated prior to visualization.
 Several stages of data processing are required to arrive at this outcome.
 %As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00 hrs and 10:00 hrs as well as 17:00 hrs and 21:00 hrs on weekdays, and all data records created on weekend.
@@ -262,27 +269,21 @@ One distinctive challenge is the substantial amount of inconsistency in the way 
 Spelling mistakes, and the use of unstandardized abbreviations in particular, reduce the quality and accuracy of the resulting visualization.
 To overcome this challenge, an open-source reconciliator (\url{https://github.com/irail/stations}) was employed to reduce spelling variations and link this with a geographical location. 
 
-\begin{figure*}
+\begin{figure}[h]
   \centering
-  \begin{subfigure}{.475\textwidth}
-    \includegraphics[width=8cm]{method-a.pdf}\\
-    \subcaption{Spatial aggregation based on provincial administrative boundaries}
+  \begin{subfigure}{.2375\textwidth}
+    \includegraphics[width=4cm]{method-a.pdf}\\
+    \subcaption{Lines and dots\todo{Alvin}} % 4 words max
     \label{fig:method-a}
   \end{subfigure}%
-  \begin{subfigure}{.475\textwidth}
-    \includegraphics[width=8cm]{method-b.pdf}\\
-    \subcaption{\todo{Alvin: caption to explain what this is}}
+  \begin{subfigure}{.2375\textwidth}
+    \includegraphics[width=4cm]{method-b.pdf}\\
+    \subcaption{arrows and dots\todo{Alvin}} % 4words max
     \label{fig:method-b}
   \end{subfigure}%
-  \hfill%
-  \begin{subfigure}{0.9\textwidth}
-    \includegraphics[width=15cm]{method-c.pdf}\\
-    \subcaption{Yet another subfigure \todo{Alvin: caption to explain what this is}}
-    \label{fig:method-c}
-  \end{subfigure}%
-  \caption{General caption of the image \todo{Alvin: caption to explain what this is}}
-  \label{fig:method}
-\end{figure*}
+  \vspace{5.0pt}% To create a bit of vertical space between the 2 figure captions
+  \caption{With the arrow and dots and the lines and dots you can see that TODO \todo{Alvin: can you write a caption here?}}
+\end{figure}
 
 The data is then aggregated so that province level flow patterns are emphasized.
 \cref{fig:method} provides a diagrammatic representation of the procedure.
