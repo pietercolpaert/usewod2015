@@ -132,22 +132,21 @@ However, better analytics would be acquirable using dedicated HTTP POST requests
 \label{sec:introduction}
 
 %\todo{Rework introduction at the end}
+Today, the Belgian railway company (SNCB) takes manual samples of people getting on and off trains in stations. 
+To date, this is still the SNCB's only source to determine people flows through their network\footnote{\url{http://www.belgianrail.be/nl/corporate/in-de-kijker/comptages_voyageurs_2014.aspx}}.
+Also within other transit systems the data is tedious to get, certainly when passengers do not have to check-in and check-out.
+Nonetheless, indications of how people move within your transit network is of uttermost importance for, amongst others, taking demand-driven policy decisions concerning mobility.
 
 The \emph{iRail} project\footnote{\url{https://hello.irail.be}} started in 2008 to make the data of the Belgian railway accessible for developers.
 Ever since, the project offers developer both a data dump for third party apps ($\sim$~August~2015) and a route planning API ($\sim$~October~2010).
 The query logs of the latter has been stored since November 2012 (requests before that period got lost due to server migrations).
 
-Getting indications of people flows through public transit networks is a challenge.
-Today, the Belgian railway company (SNCB) takes samples, manually, of people getting on and off trains in stations. 
-To date, this is still the SNCB's only source to determine people flows through their network\footnote{\url{http://www.belgianrail.be/nl/corporate/in-de-kijker/comptages_voyageurs_2014.aspx}}.
-Also within other transit systems the data is tedious to get, certainly when passengers do not have to check-in and check-out.
-
-\emph{Can we get an indication of these transit flows by studying the query logs of Web-services?}
+Getting indications of people flows through public transit networks is a challenge. 
+Yet, \emph{can we not get an indication of these transit flows by studying the query logs of Web-services?}
 
 In this paper, we give a small overview of related work to gather data for flow analysis.
-We study these query logs by creating a couple of visualizations which illustrate a couple of patterns.
-Next, we study the iRail query logs to find out whether we can find interesting patterns.
-Finally, we look at public transit data is being published, and how we would be able to get a better .
+Next, we introduce the iRail query logs, which we study by the means of visualizations.
+Finally, we look at public transit data is being published, and how we would be able to get a better indication of travel flows than just mere query logs.
 
 \section{Related work}
 \label{sec:relwork}
