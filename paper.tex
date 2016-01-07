@@ -125,7 +125,7 @@ The findings correspond to the real travel demand, according to experts of the p
 % Conclusion
 We conclude that query logs of route planners are of high importance in getting an indication of travel flows.
 % Perspectives
-However, better travel intentions would be acquirable using dedicated HTTP POST requests.
+However, better analytics would be acquirable using dedicated HTTP POST requests to capture travel intentions.
 %%Redundant according to RV:
 %Highly expressive transport data publishing methods such as route planning API exist, as well as data dumps or data fragments.
 %In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
@@ -220,10 +220,10 @@ We made a copy of this dataset available in CSV format can be downloaded at \tod
 Each row within this dataset contains:
 \begin{enumerate}
 \item A timestamp of when the request was executed,
-\item The request path between two stations with longitudes and latitudes,
+\item The request path between two stations and their associated geographic coordinates,
 \item The user-agent string cfr. RFC2616,
 \item The operating system of the user-agent and
-\item Whether or not the user-agent is a bot.
+\item A flag for whether the user-agent is a bot.
 \end{enumerate}
 
 \begin{figure}
@@ -252,42 +252,42 @@ Several stages of data processing are required to arrive at this outcome.
 
 \subsection{Data Processing}
 
-As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00 hrs and 10:00 hrs as well as 17:00 hrs and 21:00 hrs on weekdays, and all data records created on weekend.
+As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00 hours and 10:00 hours as well as 17:00 hours and 21:00 hours on weekdays, and all data records created on weekend.
 Queries made by automated user-agents like search engine bots and data harvesters can be considered as valid traffic but may over represent connections between certain stations.
-We have excluded such queries since we are specifically interested in studying human travel behavior.
+Such queries have been excluded since we are specifically interested in studying human travel behavior.
 Station names tend to contain be highly inconsistent since any text information can be parsed to the API.
 This may include invalid character encoding, spelling mistakes and the use of unstandardized abbreviations.
 We employ an open-source reconciliator (\url{https://github.com/irail/stations}) to reduce spelling variations and remove data records with missing information. 
-Additionally, station names are automatically linked to their correspodinging geographical coordinates through this process.
+Additionally, it automatically links station names to their corresponding geographical coordinates.
 
 \begin{figure*}
   \centering
   \includegraphics[width=14cm]{method-c.pdf}\\
-  \caption{Spatial aggregation based on provincial administrative boundaries. Each station is color coded to indicate the province it will be aggregated to. Stations in major cities as well as stations outside of Belgium are aggregated to seperate distinct groups.}
-  \label{fig:method-c}
+  \caption{Each station is color coded to indicate the province it will be aggregated to. Stations in major cities as well as stations outside of Belgium are aggregated to seperate groups.}
+  \label{fig:method-b}
 \end{figure*}
 
 \begin{figure}[h]
   \centering
   \begin{subfigure}{.2375\textwidth}
     \includegraphics[width=4cm]{method-a.pdf}\\
-    \subcaption{Lines and dots\todo{Alvin}} % 4 words max
-    \label{fig:method-a}
+    \subcaption{} % 4 words max
+    %\label{fig:method-a}
   \end{subfigure}%
   \begin{subfigure}{.2375\textwidth}
     \includegraphics[width=4cm]{method-b.pdf}\\
-    \subcaption{arrows and dots\todo{Alvin}} % 4words max
-    \label{fig:method-b}
+    \subcaption{} % 4words max
+    %\label{fig:method-b}
   \end{subfigure}%
   \vspace{5.0pt}% To create a bit of vertical space between the 2 figure captions
-  \caption{With the arrow and dots and the lines and dots you can see that TODO \todo{Alvin: can you write a caption here?}}
+  \label{fig:method-a}
+  \caption{Spatial aggregation based on provincial administrative boundaries diagrammatically represented. (a) Individual data records are depicted geographically with arrows connecting origins to their respective destinations. (b) The result of aggregation is a set of weighted connections between provinces.}
 \end{figure}
 
 Next, the data is aggregated so that province level flow patterns are emphasized.
-\cref{fig:method} provides a diagrammatic representation of the procedure.
-First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (see \cref{fig:method-a}).
-Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (see \cref{fig:method-b}).
-If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (see \cref{fig:method-c}).
+\todo{Pieter: I can't seem to link the figure here} provides a diagrammatic representation of spatial aggregation on the basis of provincial administrative boundaries.
+To compare the volume of flow between rural provincial areas and urbanized zones, train stations in major cities are aggregated seperately. 
+If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group. A diagrammtic breakdown is depicted in \todo{Pieter: Same problem here...} where color and shape is used to demarcate each group.
 The following types of flows are observable from the outcome of aggregation:
 
 \begin{itemize}
