@@ -322,12 +322,18 @@ In this chapter, we report on the results of studying visualizations with expert
 %Isn't this sufficient ↑? \todo{Trein Tram Bus needs to be introduced in the introduction}
 
 \subsection{Time based analysis}
-
-\begin{figure}
+\begin{figure}[h]
 \centering
 \includegraphics[width=8.6cm]{avg-all}
 \caption{Distribution of iRail route planning API queries on average per day of the week between October 2012 and December 2015}
 \label{fig:average}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=8.6cm]{dec24}
+\caption{Comparison of route planning queries on December 24th (Christmass Eve) 2015 with the average on a Thursday between October 2012 and December 2015. The illustration shows that people started going home earlier than usual.}
+\label{fig:dec24}
 \end{figure}
 
 Results from the analysis of this dataset reveal trends in route planning queries that may provide insights into rail travel demand. 
@@ -341,12 +347,6 @@ Similarly, the frequency of queries during the evening peak period on Fridays ap
 The discrepancy maybe explained by students that travel home from their student homes over the weekends. 
 The absence of a clear peak on Saturdays can be attributed to lack of journeys to work queries while the evening peak on Sundays may emerge from students returning to college accommodations.
 
-\begin{figure}
-\centering
-\includegraphics[width=8.6cm]{dec24}
-\caption{Comparison of route planning queries on December 24th (Christmass Eve) 2015 with the average on a Thursday between October 2012 and December 2015. The illustration shows that people started going home earlier than usual.}
-\label{fig:dec24}
-\end{figure}
 
 Moreover, the distribution of queries on public holidays is observed to deviate from that of an average day. 
 \cref{fig:dec24} provides a breakdown of queries per hour on Christmas eve, December 24th 2015, in comparison to an average Thursday of the same year. 
