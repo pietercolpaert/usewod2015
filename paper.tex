@@ -23,7 +23,13 @@
 \usepackage{tikz}
 \usepackage{tkz-graph}
 \usetikzlibrary{arrows,positioning,shapes.misc}
+%\let\subcaption\relax
 \usepackage{graphicx}
+%\usepackage[caption=false]{subfig}
+%\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup[figure]{labelfont=bf,textfont=bf}
+\captionsetup[subfigure]{labelfont=normalfont,textfont=normalfont}
 \definecolor{lightgrey}{RGB}{170, 170, 170}
 \definecolor{darkblue}{RGB}{0, 0, 0}
 \definecolor{darkred}{RGB}{170, 0, 0}
@@ -256,12 +262,33 @@ One distinctive challenge is the substantial amount of inconsistency in the way 
 Spelling mistakes, and the use of unstandardized abbreviations in particular, reduce the quality and accuracy of the resulting visualization.
 To overcome this challenge, an open-source reconciliator (\url{https://github.com/irail/stations}) was employed to reduce spelling variations and link this with a geographical location. 
 
+\begin{figure*}
+  \centering
+  \begin{subfigure}{.475\textwidth}
+    \includegraphics[width=8cm]{method-a.pdf}\\
+    \subcaption{Spatial aggregation based on provincial administrative boundaries}
+    \label{fig:method-a}
+  \end{subfigure}%
+  \begin{subfigure}{.475\textwidth}
+    \includegraphics[width=8cm]{method-b.pdf}\\
+    \subcaption{\todo{Alvin: caption to explain what this is}}
+    \label{fig:method-b}
+  \end{subfigure}%
+  \hfill%
+  \begin{subfigure}{0.9\textwidth}
+    \includegraphics[width=15cm]{method-c.pdf}\\
+    \subcaption{Yet another subfigure \todo{Alvin: caption to explain what this is}}
+    \label{fig:method-c}
+  \end{subfigure}%
+  \caption{General caption of the image \todo{Alvin: caption to explain what this is}}
+  \label{fig:method}
+\end{figure*}
+
 The data is then aggregated so that province level flow patterns are emphasized.
-\todo{Alvin: Figure must be drawn}
-\cref{fig:brussels} provides a diagrammatic representation of the procedure.
-First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (See \cref{fig:brussels}a).
-If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (See \cref{fig:brussels}b).
-Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (See \cref{fig:brussels}c).
+\cref{fig:method} provides a diagrammatic representation of the procedure.
+First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (see \cref{fig:method-a}).
+Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (see \cref{fig:method-b}).
+If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (see \cref{fig:method-c}).
 The following types of flows are observable from the outcome of aggregation:
 
 \begin{itemize}
