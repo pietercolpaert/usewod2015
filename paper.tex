@@ -23,7 +23,13 @@
 \usepackage{tikz}
 \usepackage{tkz-graph}
 \usetikzlibrary{arrows,positioning,shapes.misc}
+%\let\subcaption\relax
 \usepackage{graphicx}
+%\usepackage[caption=false]{subfig}
+%\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup[figure]{labelfont=bf,textfont=bf}
+\captionsetup[subfigure]{labelfont=normalfont,textfont=normalfont}
 \definecolor{lightgrey}{RGB}{170, 170, 170}
 \definecolor{darkblue}{RGB}{0, 0, 0}
 \definecolor{darkred}{RGB}{170, 0, 0}
@@ -131,14 +137,13 @@ However, better analytics would be acquirable using dedicated HTTP POST requests
 \section{Introduction}
 \label{sec:introduction}
 
-%\todo{Rework introduction at the end}
 Today, the Belgian railway company (SNCB) takes manual samples of people getting on and off trains in stations. 
 To date, this is still the SNCB's only source to determine people flows through their network\footnote{\url{http://www.belgianrail.be/nl/corporate/in-de-kijker/comptages_voyageurs_2014.aspx}}.
 Also within other transit systems the data is tedious to get, certainly when passengers do not have to check-in and check-out.
-Nonetheless, indications of how people move within your transit network is of uttermost importance for, amongst others, taking demand-driven policy decisions concerning mobility.
+Nonetheless, indications of how people move within a transit network is of uttermost importance for, amongst others, making demand-driven policy decisions concerning mobility.
 
 The \emph{iRail} project\footnote{\url{https://hello.irail.be}} started in 2008 to make the data of the Belgian railway accessible for developers.
-Ever since, the project offers developer both a data dump for third party apps ($\sim$~August~2015) and a route planning API ($\sim$~October~2010).
+The project offers developers both a data dump for third party apps (since $\sim$~August~2015) and a route planning API (since $\sim$~October~2010).
 The query logs of the latter has been stored since November 2012 (requests before that period got lost due to server migrations).
 
 Getting indications of people flows through public transit networks is a challenge. 
@@ -151,8 +156,6 @@ Finally, we look at public transit data is being published, and how we would be 
 \section{Related work}
 \label{sec:relwork}
 
-\todo{Write relwork at the end}
-
 \emph{Flow analysis} is a topic of theoretical interest and practical importance in various disciplines. 
 Flow analysis is conventionally conducted to study spatial dynamics and identify routine patterns in the movement of people.
 For instance, interest in modelling traffic flows emerged from the strain placed on urban transportation systems during peak hours~\cite{roth,ferreira}.
@@ -162,15 +165,24 @@ Over the past decade, large datasets have become increasingly commonplace due to
 Termed ``Big Data'' due to the large volume of data records that emerge from real-time sensing\cite{kitchin}, such datasets typically contain information of activities or processes linked to the space and time where they occur.
 In the domain of ``Smart City'' research, much has been accomplished with the use of ``Big Data'' to monitor human movement.
 Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys~\cite{ferreira} as well as cellular call data~\cite{sevtsuk} have provided planners with new opportunities to develop greater understanding of mobility patterns in urban environments~\cite{batty}.
+Yet query logs were, to our knowledge, never used for flow analysis so far.
 
-In order to study data representing data flows, visualizing it is paramount.
+On highly expressive servers, such as \sparql-endpoints, query logs can play an important role in fine-tuning the underlying datastores~\cite{arias2011empirical}.
+E.g., they determined that in 2011 in the context of the graph query language \sparql, most of the queries are simple and include few triple patterns and joins.
+Furthermore, the graph patterns are usually star-shaped and despite triple pattern chains exist, they are generally short.
+Other, more cacheable interfaces more to the left on the Linked~Data~Fragments axis~\cite{ldf}, also benefit from query logs in order to e.g., know who is using what clients to query the Web, yet the user intention is lost~\cite{usewod2015}.
+This was called ``a blessing for privacy'', yet adding the user query as an HTTP header was suggested.
+
+Visualizations are crucial to understanding the patterns in data representing transit flows.
 Origin Destination (OD) type representations are used when the origin and destination preside over intermediate locations on the path of movement. 
 The OD Matrix is most common visualization technique in this type of representation. 
 Rows and columns correspond to locations while cells are coloured to express the volume of flow.
 OD matrices can be reordered to emphasise connectivity between locations.
 While this feature is particularly useful for identifying trends and outliers in the data, the tabular display is challenging for lay users to interpret and less expressive of connections between locations than representations based on the node-link metaphor.
-In recent years, such representations have become increasingly prominent for displaying movement in scientific publications as well as popular culture.\todo{citation needed?}
+In recent years, such representations have become increasingly prominent for displaying movement in scientific publications as well as popular culture.
 Locations are depicted as nodes and arrows are drawn between them to indicate movement in a certain direction, allowing for exact and individual relationships to be traced.
+\todo{PC: Alvin, can we have a citation for this paragraph? Maybe you can cite one your own papers here?}
+
 
 \section{The query logs}
 \label{sec:logs}
@@ -250,12 +262,33 @@ One distinctive challenge is the substantial amount of inconsistency in the way 
 Spelling mistakes, and the use of unstandardized abbreviations in particular, reduce the quality and accuracy of the resulting visualization.
 To overcome this challenge, an open-source reconciliator (\url{https://github.com/irail/stations}) was employed to reduce spelling variations and link this with a geographical location. 
 
+\begin{figure*}
+  \centering
+  \begin{subfigure}{.475\textwidth}
+    \includegraphics[width=8cm]{method-a.pdf}\\
+    \subcaption{Spatial aggregation based on provincial administrative boundaries}
+    \label{fig:method-a}
+  \end{subfigure}%
+  \begin{subfigure}{.475\textwidth}
+    \includegraphics[width=8cm]{method-b.pdf}\\
+    \subcaption{\todo{Alvin: caption to explain what this is}}
+    \label{fig:method-b}
+  \end{subfigure}%
+  \hfill%
+  \begin{subfigure}{0.9\textwidth}
+    \includegraphics[width=15cm]{method-c.pdf}\\
+    \subcaption{Yet another subfigure \todo{Alvin: caption to explain what this is}}
+    \label{fig:method-c}
+  \end{subfigure}%
+  \caption{General caption of the image \todo{Alvin: caption to explain what this is}}
+  \label{fig:method}
+\end{figure*}
+
 The data is then aggregated so that province level flow patterns are emphasized.
-\todo{Alvin: Figure must be drawn}
-\cref{fig:brussels} provides a diagrammatic representation of the procedure.
-First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (See \cref{fig:brussels}a).
-If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (See \cref{fig:brussels}b).
-Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (See \cref{fig:brussels}c).
+\cref{fig:method} provides a diagrammatic representation of the procedure.
+First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (see \cref{fig:method-a}).
+Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (see \cref{fig:method-b}).
+If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group (see \cref{fig:method-c}).
 The following types of flows are observable from the outcome of aggregation:
 
 \begin{itemize}
