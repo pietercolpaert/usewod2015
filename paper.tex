@@ -125,7 +125,7 @@ The findings correspond to the real travel demand, according to experts of the p
 % Conclusion
 We conclude that query logs of route planners are of high importance in getting an indication of travel flows.
 % Perspectives
-However, better analytics would be acquirable using dedicated HTTP POST requests to capture travel intentions.
+However, better travel intentions would be acquirable using dedicated HTTP POST requests.
 %%Redundant according to RV:
 %Highly expressive transport data publishing methods such as route planning API exist, as well as data dumps or data fragments.
 %In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
@@ -264,7 +264,7 @@ Additionally, it automatically links station names to their corresponding geogra
   \centering
   \includegraphics[width=14cm]{method-c.pdf}\\
   \caption{Each station is color coded to indicate the province it will be aggregated to. Stations in major cities as well as stations outside of Belgium are aggregated to seperate groups.}
-  \label{fig:method-b}
+  \label{fig:method-c}
 \end{figure*}
 
 \begin{figure}[h]
@@ -272,22 +272,23 @@ Additionally, it automatically links station names to their corresponding geogra
   \begin{subfigure}{.2375\textwidth}
     \includegraphics[width=4cm]{method-a.pdf}\\
     \subcaption{} % 4 words max
-    %\label{fig:method-a}
+    \label{fig:method-a}
   \end{subfigure}%
   \begin{subfigure}{.2375\textwidth}
     \includegraphics[width=4cm]{method-b.pdf}\\
     \subcaption{} % 4words max
-    %\label{fig:method-b}
+    \label{fig:method-b}
   \end{subfigure}%
   \vspace{5.0pt}% To create a bit of vertical space between the 2 figure captions
-  \label{fig:method-a}
+  \label{fig:method}
   \caption{Spatial aggregation based on provincial administrative boundaries diagrammatically represented. (a) Individual data records are depicted geographically with arrows connecting origins to their respective destinations. (b) The result of aggregation is a set of weighted connections between provinces.}
 \end{figure}
 
 Next, the data is aggregated so that province level flow patterns are emphasized.
-\todo{Pieter: I can't seem to link the figure here} provides a diagrammatic representation of spatial aggregation on the basis of provincial administrative boundaries.
+\cref{fig:method} provides a diagrammatic representation of spatial aggregation on the basis of provincial administrative boundaries.
 To compare the volume of flow between rural provincial areas and urbanized zones, train stations in major cities are aggregated seperately. 
-If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group. A diagrammtic breakdown is depicted in \todo{Pieter: Same problem here...} where color and shape is used to demarcate each group.
+If an origin or destination station is a located outside of Belgium, it is considered international travel and aggregated in a distinct group. 
+A diagrammatic breakdown is depicted in \cref{fig:method-c} where color and shape is used to demarcate each group.
 The following types of flows are observable from the outcome of aggregation:
 
 \begin{itemize}
