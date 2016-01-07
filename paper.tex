@@ -113,8 +113,7 @@ In order to get an indication of travel flows between cities in Belgium,
 we analyzed the query logs of the iRail API, a highly expressive route planning API for the Belgian railways.
 We were able to study $\sim$100k to 500k requests for each month between October 2012 and November 2015, which is between $0.56\%$ and $1.66\%$ of the amount of monthly passengers.
 % Object & Findings
-We illustrate that we can see morning and evening peaks in the query logs.
-Moreover, using origin-destination visualizations, we can confirm that Brussels, the capital, acts as a central hub.
+Using data visualizations, we illustrate the commuting patterns in Belgium and confirm that Brussels, the capital, acts as a central hub. 
 The Flemish region appears to be polycentric, while in the Walloon region, everything converges on Brussels.
 The findings correspond to the real travel demand, according to experts of the passenger federation Trein Tram Bus.
 % Conclusion
@@ -192,7 +191,7 @@ As of the 17th of December 2015, iRail publishes the most recent 1,000 requests 
 In order to publish this data, we chose a newline-based format: each new line contains a new query object encoded in JSON. 
 The JSON objects can be read one per one, so UNIX commands such as \emph{grep} work well with this format.
 We chose this over CSV as we have more flexibility towards changing the object properties in the future.
-Next, we chose to add an HTTP header with a link to the query log context according to the JSON-LD specification\footnote{\url{}} to turn it into Linked Data.
+Next, we chose to add an HTTP header with a link to the query log context according to the JSON-LD specification\footnote{\url{http://www.w3.org/TR/json-ld/}} to turn it into Linked Data.
 %This is the JSON-LD context of all the objects in the, JSON-stream. Subsequentially, we call this a \emph{JSONLD-stream} and this has been formalized at \emph{https://github.com/pietercolpaert/jsonld-stream}.
 
 Using this data, everyone can build their own historic query log dataset.
@@ -205,7 +204,7 @@ Additionally, the integrity of this dataset, without IP addresses, has been vett
 We are particularly interested in studying the potential application of \emph{route planning} queries as an information resource for flow analysis due to the input it captures from human users.
 The other features are less relevant for this purpose as they are generally polled by digital signage providers or status boards, and thus do not reflect direct human demands.
 The dataset described in this paper is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015, filtered by ``connections'' entries.
-We made a copy of this dataset in CSV format available at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
+We made a copy of this dataset available in CSV format can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 %CSV header of the final logs: datetime,requested_datetime,from_id,from_name,from_long,from_lat,to_id,to_name,to_long,to_lat,user_agent,operating_system,is_bot
 Each row within this dataset contains:
 \begin{enumerate}
@@ -231,7 +230,6 @@ Correspondingly, the average number of iRail queries per month amounts to 0.11, 
 Assuming that each request reciprocates with an intention to travel by rail, our data captures a respective $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the actual journeys that have occurred.
 
 %After analysis, it appeared 10\% of the request where performed by Google bots.
-%\todo{add glue to Method section?}
 
 \section{Method}
 \label{sec:method}
@@ -245,6 +243,7 @@ In this section we describe the data transformation procedure and data visualiza
 
 Matching pairs of origin and destination (OD) stations must be aggregated prior to visualization.
 Several stages of data processing are required to arrive at this outcome.
+%As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00 hrs and 10:00 hrs as well as 17:00 hrs and 21:00 hrs on weekdays, and all data records created on weekend.
 While queries made by automated user agents like search engine bots and data harvesters can be considered as valid traffic, they may over represent connections between certain stations.
 In this regard, such queries have been excluded to improve the accuracy of our analysis. 
 Similarly, data records with unparsable origin or destination station names due to invalid character encoding were removed. 
@@ -354,8 +353,10 @@ The difference between both regions appear to correspond with existing measures 
 There are several inconsistent patterns in the data that do not correspond with an existing understanding of flows in Belgium.
 In particular, the large number of trips made between Antwerp city and other stations within the province of Antwerp in the morning, is not observable in other major cities in Flanders.
 Further investigation led to the identification of an isolated connection originating from Antwerp city towards a suburb, suggesting anomalous usage of the iRail API that were not flagged as bots or a high concentration people who utilise route planning applications on a regular basis.
+Alternatively the large number of trips may have originated from users who repeatedly request for updates on delayed trains or from a concentration of people who utilise route planning applications on a regular basis.
 Accordingly, the reverse is identified in Liège where an unusually large connection originating from a suburb towards Liege city.
 This prompted speculation, as well as discussions, on how such outliers should be treated or what may have led to their existence.
+As with any form of analysis based on appropriation of data, we acknowledge that more work is required to identify caveats and understand the validity of the findings presented.
 
 \section{Publishing transport data}
 \label{sec:publishing}
