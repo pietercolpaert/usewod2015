@@ -248,26 +248,24 @@ Assuming that each request reciprocates with an intention to travel by rail, our
 Flow analysis involves the comparison of aggregated movement between distinct locations within a specific time frame. 
 In most cases, the analytical objective is to identify trends that occur in journeys made between pairs of locations and allow for the sensitivities to be explored. 
 Data visualization is typically employed to facilitate in this process thus the input data must be transformed into a format that allows for the quantity and directional flow of movement to be visually encoded.
-In this section we describe the data transformation procedure and data visualization technique employed in our case study.
+Several stages of data processing are required to arrive at this outcome.
 
-\subsection{Processing}
+\subsection{Data Processing}
+
+As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00 hrs and 10:00 hrs as well as 17:00 hrs and 21:00 hrs on weekdays, and all data records created on weekend.
+Queries made by automated user-agents like search engine bots and data harvesters can be considered as valid traffic but may over represent connections between certain stations.
+We have excluded such queries since we are specifically interested in studying human travel behavior.
+Station names tend to contain be highly inconsistent since any text information can be parsed to the API.
+This may include invalid character encoding, spelling mistakes and the use of unstandardized abbreviations.
+We employ an open-source reconciliator (\url{https://github.com/irail/stations}) to reduce spelling variations and remove data records with missing information. 
+Additionally, station names are automatically linked to their correspodinging geographical coordinates through this process.
 
 \begin{figure*}
   \centering
   \includegraphics[width=14cm]{method-c.pdf}\\
-  \caption{Yet another figure \todo{Alvin: caption to explain what this is}}
+  \caption{Spatial aggregation based on provincial administrative boundaries. Each station is color coded to indicate the province it will be aggregated to. Stations in major cities as well as stations outside of Belgium are aggregated to seperate distinct groups.}
   \label{fig:method-c}
 \end{figure*}
-
-Matching pairs of origin and destination (OD) stations must be aggregated prior to visualization.
-Several stages of data processing are required to arrive at this outcome.
-%As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00 hrs and 10:00 hrs as well as 17:00 hrs and 21:00 hrs on weekdays, and all data records created on weekend.
-While queries made by automated user agents like search engine bots and data harvesters can be considered as valid traffic, they may over represent connections between certain stations.
-In this regard, such queries have been excluded to improve the accuracy of our analysis. 
-Similarly, data records with unparsable origin or destination station names due to invalid character encoding were removed. 
-One distinctive challenge is the substantial amount of inconsistency in the way station names are logged. 
-Spelling mistakes, and the use of unstandardized abbreviations in particular, reduce the quality and accuracy of the resulting visualization.
-To overcome this challenge, an open-source reconciliator (\url{https://github.com/irail/stations}) was employed to reduce spelling variations and link this with a geographical location. 
 
 \begin{figure}[h]
   \centering
@@ -285,7 +283,7 @@ To overcome this challenge, an open-source reconciliator (\url{https://github.co
   \caption{With the arrow and dots and the lines and dots you can see that TODO \todo{Alvin: can you write a caption here?}}
 \end{figure}
 
-The data is then aggregated so that province level flow patterns are emphasized.
+Next, the data is aggregated so that province level flow patterns are emphasized.
 \cref{fig:method} provides a diagrammatic representation of the procedure.
 First, both origin and destination stations for each data record are spatially aggregated based on provincial administrative boundaries (see \cref{fig:method-a}).
 Train stations in major cities are excluded from aggregation so that the volume of flow between provinces and major cities are comparable (see \cref{fig:method-b}).
