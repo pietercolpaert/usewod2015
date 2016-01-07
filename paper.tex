@@ -111,16 +111,18 @@ Yet, getting statistics of travel flows within public transit systems has proven
 % Task
 In order to get an indication of travel flows between cities in Belgium,
 we analyzed the query logs of the iRail API, a highly expressive route planning API for the Belgian railways.
-We were able to study $\sim$100k to 500k requests for each month between October 2012 and November 2015, which is between $0.5\%$ and $1.7\%$ of the amount of monthly passengers.
+We were able to study $\sim$100k to 500k requests for each month between October 2012 and November 2015, which is between $0.56\%$ and $1.66\%$ of the amount of monthly passengers.
 % Object & Findings
-Using data visualizations, we illustrate the commuting patterns in Belgium and confirm that Brussels, the capital, acts as a central hub. The Flemish region appears to be polycentric, while in the Walloon region, everything converges on Brussels.
+Using data visualizations, we illustrate the commuting patterns in Belgium and confirm that Brussels, the capital, acts as a central hub. 
+The Flemish region appears to be polycentric, while in the Walloon region, everything converges on Brussels.
 The findings correspond to the real travel demand, according to experts of the passenger federation Trein Tram Bus.
 % Conclusion
 We conclude that query logs of route planners are of high importance in getting an indication of travel flows.
 % Perspectives
-\rv{These last sentences don't fit well. They could be removed.}
-Highly expressive transport data publishing methods such as route planning API exist, as well as low expressive data dumps or data fragments.
-In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
+However, better analytics would be acquirable using dedicated HTTP POST requests to capture travel intentions.
+%%Redundant according to RV:
+%Highly expressive transport data publishing methods such as route planning API exist, as well as data dumps or data fragments.
+%In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
 
 \end{abstract}
 
@@ -129,38 +131,22 @@ In order to be able to gather meaningful logs in all cases, we suggest using a s
 \section{Introduction}
 \label{sec:introduction}
 
-\todo{Rework introduction at the end}
+%\todo{Rework introduction at the end}
+Today, the Belgian railway company (SNCB) takes manual samples of people getting on and off trains in stations. 
+To date, this is still the SNCB's only source to determine people flows through their network\footnote{\url{http://www.belgianrail.be/nl/corporate/in-de-kijker/comptages_voyageurs_2014.aspx}}.
+Also within other transit systems the data is tedious to get, certainly when passengers do not have to check-in and check-out.
+Nonetheless, indications of how people move within your transit network is of uttermost importance for, amongst others, taking demand-driven policy decisions concerning mobility.
 
-%Today, public transport data still remains absent from the Linked Open Data cloud\footnote{\url{http://lod-cloud.net/}}.
-%Bizarre, one could notice, as many open transport datasets are already available, according to the Global Open Data Index of 2014\footnote{\url{http://index.okfn.org/dataset/timetables/2014/}}.
-%We can imagine that, what contributed to this, are the de-facto standard ways to publish public transit data to the Web.
-%There are currently two ways, as illustrated in \cref{fig:LDFAxis1}: publishing data using the General Transit Feed Specification (GTFS) and offering a route planning service.
+The \emph{iRail} project\footnote{\url{https://hello.irail.be}} started in 2008 to make the data of the Belgian railway accessible for developers.
+Ever since, the project offers developer both a data dump for third party apps ($\sim$~August~2015) and a route planning API ($\sim$~October~2010).
+The query logs of the latter has been stored since November 2012 (requests before that period got lost due to server migrations).
 
-%\emph{GTFS}, on the one hand, is a data dump format: it is a compressed ZIP-file, containing a couple of CSV-files, describing the rules for when a public transit vehicle will pass by on a certain location.
-%The specification is a huge success: up to date, it is supported among all current open source route planning software systems, and it is used in products such as \emph{CityMapper}, \emph{Ally}, \emph{Navitia.io}, \emph{Google Maps} and \emph{Bing Maps}.
-%Persistence of the identifiers used within these datasets, is not a requirement, neither is it an ambition of the format\footnote{\url{https://groups.google.com/forum/#!msg/gtfs-changes/Z8Mf31MaZms/8Hc9F4psAQAJ}}.
-%The goal of GTFS is to create an exchange format which specific software packages can use to transform it into their format of choice.
-
-%On the other hand, public transit agencies also publish their data by providing \emph{route planners}.
-%These route planner offer a query service on top of the data and expose these over the Web.
-%However, when machines should access these, rate limiters are common place: only a limited amount of queries should be done in order for the service to be able to stay online.
-
-%\input{ldfaxis1}
-
-Getting indications of people flows through public transit networks is a challenge.
-The data is tedious to get, mainly with public transit systems where passengers don't have to check-in and check-out.
-Nevertheless, people are calculating their intended routes by using the Web.
-\emph{Can we get an indication of these transit flows by studying the query logs of Web-services?}
-
-The \emph{iRail} project\footnote{\url{http://hello.irail.be}} started in 2008 to make the data of the Belgian railway accessible for developers.
-Ever since, the project offers developer both a GTFS data dump for third party apps and a route planning API.
-The query logs of this API has been stored since 2013.
-We study these query logs by creating a couple of visualizations which illustrate a couple of patterns.
-Two of the documented patterns in this paper correspond to reality, another does not.
+Getting indications of people flows through public transit networks is a challenge. 
+Yet, \emph{can we not get an indication of these transit flows by studying the query logs of Web-services?}
 
 In this paper, we give a small overview of related work to gather data for flow analysis.
-Next, we study the iRail query logs to find out whether we can find interesting patterns.
-Finally, we look at Linked~Connections~\cite{lc}, a proposed new way of publishing queryable public transit data, and whether we would still be able to have an indication of the transit flows with a Linked Data Fragments~\cite{ldf} approach.
+Next, we introduce the iRail query logs, which we study by the means of visualizations.
+Finally, we look at public transit data is being published, and how we would be able to get a better indication of travel flows than just mere query logs.
 
 \section{Related work}
 \label{sec:relwork}
@@ -177,12 +163,13 @@ Termed ``Big Data'' due to the large volume of data records that emerge from rea
 In the domain of ``Smart City'' research, much has been accomplished with the use of ``Big Data'' to monitor human movement.
 Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys~\cite{ferreira} as well as cellular call data~\cite{sevtsuk} have provided planners with new opportunities to develop greater understanding of mobility patterns in urban environments~\cite{batty}.
 
-OD type representations are used when the origin and destination preside over intermediate locations on the path of movement. 
+In order to study data representing data flows, visualizing it is paramount.
+Origin Destination (OD) type representations are used when the origin and destination preside over intermediate locations on the path of movement. 
 The OD Matrix is most common visualization technique in this type of representation. 
 Rows and columns correspond to locations while cells are coloured to express the volume of flow.
 OD matrices can be reordered to emphasise connectivity between locations.
 While this feature is particularly useful for identifying trends and outliers in the data, the tabular display is challenging for lay users to interpret and less expressive of connections between locations than representations based on the node-link metaphor.
-In recent years, such representations have become increasingly prominent for  displaying movement in scientific publications as well as popular culture.
+In recent years, such representations have become increasingly prominent for displaying movement in scientific publications as well as popular culture.\todo{citation needed?}
 Locations are depicted as nodes and arrows are drawn between them to indicate movement in a certain direction, allowing for exact and individual relationships to be traced.
 
 \section{The query logs}
@@ -203,19 +190,18 @@ As of the 17th of December 2015, iRail publishes the most recent 1,000 requests 
 In order to publish this data, we chose a newline-based format: each new line contains a new query object encoded in JSON. 
 The JSON objects can be read one per one, so UNIX commands such as \emph{grep} work well with this format.
 We chose this over CSV as we have more flexibility towards changing the object properties in the future.
-Next, we chose to add an HTTP header with a link to the query log context according to the JSON-LD specification\footnote{\url{}} to turn it into Linked Data.
+Next, we chose to add an HTTP header with a link to the query log context according to the JSON-LD specification\footnote{\url{http://www.w3.org/TR/json-ld/}} to turn it into Linked Data.
 %This is the JSON-LD context of all the objects in the, JSON-stream. Subsequentially, we call this a \emph{JSONLD-stream} and this has been formalized at \emph{https://github.com/pietercolpaert/jsonld-stream}.
 
 Using this data, everyone can build their own historic query log dataset.
 The server costs for iRail to host this dataset stay limited.
 Furthermore, this way of publishing data enables research for real-time predictions of travel intentions.
-Privacy preservation is paramount~\cite{silvestri} when dealing with query logs and IP addresses have been removed to protect the privacy of our users. 
-Additionally, the integrity of this dataset has been vetted by the Belgian Privacy Commission and permission has been granted for these query logs to be published as open data.
+Privacy preservation is paramount~\cite{silvestri} when dealing with query logs and, therefore, IP addresses have been removed to protect the privacy of our users. 
+Additionally, the integrity of this dataset, without IP addresses, has been vetted by the Belgian Privacy Commission and permission has been granted for these query logs to be published as open data.
 
-\todo{Maybe a sub header here?}
-
-We are particularly interested in studying the potential application of route planning queries as an information resource for flow analysis due to the input it captures from human users.
-The remaining features are less relevant for this purpose as they are generally polled by digital signage providers or status boards, and thus do not reflect direct human demands.
+%\todo{Maybe a sub header here?} - PC: I wouldn't do a subheader...
+We are particularly interested in studying the potential application of \emph{route planning} queries as an information resource for flow analysis due to the input it captures from human users.
+The other features are less relevant for this purpose as they are generally polled by digital signage providers or status boards, and thus do not reflect direct human demands.
 The dataset described in this paper is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015, filtered by ``connections'' entries.
 We made a copy of this dataset available in CSV format can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
 %CSV header of the final logs: datetime,requested_datetime,from_id,from_name,from_long,from_lat,to_id,to_name,to_long,to_lat,user_agent,operating_system,is_bot
@@ -227,27 +213,42 @@ Each row within this dataset contains:
 \item The operating system of the user-agent and
 \item Whether or not the user-agent is a bot.
 \end{enumerate}
+
+\begin{figure}
+\centering
+\includegraphics[width=8.6cm]{querylogs}
+\caption{Amount of queries on the route planning part of the iRail API between October 2012 and December 2015. In April 2015 an official app of the Belgian railways was discontinued, which explains the sudden raise of iRail API queries.}
+\label{fig:querylogs}
+\end{figure}
+
+There has been an increase in the number of queries made between 2012 and 2015. 
+\cref{fig:querylogs} provides a break down of the numbers on a monthly basis. 
+A distinctive increase in the number of queries can be observed in April 2015 when the official route planning service provided by of the Belgian rail company was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}}, resulting in widespread adoption of alternative software applications built on top of the iRail API.
+Calculated with indicators provided by the Flemish regional government of Belgium\footnote{\url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}, we infer a monthly average of 19.3, 19.4, 19,6 and 19.7 million passengers in 2012, 2013, 2014 and 2015 respectively. 
+Correspondingly, the average number of iRail queries per month amounts to 0.11, 0.17, 0.15 and 0.33 million respectively.
+Assuming that each request reciprocates with an intention to travel by rail, our data captures a respective $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the actual journeys that have occurred.
+
 %After analysis, it appeared 10\% of the request where performed by Google bots.
-%User-agent information is important for statistical reasons and is essential for API management operations like tracing protocol violations or imposing rate limitations\footnote{\url{http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html}}. 
-%\todo{add glue to Method section?}
 
 \section{Method}
 \label{sec:method}
 
 Flow analysis involves the comparison of aggregated movement between distinct locations within a specific time frame. 
 In most cases, the analytical objective is to identify trends that occur in journeys made between pairs of locations and allow for the sensitivities to be explored. 
-Data visualization is typically employed to facilitate in this process thus the input data must be transformed into a format that allows for the quantity and directional flow of movement to be visually encoded. In this section we describe the data transformation procedure and data visualization technique employed in our case study.
+Data visualization is typically employed to facilitate in this process thus the input data must be transformed into a format that allows for the quantity and directional flow of movement to be visually encoded.
+In this section we describe the data transformation procedure and data visualization technique employed in our case study.
 
 \subsection{Processing}
 
 Matching pairs of origin and destination (OD) stations must be aggregated prior to visualization.
 Several stages of data processing are required to arrive at this outcome.
-As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00 hrs and 10:00 hrs as well as 17:00 hrs and 21:00 hrs on weekdays, and all data records created on weekend.
-While queries made by automated user agents like search engine bots and data harvesters can be considered as valid traffic, they may may over represent connections between certain stations. In this regard, such queries have been excluded to improve the accuracy of our analysis. 
+%As we were specifically interested in studying morning and evening rush hour travel that occur on weekdays, we filtered the dataset to exclude data records created outside the time range of 06:00 hrs and 10:00 hrs as well as 17:00 hrs and 21:00 hrs on weekdays, and all data records created on weekend.
+While queries made by automated user agents like search engine bots and data harvesters can be considered as valid traffic, they may over represent connections between certain stations.
+In this regard, such queries have been excluded to improve the accuracy of our analysis. 
 Similarly, data records with unparsable origin or destination station names due to invalid character encoding were removed. 
 One distinctive challenge is the substantial amount of inconsistency in the way station names are logged. 
 Spelling mistakes, and the use of unstandardized abbreviations in particular, reduce the quality and accuracy of the resulting visualization.
-To overcome this challenge, an open-source reconciliator (\url{https://github.com/irail/stations}) in PHP was employed to reduce spelling variations and link this with a geographical location. 
+To overcome this challenge, an open-source reconciliator (\url{https://github.com/irail/stations}) was employed to reduce spelling variations and link this with a geographical location. 
 
 The data is then aggregated so that province level flow patterns are emphasized.
 \todo{Alvin: Figure must be drawn}
@@ -268,11 +269,10 @@ The following types of flows are observable from the outcome of aggregation:
 \subsection{Visualization}
 
 Visualization is crucial for making data analysis tangible, so that results can be communicated and debated \cite{robinson2008collaborative}. 
-This is key for our research since the questions presented are exploratory in nature \cite{kraak2008exploratory} and can be addressed in many ways. 
+This is key for our research, since the questions presented are exploratory in nature \cite{kraak2008exploratory} and can be addressed in many ways. 
 Movement data has received substantial attention from the visualization community and a range of techniques has been developed to support analysis \cite{andrienko2012visual}. 
 Of these techniques, flow visualizations are commonly employed to facilitate the comparison of aggregated movement. 
-\rv{OD, I'm assuming origin--destination, or something else? Is it necessary to use the abbreviation the whole time?}
-Flow visualizations can be broadly categorized into two groups. Representations that preserve the complete trajectory and OD type representations that take only the start and end locations into account.
+Flow visualizations can be broadly categorized into two groups. Representations that preserve the complete trajectory and Origin Destination type representations that take only the start and end locations into account.
 Since our data solely consists of OD information, we narrow our description to the latter group of visualization techniques.
 
 The chord diagram is a visualization technique based on the node-link metaphor that arranges nodes along the circumference of a circle. 
@@ -285,25 +285,10 @@ Interactive filtering is introduced to simplify the visualization and details ar
 \section{Results}
 \label{sec:results}
 
-In this chapter, we report on the results of studying visualizations with experts of Trein Tram Bus, a not for profit passenger federation. \todo{Trein Tram Bus needs to be introduced in the introduction}
+In this chapter, we report on the results of studying visualizations with experts of \emph{Trein Tram Bus}\footnote{\url{http://treintrambus.be}}, a not for profit passenger federation.
+%Isn't this sufficient ↑? \todo{Trein Tram Bus needs to be introduced in the introduction}
 
 \subsection{Time based analysis}
-
-\begin{figure}
-\centering
-\includegraphics[width=8.6cm]{querylogs}
-\caption{Amount of queries on the route planning part of the iRail API between October 2012 and December 2015. In April 2015 an official app of the Belgian railways was discontinued, which explains the sudden raise of iRail API queries.}
-\label{fig:querylogs}
-\end{figure}
-
-Results from the analysis of this dataset reveal trends in route planning queries that may provide insights into rail travel demand. 
-Three observations in particular prompted further analysis of the data in greater detail. 
-First, there has been a steady increase in the number of queries made between 2012 and 2015. 
-\cref{fig:querylogs} provides a break down of the numbers on a monthly basis. 
-A distinctive increase in the number of queries can be observed in April 2015 when the official route planning service provided by of the Belgian rail company was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}}, resulting in widespread adoption of alternative software applications built on top of the iRail API.
-Calculated with indicators provided by the Flemish regional government of Belgium\footnote{\url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}, we infer a monthly average of 19.3, 19.4, 19,6 and 19.7 million passengers in 2012, 2013, 2014 and 2015 respectively. 
-Correspondingly, the average number of iRail queries per month amounts to 0.11, 0.17, 0.15 and 0.33 million respectively.
-Assuming that each request reciprocates with an intention to travel by rail, our data captures a respective $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the actual journeys that have occurred.
 
 \begin{figure}
 \centering
@@ -312,7 +297,8 @@ Assuming that each request reciprocates with an intention to travel by rail, our
 \label{fig:average}
 \end{figure}
 
-Secondly, the daily and hourly distribution of queries appear to correspond with known commuting patterns. 
+Results from the analysis of this dataset reveal trends in route planning queries that may provide insights into rail travel demand. 
+First, the daily and hourly distribution of queries appear to correspond with known commuting patterns. 
 \cref{fig:average} depicts a break down of the queries that occur, on average, on an hourly basis for each day of the week.
 Several trends can be observed in this chart. 
 Morning and evening peak periods in particular, are clearly distinguishable.
@@ -329,10 +315,10 @@ The absence of a clear peak on Saturdays can be attributed to lack of journeys t
 \label{fig:dec24}
 \end{figure}
 
-Finally, the distribution of queries on public holidays is observed to deviate from that of an average day. 
-\cref{fig:dec24} provides a breakdown of queries per hour on Christmas eve, 24th December 2015, in comparison to an average Thursday of the same year. 
+Moreover, the distribution of queries on public holidays is observed to deviate from that of an average day. 
+\cref{fig:dec24} provides a breakdown of queries per hour on Christmas eve, December 24th 2015, in comparison to an average Thursday of the same year. 
 As illustrated, the evening peak on Christmas eve occurs earlier than that of an average Thursday. 
-For these reasons, we believe that route planning query data maybe a viable source of information for flow analysis.%\todo{where people are heading between certain time intervals?}
+%For these reasons, we believe that route planning query data maybe a viable source of information for flow analysis.%\todo{where people are heading between certain time intervals?}
 
 \subsection{Structure of flows in Belgium}
 
@@ -361,54 +347,22 @@ The difference between both regions appear to correspond with existing measures 
 \label{fig:antwerp}
 \end{figure*}
 
-\subsection{Inexplicable results}
+\subsection{Counterintuitive results}
 
 There are several inconsistent patterns in the data that do not correspond with an existing understanding of flows in Belgium.
 In particular, the large number of trips made between Antwerp city and other stations within the province of Antwerp in the morning, is not observable in other major cities in Flanders.
-Further investigation led to the identification of an isolated connection originating from Antwerp city towards a suburb, suggesting anomalous usage of the iRail API that were not flagged as bots. Alternatively the large number of trips may have originated from users who repeatedly request for updates on delayed trains or from a concentration of people who utilise route planning applications on a regular basis.
-Accordingly, the reverse is identified in Liege where an unusually large connection originating from a suburb towards Liege city prompted speculation as well as discussions on how such outliers should be treated or what may have led to their existence.
-\todo{not sure if we should move this somewhere else}
-As with any form of analysis based on appropriation of data, we acknowledge that more work is required to identify caveats and understand the validity of the findings yielded.
+Further investigation led to the identification of an isolated connection originating from Antwerp city towards a suburb, suggesting anomalous usage of the iRail API that were not flagged as bots or a high concentration people who utilise route planning applications on a regular basis.
+Alternatively the large number of trips may have originated from users who repeatedly request for updates on delayed trains or from a concentration of people who utilise route planning applications on a regular basis.
+Accordingly, the reverse is identified in Liège where an unusually large connection originating from a suburb towards Liege city.
+This prompted speculation, as well as discussions, on how such outliers should be treated or what may have led to their existence.
+As with any form of analysis based on appropriation of data, we acknowledge that more work is required to identify caveats and understand the validity of the findings presented.
 
 \section{Publishing transport data}
 \label{sec:publishing}
 
-%It is in the interest of public transit agencies that the use of their time schedule data is maximized.
-%We can imagine that when more people are informed about the agency's offer, there will be a higher amount of people that will use the service.
-%There are currently two ways to publish transit data, as illustrated in \cref{fig:LDFAxis2}: publishing data using the General Transit Feed Specification (GTFS) and offering a route planning service.
-
-%\emph{GTFS}, on the one hand, is a data dump format: it is a compressed ZIP-file, containing a couple of CSV files, describing the rules for when a public transit vehicle will pass by on a certain location.
-%GTFS is supported among all current open source route planning software systems and it is used in products/apps such as \emph{CityMapper}, \emph{Ally}, \emph{Navitia.io}, \emph{Google Maps} and \emph{Bing Maps}.
-%Persistence of the identifiers used within these datasets, is not a requirement, neither is it an ambition of the format\footnote{\url{https://groups.google.com/forum/#!msg/gtfs-changes/Z8Mf31MaZms/8Hc9F4psAQAJ}}.
-%The goal of GTFS is to create an exchange format which specific software packages can use to transform it into their format of choice.
-
-%On the other hand, public transit agencies also publish their data by providing \emph{route planners} such as the French railway company\footnote{\url{http://tech.eu/features/7119/sncf-api-real-time-data/}}, the Dutch railway company\footnote{\url{http://www.ns.nl/reisinformatie/ns-api}} or \ldots\footnote{\url{http://otherapiofadifferentagency}}
-%These route planner offer a query service on top of the data and expose these over the Web.
-%In this paper we have studied the query logs of such an \emph{expressive} route planning API, which per request offers an interesting log entry.
-
-
 %label: fig:LDFAxis2
 \input{ldfaxis2}
 
-%Linked Data Fragments~\cite{ldf} is a way to think about data publishing as a set of trade-offs between client and servers.
-%These trade-offs can be visualized on the axis in \cref{fig:LDFAxis2}: ticks in between the extremes indicate different client/server options.
-%For route planning systems, we call these other ticks Linked~Connections~\cite{lc}: 
-%by publishing fragments of the data needed by an earliest arrival time algorithm, the algorithm can be executed by a user agent while the downloading the data.
-%An example of such an implementation is illustrated in \cref{fig:lc}.
-%By exploiting the caching mechanisms behind HTTP, it lowers to load on the server, making it easier to keep the data high available.
-%Furthermore, it enables clients to federate queries over different servers representing different regions, transit modes or different user requirements such as low criminality rates or wheelchair accessibility.
-
-
-%\begin{figure}[h]
-%    \centering
-%    \includegraphics[width=0.48\textwidth]{LC}
-%    \caption{An example implementation of a route planning algorithm: fragments of data needed by a route planning algorithm are published in pages. The route planning algorithm will need multiple requests instead of just one. The fragements of the pages that can be retrieved are however highly cacheable.}
-%    \label{fig:lc}
-%\end{figure}
-%
-
-%%% EXPLAIN:
-%%%
 The expressiveness of a server affects the way logs can be gathered~\cite{usewod2015}.
 We have shown in previous sections that the query logs of a \emph{highly expressive server}, such as the iRail API, are interesting: each request contains an entire query which can be interpreted as a travel intention.
 The possibility that two requests are exactly the same is low, as there are many URLs which can be requested.
@@ -432,8 +386,7 @@ It succesfully enabled reuse for intermodal travel, engineers can rely on the da
 The public transit agency however has no access any longer to an indication of travel demand.
 
 In \cref{fig:LDFAxis2} we illustrate these two options as two extremes, with other options that are yet to be discovered.
-\rv{\emph{low expressive} is not correct, but I don't know what the right term is. (It is also high\emph{ly} expressive, I corrected that.)}
-When a \emph{rather low expressive} server only allows to set e.g., a departure station and a departure time, then the server cannot log the arrival station, yet the client is still able to plan a route by executing the algorithm on the client-side~\cite{lc}.
+When a server only allows to set e.g., a departure station and a departure time, then the server cannot log the arrival station, yet the client is still able to plan a route by executing the algorithm on the client-side~\cite{lc}.
 We would be able to fully rely on the query logs if the expressivity would be maximal (extreme right) and caching would be turned off. 
 Turning off caching may work in a private setting where you know how much and what kind of queries you can expect, yet on the open Web, caching helps decrease load on servers at peak moments.
 
@@ -451,7 +404,7 @@ Furthermore, we found evidence that Flanders is polycentric, while Walloon traff
 Secondly, we also concluded that there are obvious caveats associated with the use of such data as proxy for actual statistical counts. 
 We identified a couple of gaps:
 \begin{enumerate}
-  \item The data only captures an intention of an end-user: it's unsure whether the person actually took the train.
+  \item The data only captures an intention of an end-user: it is unsure whether the person actually took the train.
   \item Multiple user queries may be needed to cover a travel intention.
   \item Caching may mask peak hours, as many of the same requests in one minute is only stored in the logs once.
 \end{enumerate}
