@@ -177,12 +177,11 @@ This was called ``a blessing for privacy'', yet adding the user query as an HTTP
 Visualizations are crucial for making data analysis tangible, so that results can be communicated and debated \cite{robinson2008collaborative}. 
 This is key for our research, since the questions presented are exploratory in nature \cite{kraak2008exploratory} and can be addressed in many ways. 
 Movement data has received substantial attention from the visualization community and a range of techniques has been developed to support flow analysis \cite{andrienko2012visual}. 
-Flow visualizations can be broadly categorized into two groups. 
+Visualizations of flows can be broadly categorized into two groups. 
 Representations that display the complete trajectory and Origin Destination (OD) type representations that take only the start and end locations into account.
 Since our data solely consists of OD information, we narrow our description to the latter group of visualization techniques.
-OD type representations are commonly employed when the origin and destination preside over intermediate locations on the path of movement. 
 
-The OD Matrix is most common visualization technique based on this type of representation. 
+OD type representations are employed when the origin and destination preside over intermediate locations on the path of movement. The OD Matrix is the most common visualization technique based on this type of representation. 
 Rows and columns correspond to locations while cells are coloured to express the volume of flow.
 OD matrices can be reordered to emphasise connectivity between locations.
 While this feature is particularly useful for identifying trends and outliers in the data, the tabular display is challenging for lay users to interpret and less expressive of connections between locations than representations based on the node-link metaphor.
@@ -193,8 +192,7 @@ A number of solutions have been proposed for clutter reduction.
 Filtering is the most commonly practiced. 
 The same goal can be achieved by clustering lines that have similar properties like common start, end or intermediate locations \todo{Andrienko, 2007 -198}. 
 Another solution is to transform the visual representation. 
-Flow maps \todo{Phan, 2005 -88} reduces clutter by rerouting the arrows to minimize intersection and obtain layouts that emphasize key geographic features such as roads, rivers or coastlines. 
-\todo{Alvin: Will expand abit more to describe why chord diagrams were chosen} 
+Flow maps \todo{Phan, 2005 -88} reduces clutter by rerouting the arrows to minimize intersection and obtain layouts that do not obscure key geographic features such as roads, rivers or coastlines. However, this solution is optimal only if strict geographic accuracy is not required since the arrows do not depict actual paths of movement
 
 \section{The query logs}
 \label{sec:logs}
@@ -403,7 +401,7 @@ The difference between both regions appear to correspond with existing measures 
 \end{tabular}
 \label{fig:cities}
 \centering
-\caption{Comparison of morning rush hour travel flows on weekdays originating from or towards six major cities in Belgium.}
+\caption{Comparison of morning rush hour travel flows on weekdays originating from or destined for six major cities in Belgium.}
 \end{figure*}
 
 
