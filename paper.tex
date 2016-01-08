@@ -192,11 +192,12 @@ A number of solutions have been proposed for clutter reduction.
 Filtering is the most commonly practiced. 
 The same goal can be achieved by clustering lines that have similar properties like common start, end or intermediate locations \cite{andrienko2007visual}. 
 Both solutions are effective at reducing clutter yet it should be noted that excessive aggregation or filtering removes a significant amount of information from the visualization.
+
 Another solution is to transform the visual representation. 
-Arcs have been proposed as a computationally cost effective approach to overcome intersections. 
-Yet, this visual encoding may intensify the visual complexity of the representation \cite{chua2014flowsampler}.
-Alternatively, Flow maps \cite{phan2005flow} reduces clutter by rerouting the arrows to minimize intersection and obtain layouts that align with key geographic features like roads, rivers or coastlines. 
+Flow maps \cite{phan2005flow} reduces clutter by rerouting the arrows to minimize intersection and obtain layouts that align with key geographic features like roads, rivers or coastlines. 
 However, a certain degree of ambiguity is introduced to the visualization since the arrows do not depict actual paths of movement and maybe misleading to interpret.
+A computationally cost effective alternative is to draw links as arcs instead of arrows \cite{chua2014flowsampler}.
+Yet, this visual encoding may intensify the visual complexity of the representation.
 
 Non-geographic representation is a viable alternative to this challenge in this specific context of visualizing flows on the rail network since the locations of stations and the exact routes between them are known and have been pre-determined. 
 Thus the analytical focus and goal of visualization is to depict differences in the volume of flows between different stations. 
