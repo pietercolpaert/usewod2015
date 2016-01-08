@@ -78,7 +78,7 @@
 
 \begin{document}
 
-\title{Studying public transit API query logs\\ to get an indication of travel flows}
+\title{What public transit API logs tell us about travel flows}
 \numberofauthors{6}
 \author{
 \alignauthor
@@ -155,6 +155,7 @@ Finally, we look at how public transit data is published and how we would be abl
 
 \section{Related work}
 \label{sec:relwork}
+%\subsection{Flow analysis}
 
 \emph{Flow analysis} is a topic of theoretical interest and practical importance conventionally conducted to study spatial dynamics and identify routine patterns in the movement of people.
 For instance, interest in modelling traffic flows emerged from the strain placed on urban transportation systems during peak hours~\cite{roth,ferreira}.
@@ -166,11 +167,15 @@ In the domain of ``Smart City'' research, much has been accomplished with the us
 Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys~\cite{ferreira} as well as cellular call data~\cite{sevtsuk} have provided planners with new opportunities to develop greater understanding of mobility patterns in urban environments~\cite{batty}.
 Yet query logs were, to our knowledge, never used for flow analysis so far.
 
+\subsection{Studying query logs}
+
 On highly expressive servers, such as \sparql-endpoints, query logs can play an important role in fine-tuning the underlying datastores~\cite{arias2011empirical}.
 E.g., they determined that in 2011 in the context of the graph query language \sparql, most of the queries are simple and include few triple patterns and joins.
 Furthermore, the graph patterns are usually star-shaped and despite triple pattern chains exist, they are generally short.
 Other, more cacheable interfaces more to the left on the Linked~Data~Fragments axis~\cite{ldf}, also benefit from query logs in order to e.g., know who is using what clients to query the Web, yet the user intention is lost~\cite{usewod2015}.
 This was called ``a blessing for privacy'', yet adding the user query as an HTTP header was suggested.
+
+\subsection{Visualizing travel flows}
 
 %Visualizations are crucial for understanding the patterns in data and representing transit flows.
 Visualizations are crucial for making data analysis tangible, so that results can be communicated and debated \cite{robinson2008collaborative}. 
