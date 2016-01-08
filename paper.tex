@@ -232,7 +232,7 @@ Additionally, the integrity of this dataset, without IP addresses, has been vett
 We are particularly interested in studying the potential application of \emph{route planning} queries as an information resource for flow analysis due to the input it captures from human users.
 The other features are less relevant for this purpose as they are generally polled by digital signage providers or status boards, and thus do not reflect direct human demands.
 The dataset described in this paper is compiled from the \emph{Apache} \emph{access.log} files generated between October 2012 and December 2015, filtered by ``connections'' entries.
-We made a copy of this dataset available in CSV format can be downloaded at \todo{\url{http://datawijs.be/apilog.tar.gz}}.
+We made a copy of this dataset available in CSV format can be downloaded at \url{https://github.com/pietercolpaert/irail-route-planning-query-logs}.
 %CSV header of the final logs: datetime,requested_datetime,from_id,from_name,from_long,from_lat,to_id,to_name,to_long,to_lat,user_agent,operating_system,is_bot
 Each row within this dataset contains:
 \begin{enumerate}
@@ -364,7 +364,7 @@ As illustrated, the evening peak on Christmas eve occurs earlier than that of an
 
 \subsection{Structure of Flows in Belgium}
 
-The chord diagrams shown in \cref{fig:mornings} depict the aggregated number of queries made between any two stations on weekdays (see \cref{fig:weekdays_morning}) and weekends (see \cref{fig:weekends_morning}) respectively. 
+The chord diagrams shown in \cref{fig:mornings} depict the aggregated number of queries made between any two stations on weekdays (see \cref{fig:weekdays_morning}) and weekends (see \cref{fig:weekends_morning}) respectively\footnote{An interactive version of this visualization can be viewed at \url{http://rxd.architectuur.kuleuven.be/irail/weekdays.html} and \url{http://rxd.architectuur.kuleuven.be/irail/weekends.html}}. 
 Visualizing our dataset in this manner reveals the complexity of flows on the Belgian rail system and the significance of cities in daily travel.
 %We can observe that Brussels, Antwerp, Ghent and Leuven are the dominant destinations.
 %Turning our attention to weekday travel, we can observe that Antwerp, Brussels and Ghent are the dominant destinations.
