@@ -365,51 +365,52 @@ As illustrated, the evening peak on Christmas eve occurs earlier than that of an
 
 \subsection{Structure of Flows in Belgium}
 
-The chord diagrams shown in \cref{fig:mornings} depict the aggregated number of queries made between any two stations on weekdays (See \cref{fig:weekdays_morning}) and weekends (See \cref{fig:weekends_morning}) respectively. 
+The chord diagrams shown in \cref{fig:mornings} depict the aggregated number of queries made between any two stations on weekdays (see \cref{fig:weekdays_morning}) and weekends (see \cref{fig:weekends_morning}) respectively. 
 Visualizing our dataset in this manner reveals the complexity of flows on the Belgian rail system and the significance of cities in daily travel.
-%We can observe that Brussels, Antwerp, Gent and Leuven are the dominant destinations.
-%Turning our attention to weekday travel, we can observe that Antwerp, Brussels and Gent are the dominant destinations.
+%We can observe that Brussels, Antwerp, Ghent and Leuven are the dominant destinations.
+%Turning our attention to weekday travel, we can observe that Antwerp, Brussels and Ghent are the dominant destinations.
 %The reverse occurs in the evening when trips are made towards provincial stations.
 Brussels City stands out as the most distinctive visual element in both figures, indicating its function as the principal centre of rail activity (see \cref{fig:mornings}a).
 On a regional level, its function as a centre appears to be more distinctive for the Walloon region than Flanders.
 With exception to Liège city (see \cref{fig:mornings}e), queries from the Walloon region are generally made from provincial stations towards Brussels instead of major cities within their administrative boundaries. 
-Queries from Flanders, on the hand, tend to be distributed among four major cities otherwise known as the Flemish Diamond, a network of metropolitan areas in Belgium comprised of Brussels, Antwerp (see \cref{fig:mornings}b), Gent (see \cref{fig:mornings}c) and Leuven (see \cref{fig:mornings}d). 
+Queries from Flanders, on the hand, tend to be distributed among four major cities otherwise known as the Flemish Diamond, a network of metropolitan areas in Belgium comprised of Brussels, Antwerp (see \cref{fig:mornings}b), Ghent (see \cref{fig:mornings}c) and Leuven (see \cref{fig:mornings}d). 
 These insights indicate that the structure of flows in Flanders appear to follow a polycentric pattern while that of the Walloon region is relatively monocentric, with Brussels city as a major centre.
 The difference between both regions appear to correspond with existing measures of population density and degree of urbanisation, providing valuable insight as well as alternative perspectives into the function of cities in rural and urban settings.
 
 \begin{figure*}
   \centering
-  \begin{subfigure}{.95\textwidth}
+  \begin{subfigure}{1\textwidth}
     \centering
     \includegraphics[width=13cm]{weekdays_morning.pdf}\\
     \subcaption{Weekdays} % 4 words max
     \label{fig:weekdays_morning}
   \end{subfigure}
-  \begin{subfigure}{.95\textwidth}
+  \begin{subfigure}{1\textwidth}
     \centering
     \includegraphics[width=13cm]{weekends_morning.pdf}\\
     \subcaption{Weekends} % 4words max
     \label{fig:weekends_morning}
   \end{subfigure}
-  \vspace{5.0pt}% To create a bit of vertical space between the 2 figure captions
+  %\vspace{5.0pt}% To create a bit of vertical space between the 2 figure captions
   \caption{Comparison of morning rush hour travel flows on weekdays and weekends.}
   \label{fig:mornings}
 \end{figure*}
 
 \begin{figure*}[t]
+\centering
 \begin{tabular}{ccc}
   \includegraphics[width=.33\textwidth]{wd-brussels.pdf}& 
   \includegraphics[width=.33\textwidth]{wd-antwerp.pdf}& 
   \includegraphics[width=.33\textwidth]{wd-gent.pdf}\\
-  (a) Brussels City&(b) Antwerp City&(c) Gent\\[6pt]
+  (a) Brussels City&(b) Antwerp City&(c) Ghent\\[6pt]
   \includegraphics[width=.33\textwidth]{wd-leuven.pdf}& 
   \includegraphics[width=.33\textwidth]{wd-liege.pdf}& 
   \includegraphics[width=.33\textwidth]{wd-mons.pdf}\\ 
-  (d) Leuven&(e) Liege City&(f) Mons\\
+  (d) Leuven&(e) Liège City&(f) Mons\\
 \end{tabular}
-\label{fig:cities}
-\centering
+\vspace{5.0pt}% To create a bit of vertical space between the 2 figure captions
 \caption{Comparison of morning rush hour travel flows on weekdays originating from or destined for six major cities in Belgium.}
+\label{fig:cities}
 \end{figure*}
 
 
@@ -419,15 +420,12 @@ There are several inconsistent patterns in the data that do not correspond with 
 In particular, the large number of trips made between Antwerp city and other stations within the province of Antwerp in the morning, is not observable in other major cities in Flanders.
 Further investigation led to the identification of an isolated connection originating from Antwerp city towards a suburb, suggesting anomalous usage of the iRail API that were not flagged as bots or a high concentration people who utilise route planning applications on a regular basis.
 Alternatively the large number of trips may have originated from users who repeatedly request for updates on delayed trains or from a concentration of people who utilise route planning applications on a regular basis.
-Accordingly, the reverse is identified in Liège where an unusually large connection originating from a suburb towards Liege city.
+Accordingly, the reverse is identified in Liège where an unusually large connection originating from a suburb towards Liège city.
 This prompted speculation, as well as discussions, on how such outliers should be treated or what may have led to their existence.
 As with any form of analysis based on appropriation of data, we acknowledge that more work is required to identify caveats and understand the validity of the findings presented.
 
 \section{Publishing transport data}
 \label{sec:publishing}
-
-%label: fig:LDFAxis2
-\input{ldfaxis2}
 
 The expressiveness of a server affects the way logs can be gathered~\cite{usewod2015}.
 We have shown in previous sections that the query logs of a \emph{highly expressive server}, such as the iRail API, are interesting: each request contains an entire query which can be interpreted as a travel intention.
@@ -455,6 +453,9 @@ In \cref{fig:LDFAxis2} we illustrate these two options as two extremes, with oth
 When a server only allows to set e.g., a departure station and a departure time, then the server cannot log the arrival station, yet the client is still able to plan a route by executing the algorithm on the client-side~\cite{lc}.
 We would be able to fully rely on the query logs if the expressivity would be maximal (extreme right) and caching would be turned off. 
 Turning off caching may work in a private setting where you know how much and what kind of queries you can expect, yet on the open Web, caching helps decrease load on servers at peak moments.
+
+%label: fig:LDFAxis2
+\input{ldfaxis2}
 
 \section{Conclusion and future work}
 \label{sec:conclusion}
