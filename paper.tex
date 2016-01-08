@@ -159,7 +159,7 @@ Finally, we look at how public transit data is published and how we would be abl
 \emph{Flow analysis} is a topic of theoretical interest and practical importance in various disciplines. 
 Flow analysis is conventionally conducted to study spatial dynamics and identify routine patterns in the movement of people.
 For instance, interest in modelling traffic flows emerged from the strain placed on urban transportation systems during peak hours~\cite{roth,ferreira}.
-Likewise, insight into routine travel patterns is crucial for the conceptualisation of functional urban areas~\cite{servillo,sykora}, urban hierarchies~\cite{christaller} and other territorial structures.
+Likewise, insight into routine travel patterns is crucial for the conceptualisation of functional urban areas~\cite{servillo2013town}, urban hierarchies~\cite{christaller1966central} and other territorial structures.
 
 Over the past decade, large datasets have become increasingly commonplace due to the proliferation of sensor networks and portable devices like smartphones.
 Termed ``Big Data'' due to the large volume of data records that emerge from real-time sensing~\cite{kitchin}, such datasets typically contain information of activities or processes linked to the space and time where they occur.
@@ -188,11 +188,19 @@ While this feature is particularly useful for identifying trends and outliers in
 In recent years, such representations have become increasingly prominent for displaying movement in science as well as popular culture.
 Locations are depicted as nodes and arrows are drawn between them to indicate movement in a certain direction, allowing for exact and individual relationships to be traced. 
 This representation is detailed and straightforward to understand but becomes cluttered when multiple lines intersect. 
+
 A number of solutions have been proposed for clutter reduction. 
 Filtering is the most commonly practiced. 
-The same goal can be achieved by clustering lines that have similar properties like common start, end or intermediate locations \todo{Andrienko, 2007 -198}. 
+The same goal can be achieved by clustering lines that have similar properties like common start, end or intermediate locations \cite{andrienko2007visual} . 
+Both solutions are effective at reducing clutter yet it should be noted that excessive aggregation or filtering removes a significant amount of information from the visualization.
 Another solution is to transform the visual representation. 
-Flow maps \todo{Phan, 2005 -88} reduces clutter by rerouting the arrows to minimize intersection and obtain layouts that do not obscure key geographic features such as roads, rivers or coastlines. However, this solution is optimal only if strict geographic accuracy is not required since the arrows do not depict actual paths of movement
+Flow maps \cite{phan2005flow} reduces clutter by rerouting the arrows to minimize intersection and obtain layouts that align with key geographic features like roads, rivers or coastlines. 
+However, a certain degree of ambiguity is introduced to the visualization since the arrows do not depict actual paths of movement and maybe misleading to interpret.
+
+Non-geographic representation is a viable alternative to this challenge in this specific context of visualizing flows on the rail network since the locations of stations and the exact routes between them are known and have been pre-determined. 
+Thus the analytical focus and goal of visualization is to depict differences in the volume of flows between different stations. 
+While many visualization techniques fulfil this purpose, we find chord diagrams \cite{krzywinski2009circos} particularly appropriate for delivering information in a compact form, allowing for comparison across multiple plots in a single view.
+A further description of chord diagrams is provided in \cref{sec:vis}.
 
 \section{The query logs}
 \label{sec:logs}
@@ -308,7 +316,7 @@ The following types of flows are observable from the outcome of aggregation:
   \item Travel between any international station to a provincial station.
 \end{itemize}
 
-\subsection{Visualization}
+\subsection{Visualization}\label{sec:vis}
 %Flow visualizations are commonly employed to facilitate the comparison of aggregated movement. 
 The chord diagram is a visualization technique based on the node-link metaphor that arranges nodes along the circumference of a circle. 
 Each node is represented by an arc where its length is proportional to the total volume of incoming and outgoing flows. 
