@@ -199,8 +199,15 @@ The same goal can be achieved by clustering lines that have similar properties l
 Both solutions are effective at reducing clutter yet it should be noted that excessive aggregation or filtering removes a significant amount of information from the visualization.
 
 Another solution is to transform the visual representation. 
-Flow maps \cite{phan2005flow} reduces clutter by rerouting the arrows to minimize intersection and obtain layouts that align with key geographic features like roads, rivers or coastlines. 
-However, a certain degree of ambiguity is introduced to the visualization since the arrows do not depict actual paths of movement and maybe misleading to interpret.
+This can be achieved by bundling lines in close proximity to minimize intersections \cite{hurter2014bundled}.
+Flow maps \cite{phan2005flow} follow the same principle to reduce clutter but yield layouts that align with key geographic features like roads, rivers or coastlines. 
+However, a certain degree of ambiguity is introduced to the visualization by both techniques since the arrows do not depict actual paths of movement and maybe misleading to interpret.
+Transition diagrams are a type of visulization that summarizes large numbers of trajectories while minimizing arbitary transformations to the layout \cite{andrienko2012visual}. 
+The idea is to divide each trajectory into segments, so that movement on a path is approximated by a sequence of transitions between adjacent discrete locations. 
+Locations are either predefined or obtained by various space partitioning algorithms. 
+Arrows depict flows and are scaled to the aggregate number of transitions between pairs of adjacent locations. 
+An advantage of this representation is that the topology of flows is captured as a directed graph, allowing for quantitative metrics like centrality to be computed and visually compared. 
+Nonetheless, the solution requires substantial data processing prior to visualization and analysis.
 A computationally cost effective alternative is to draw links as arcs instead of arrows \cite{chua2014flowsampler}.
 Yet, this visual encoding may intensify the visual complexity of the representation.
 
