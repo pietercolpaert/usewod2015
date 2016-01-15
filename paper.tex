@@ -111,10 +111,10 @@ Andrew Vande Moere\textsuperscript{\#}
 %Public transit schedules are made available on the Web in various ways, such as in a GTFS file, a route planning API, or through Linked Connections.
 %This webservice provides an answer to a route planning question with parameters such as ``departuretime'', ``from'' and ``to''.
 % Context & % Need
-In the field of urban planning, researchers need an indication of how people move between cities. 
+In the field of smart cities, researchers need an indication of how people move in and between cities.
 Yet, getting statistics of travel flows within public transit systems has proven to be troublesome.
 % Task
-In order to get an indication of travel flows between cities in Belgium,
+In order to get an indication of public transit travel flows in Belgium,
 we analyzed the query logs of the iRail API, a highly expressive route planning API for the Belgian railways.
 We were able to study $\sim$100k to 500k requests for each month between October 2012 and November 2015, which is between $0.56\%$ and $1.66\%$ of the amount of monthly passengers.
 % Object & Findings
@@ -183,7 +183,7 @@ This is key for our research, since the questions presented are exploratory in n
 Movement data has received substantial attention from the visualization community and a range of techniques has been developed to support flow analysis~\cite{andrienko2012visual}. 
 Visualizations of flows can be broadly categorized into two groups. 
 Representations that display the complete trajectory and Origin Destination (OD) type representations that take only the start and end locations into account.
-Since our data solely consists of OD information, we narrow our description to the latter group of visualization techniques.
+Since iRail's query log data solely consists of OD information, we narrow our description to the latter group of visualization techniques.
 
 OD type representations are employed when the origin and destination preside over intermediate locations on the path of movement. The OD Matrix is the most common visualization technique based on this type of representation. 
 Rows and columns correspond to locations while cells are coloured to express the volume of flow.
@@ -240,7 +240,7 @@ Next, we chose to add an HTTP header with a link to the query log context accord
 Using this data, everyone can build their own historic query log dataset.
 The server costs for iRail to host this dataset stay limited.
 Furthermore, this way of publishing data enables research for real-time predictions of travel intentions.
-Privacy preservation is paramount~\cite{silvestri} when dealing with query logs and, therefore, IP addresses have been removed to protect the privacy of our users. 
+Privacy preservation is paramount~\cite{silvestri} when dealing with query logs and, therefore, IP addresses have been removed to protect the privacy of iRail's users. 
 Additionally, the integrity of this dataset, without IP addresses, has been vetted by the Belgian Privacy Commission and permission has been granted for these query logs to be published as open data.
 
 We are particularly interested in studying the potential application of \emph{route planning} queries as an information resource for flow analysis due to the input it captures from human users.
@@ -269,8 +269,7 @@ There has been an increase in the number of queries made between 2012 and 2015.
 A distinctive increase in the number of queries can be observed in April 2015 when the official route planning service provided by of the Belgian rail company was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}}, resulting in widespread adoption of alternative software applications built on top of the iRail API.
 Calculated with indicators provided by the Flemish regional government of Belgium\footnote{\url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}, we infer a monthly average of 19.3, 19.4, 19,6 and 19.7 million passengers in 2012, 2013, 2014 and 2015 respectively. 
 Correspondingly, the average number of iRail queries per month amounts to 0.11, 0.17, 0.15 and 0.33 million respectively.
-Assuming that each request reciprocates with an intention to travel by rail, our data captures a respective $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the actual journeys that have occurred.
-
+Assuming that each request reciprocates with an intention to travel by rail, iRail's query log data captures a respective $0.56\%$, 0.88\%, 0.77\% and 1.66\% of the actual journeys that have occurred.
 %After analysis, it appeared 10\% of the request where performed by Google bots.
 
 \section{Method}
