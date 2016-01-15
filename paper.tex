@@ -178,7 +178,7 @@ This was called ``a blessing for privacy'', yet adding the user query as an HTTP
 \subsection{Visualizing Travel Flows}
 
 %Visualizations are crucial for understanding the patterns in data and representing transit flows.
-Visualizations are crucial for making data analysis tangible, so that results can be communicated and debated \cite{robinson2008collaborative}. 
+Visualizations are crucial for making data analysis tangible \cite{thomas2006visual}, so that results can be communicated and debated \cite{robinson2008collaborative}. 
 This is key for our research, since the questions presented are exploratory in nature \cite{kraak2008exploratory} and can be addressed in many ways. 
 Movement data has received substantial attention from the visualization community and a range of techniques has been developed to support flow analysis \cite{andrienko2012visual}. 
 Visualizations of flows can be broadly categorized into two groups. 
@@ -188,7 +188,7 @@ Since our data solely consists of OD information, we narrow our description to t
 OD type representations are employed when the origin and destination preside over intermediate locations on the path of movement. The OD Matrix is the most common visualization technique based on this type of representation. 
 Rows and columns correspond to locations while cells are coloured to express the volume of flow.
 OD matrices can be reordered to emphasise connectivity between locations.
-While this feature is particularly useful for identifying trends and outliers in the data, the tabular display is challenging for lay users to interpret and less expressive of connections between locations than representations based on the node-link metaphor.
+While this feature is particularly useful for identifying trends and outliers in the data, the tabular display is challenging for lay users to interpret and less expressive of connections between locations than representations based on the node-link metaphor \cite{holten2011extended}.
 In recent years, such representations have become increasingly prominent for displaying movement in science as well as popular culture.
 Locations are depicted as nodes and arrows are drawn between them to indicate movement in a certain direction, allowing for exact and individual relationships to be traced. 
 This representation is detailed and straightforward to understand but becomes cluttered when multiple lines intersect. 
@@ -199,8 +199,15 @@ The same goal can be achieved by clustering lines that have similar properties l
 Both solutions are effective at reducing clutter yet it should be noted that excessive aggregation or filtering removes a significant amount of information from the visualization.
 
 Another solution is to transform the visual representation. 
-Flow maps \cite{phan2005flow} reduces clutter by rerouting the arrows to minimize intersection and obtain layouts that align with key geographic features like roads, rivers or coastlines. 
-However, a certain degree of ambiguity is introduced to the visualization since the arrows do not depict actual paths of movement and maybe misleading to interpret.
+This can be achieved by bundling lines in close proximity to minimize intersections \cite{hurter2014bundled}.
+Flow maps \cite{phan2005flow} follow the same principle to reduce clutter but yield layouts that align with key geographic features like roads, rivers or coastlines. 
+However, a certain degree of ambiguity is introduced to the visualization by both techniques since the arrows do not depict actual paths of movement and maybe misleading to interpret.
+Transition diagrams are a type of visulization that summarizes large numbers of trajectories while minimizing arbitary transformations to the layout \cite{andrienko2012visual}. 
+The idea is to divide each trajectory into segments, so that movement on a path is approximated by a sequence of transitions between adjacent discrete locations. 
+Locations are either predefined or obtained by various space partitioning algorithms. 
+Arrows depict flows and are scaled to the aggregate number of transitions between pairs of adjacent locations. 
+An advantage of this representation is that the topology of flows is captured as a directed graph, allowing for quantitative metrics like centrality to be computed and visually compared. 
+Nonetheless, the solution requires substantial data processing prior to visualization and analysis.
 A computationally cost effective alternative is to draw links as arcs instead of arrows \cite{chua2014flowsampler}.
 Yet, this visual encoding may intensify the visual complexity of the representation.
 
@@ -270,7 +277,7 @@ Assuming that each request reciprocates with an intention to travel by rail, our
 \label{sec:method}
 
 Flow analysis involves the comparison of aggregated movement between distinct locations within a specific time frame. 
-In most cases, the analytical objective is to identify trends that occur in journeys made between pairs of locations and allow for the sensitivities to be explored. 
+In most cases, the analytical objective is to identify trends that occur in journeys made between pairs of locations and allow for their differences to be explored. 
 Data visualization is typically employed to facilitate in this process thus the input data must be transformed into a format that allows for the quantity and directional flow of movement to be visually encoded.
 The data must undergo several stages of data processing to arrive at this outcome.
 
@@ -311,7 +318,7 @@ Through this process, station names were also linked to their corresponding geog
 Next, the data is aggregated so that province level flow patterns are emphasized.
 \cref{fig:method-ab} provides a diagrammatic representation of spatial aggregation on the basis of provincial administrative boundaries.
 To compare the volume of flow between rural provincial areas and urbanized zones, train stations in major cities were aggregated into seperate groups. 
-Simiarly, stations located outside of Belgium were aggregated to distinct group. 
+Similarly, stations located outside of Belgium were aggregated to distinct group. 
 A diagrammatic breakdown is depicted in \cref{fig:method-c} where color and shape is used to demarcate each group.
 The following types of flows are observable from the outcome of aggregation:
 
@@ -325,7 +332,7 @@ The following types of flows are observable from the outcome of aggregation:
 
 \subsection{Visualization}\label{sec:vis}
 %Flow visualizations are commonly employed to facilitate the comparison of aggregated movement. 
-The chord diagram is a visualization technique based on the node-link metaphor that arranges nodes along the circumference of a circle. 
+The chord diagram is a visualization technique based on the node-link metaphor that arranges nodes along the circumference of a circle \cite{krzywinski2009circos}. 
 Each node is represented by an arc where its length is proportional to the total volume of incoming and outgoing flows. 
 Chords or curved line segments are drawn to connect nodes. 
 The width at the head or tail of each chord indicates the amount of movement relative frequency of movement from a certain location to another.
