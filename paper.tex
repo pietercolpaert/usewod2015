@@ -82,33 +82,32 @@
 \numberofauthors{6}
 \author{
 \alignauthor
-Pieter Colpaert\\
-\affaddr{\email{\texttt{pieter.colpaert@ugent.be}}}
+Pieter Colpaert
+\textsuperscript{*}
 \and
 \alignauthor
-Alvin Chua\\
-\affaddr{\email{\texttt{alvin.chua@asro.kuleuven.be}}}
+Alvin Chua\textsuperscript{\#}
 \and
 \alignauthor
-Ruben Verborgh\\
-\affaddr{\email{\texttt{ruben.verborgh@ugent.be}}}
+Ruben Verborgh\textsuperscript{*}
 \and
 \alignauthor
-Erik Mannens\\
-\affaddr{\email{\texttt{erik.mannens@ugent.be}}}
+Erik Mannens\textsuperscript{*}
 \and
 \alignauthor
-Rik Van de Walle\\
-\affaddr{\email{\texttt{rik.vandewalle@ugent.be}}}
+Rik Van de Walle\textsuperscript{*}
 \and
 \alignauthor
-Andrew Vande Moere\\
-\affaddr{\email{\texttt{andrew.vandemoere\\@asro.kuleuven.be}}}\\
+Andrew Vande Moere\textsuperscript{\#}
+\sharedaffiliation
+\affaddr{\textsuperscript{*} iMinds -- Ghent University -- MMLab\\
+\email{\texttt{firstname.lastname@ugent.be}}}\\
+\affaddr{\textsuperscript{\#} Research[x]Design -- KU Leuven\\
+\email{\texttt{firstname.lastname@kuleuven.be}}}
 }
 
 \maketitle
 \begin{abstract}
-
 %Public transit schedules are made available on the Web in various ways, such as in a GTFS file, a route planning API, or through Linked Connections.
 %This webservice provides an answer to a route planning question with parameters such as ``departuretime'', ``from'' and ``to''.
 % Context & % Need
@@ -142,14 +141,15 @@ To date, this is still the SNCB's only source to determine people flows through 
 Also within other transit systems the data is tedious to get, certainly when passengers do not have to check-in and check-out.
 Nonetheless, indications of how people move within a transit network is of uttermost importance for, amongst others, making demand-driven policy decisions concerning mobility.
 
-The \emph{iRail} project\footnote{\url{https://hello.irail.be}} started in 2008 to make the data of the Belgian railway accessible for developers.
+The \emph{iRail} project\footnote{\url{https://hello.irail.be}} started in 2008 to make route planning data of the Belgian railway accessible for developers.
 The project offers developers both a data dump for third party apps (since $\sim$~August~2015) and a route planning API (since $\sim$~October~2010).
 The query logs of the latter has been stored since November 2012 (requests before that period got lost due to server migrations).
 
-Getting indications of people flows through public transit networks is a challenge. 
-Yet, \emph{can we not get an indication of these transit flows by studying the query logs of Web-services?}
+Getting an indication of how people move within a transit network is of high importance within the field of \emph{smart cities}, \emph{urban planning} as well as \emph{demand driven mobility}.
+Furthermore, it may benefit travelers to know in real-time whether the upcoming trip is in popular demand, as it may trigger the traveler to take the next, less congested, trip.
+In this paper, we study the query logs of route planning web-services as an indication of people flows within transit networks.
 
-In this paper, we give a small overview of related work to gather data for flow analysis.
+We give a small overview of related work to gather data for flow analysis.
 Next, we introduce the iRail query logs, which we study by the means of visualizations.
 Finally, we look at how public transit data is published and how we would be able to get a better indication of travel flows.
 
@@ -178,9 +178,9 @@ This was called ``a blessing for privacy'', yet adding the user query as an HTTP
 \subsection{Visualizing Travel Flows}
 
 %Visualizations are crucial for understanding the patterns in data and representing transit flows.
-Visualizations are crucial for making data analysis tangible \cite{thomas2006visual}, so that results can be communicated and debated \cite{robinson2008collaborative}. 
-This is key for our research, since the questions presented are exploratory in nature \cite{kraak2008exploratory} and can be addressed in many ways. 
-Movement data has received substantial attention from the visualization community and a range of techniques has been developed to support flow analysis \cite{andrienko2012visual}. 
+Visualizations are crucial for making data analysis tangible~\cite{thomas2006visual}, so that results can be communicated and debated~\cite{robinson2008collaborative}. 
+This is key for our research, since the questions presented are exploratory in nature~\cite{kraak2008exploratory} and can be addressed in many ways. 
+Movement data has received substantial attention from the visualization community and a range of techniques has been developed to support flow analysis~\cite{andrienko2012visual}. 
 Visualizations of flows can be broadly categorized into two groups. 
 Representations that display the complete trajectory and Origin Destination (OD) type representations that take only the start and end locations into account.
 Since our data solely consists of OD information, we narrow our description to the latter group of visualization techniques.
@@ -188,21 +188,21 @@ Since our data solely consists of OD information, we narrow our description to t
 OD type representations are employed when the origin and destination preside over intermediate locations on the path of movement. The OD Matrix is the most common visualization technique based on this type of representation. 
 Rows and columns correspond to locations while cells are coloured to express the volume of flow.
 OD matrices can be reordered to emphasise connectivity between locations.
-While this feature is particularly useful for identifying trends and outliers in the data, the tabular display is challenging for lay users to interpret and less expressive of connections between locations than representations based on the node-link metaphor \cite{holten2011extended}.
+While this feature is particularly useful for identifying trends and outliers in the data, the tabular display is challenging for lay users to interpret and less expressive of connections between locations than representations based on the node-link metaphor~\cite{holten2011extended}.
 In recent years, such representations have become increasingly prominent for displaying movement in science as well as popular culture.
 Locations are depicted as nodes and arrows are drawn between them to indicate movement in a certain direction, allowing for exact and individual relationships to be traced. 
 This representation is detailed and straightforward to understand but becomes cluttered when multiple lines intersect. 
 
 A number of solutions have been proposed for clutter reduction. 
 Filtering is the most commonly practiced. 
-The same goal can be achieved by clustering lines that have similar properties like common start, end or intermediate locations \cite{andrienko2007visual}. 
+The same goal can be achieved by clustering lines that have similar properties like common start, end or intermediate locations~\cite{andrienko2007visual}. 
 Both solutions are effective at reducing clutter yet it should be noted that excessive aggregation or filtering removes a significant amount of information from the visualization.
 
 Another solution is to transform the visual representation. 
-This can be achieved by bundling lines in close proximity to minimize intersections \cite{hurter2014bundled}.
-Flow maps \cite{phan2005flow} follow the same principle to reduce clutter but yield layouts that align with key geographic features like roads, rivers or coastlines. 
+This can be achieved by bundling lines in close proximity to minimize intersections~\cite{hurter2014bundled}.
+Flow maps~\cite{phan2005flow} follow the same principle to reduce clutter but yield layouts that align with key geographic features like roads, rivers or coastlines. 
 However, a certain degree of ambiguity is introduced to the visualization by both techniques since the arrows do not depict actual paths of movement and maybe misleading to interpret.
-Transition diagrams are a type of visulization that summarizes large numbers of trajectories while minimizing arbitary transformations to the layout \cite{andrienko2012visual}. 
+Transition diagrams are a type of visulization that summarizes large numbers of trajectories while minimizing arbitary transformations to the layout~\cite{andrienko2012visual}. 
 The idea is to divide each trajectory into segments, so that movement on a path is approximated by a sequence of transitions between adjacent discrete locations. 
 Locations are either predefined or obtained by various space partitioning algorithms. 
 Arrows depict flows and are scaled to the aggregate number of transitions between pairs of adjacent locations. 
