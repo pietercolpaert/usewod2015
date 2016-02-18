@@ -7,33 +7,30 @@
 \def\wu{\superscript{*}}
 \def\wg{\superscript{\dag}}
 
-\usepackage{listings} 
-
 % Typography
 \usepackage{times}
 \usepackage{mathptmx}
 \usepackage{microtype}
 \usepackage[normalem]{ulem}
-\usepackage[pdftex,bookmarks,bookmarksopen,bookmarksdepth=2,
+\PassOptionsToPackage{hyphens}{url}\usepackage[pdftex,bookmarks,bookmarksopen,bookmarksdepth=2,
             urlcolor=black,colorlinks=true,linkcolor=black,citecolor=black]{hyperref}
 \usepackage[capitalize,noabbrev]{cleveref}
 \def\UrlFont{\em}
-
 % Graphics
 \usepackage{tikz}
 \usepackage{tkz-graph}
 \usetikzlibrary{arrows,positioning,shapes.misc}
-%\let\subcaption\relax
+\let\subcaption\relax
 \usepackage{graphicx}
 %\usepackage[caption=false]{subfig}
 %\usepackage{caption}
-\usepackage{subcaption}
-\captionsetup[figure]{labelfont=bf,textfont=bf}
-\captionsetup[subfigure]{labelfont=normalfont,textfont=normalfont}
-\definecolor{lightgrey}{RGB}{170, 170, 170}
-\definecolor{darkblue}{RGB}{0, 0, 0}
-\definecolor{darkred}{RGB}{170, 0, 0}
-\definecolor{darkgreen}{RGB}{0, 110, 0}
+%\usepackage{subcaption}
+%\captionsetup[figure]{labelfont=bf,textfont=bf}
+%\captionsetup[subfigure]{labelfont=normalfont,textfont=normalfont}
+%\definecolor{lightgrey}{RGB}{170, 170, 170}
+%\definecolor{darkblue}{RGB}{0, 0, 0}
+%\definecolor{darkred}{RGB}{170, 0, 0}
+%\definecolor{darkgreen}{RGB}{0, 110, 0}
 
 % Acronyms
 \usepackage{xspace}
@@ -70,20 +67,24 @@
         basicstyle=\ttfamily\smalllistingsize\selectfont}
 \crefname{lstlisting}{Listing}{Listings}
 \definecolor{grey}{RGB}{130,130,130}
-
 \usepackage{color}
-\newcommand{\todo}[1]{\noindent\textcolor{red}{{\bf \{TODO}: #1{\bf \}}}}
-\newcommand{\rv}[1]{\noindent\textcolor{red}{{\bf \{RV}: #1{\bf \}}}}
 \newdef{definition}{Definition}
+
+\permission{Copyright is held by the International World Wide Web Conference Committee (IW3C2). IW3C2 reserves the right to provide a hyperlink to the author's site if the Material is used in electronic media.}
+\conferenceinfo{WWW'16 Companion,}{April 11--15, 2016, Montr\'eal, Qu\'ebec, Canada.} 
+\copyrightetc{ACM \the\acmcopyr}
+\crdata{978-1-4503-4144-8/16/04. \\
+\url{http://dx.doi.org/10.1145/2872518.2891069}}
+
+\clubpenalty=10000 
+\widowpenalty=10000
 
 \begin{document}
 
 \title{What public transit API logs tell us about travel flows}
 \numberofauthors{6}
-\author{
-\alignauthor
-Pieter Colpaert
-\textsuperscript{*}
+\author{\alignauthor
+Pieter Colpaert\textsuperscript{*}
 \and
 \alignauthor
 Alvin Chua\textsuperscript{\#}
@@ -105,30 +106,18 @@ Andrew Vande Moere\textsuperscript{\#}
 \affaddr{\textsuperscript{\#} Research[x]Design -- KU Leuven\\
 \email{\texttt{firstname.lastname@kuleuven.be}}}
 }
-
 \maketitle
 \begin{abstract}
-%Public transit schedules are made available on the Web in various ways, such as in a GTFS file, a route planning API, or through Linked Connections.
-%This webservice provides an answer to a route planning question with parameters such as ``departuretime'', ``from'' and ``to''.
-% Context & % Need
 In the field of smart cities, researchers need an indication of how people move in and between cities.
 Yet, getting statistics of travel flows within public transit systems has proven to be troublesome.
-% Task
 In order to get an indication of public transit travel flows in Belgium,
 we analyzed the query logs of the iRail API, a highly expressive route planning API for the Belgian railways.
 We were able to study $\sim$100k to 500k requests for each month between October 2012 and November 2015, which is between $0.56\%$ and $1.66\%$ of the amount of monthly passengers.
-% Object & Findings
 Using data visualizations, we illustrate the commuting patterns in Belgium and confirm that Brussels, the capital, acts as a central hub. 
 The Flemish region appears to be polycentric, while in the Walloon region, everything converges on Brussels.
 The findings correspond to the real travel demand, according to experts of the passenger federation Trein Tram Bus.
-% Conclusion
 We conclude that query logs of route planners are of high importance in getting an indication of travel flows.
-% Perspectives
 However, better travel intentions would be acquirable using dedicated HTTP POST requests.
-%%Redundant according to RV:
-%Highly expressive transport data publishing methods such as route planning API exist, as well as data dumps or data fragments.
-%In order to be able to gather meaningful logs in all cases, we suggest using a separate POST request containing the entire query.
-
 \end{abstract}
 
 \vspace{1em}
@@ -137,13 +126,13 @@ However, better travel intentions would be acquirable using dedicated HTTP POST 
 \label{sec:introduction}
 
 Today, the Belgian railway company (SNCB) takes manual samples of people getting on and off trains in stations. 
-To date, this is still the SNCB's only source to determine people flows through their network\footnote{\url{http://www.belgianrail.be/nl/corporate/in-de-kijker/comptages_voyageurs_2014.aspx}}.
+To date, this is still the SNCB's only source to determine people flows through their network.
 Also within other transit systems the data is tedious to get, certainly when passengers do not have to check-in and check-out.
 Nonetheless, indications of how people move within a transit network is of uttermost importance for, amongst others, making demand-driven policy decisions concerning mobility.
 
 The \emph{iRail} project\footnote{\url{https://hello.irail.be}} started in 2008 to make route planning data of the Belgian railway accessible for developers.
 The project offers developers both a data dump for third party apps (since $\sim$~August~2015) and a route planning API (since $\sim$~October~2010).
-The query logs of the latter has been stored since November 2012 (requests before that period got lost due to server migrations).
+The query logs of the latter have been stored since November 2012 (requests before that period got lost due to server migrations).
 
 Getting an indication of how people move within a transit network is of high importance within the field of \emph{smart cities}, \emph{urban planning} as well as \emph{demand driven mobility}.
 Furthermore, it may benefit travelers to know in real-time whether the upcoming trip is in popular demand, as it may trigger the traveler to take the next, less congested, trip.
@@ -161,7 +150,7 @@ Finally, we look at how public transit data is published and how we would be abl
 For instance, interest in modelling traffic flows emerged from the strain placed on urban transportation systems during peak hours~\cite{roth,ferreira}.
 Likewise, insight into routine travel patterns is crucial for the conceptualization of functional urban areas~\cite{servillo2013town}, urban hierarchies~\cite{christaller1966central} and other territorial structures.
 
-Over the past decade, large datasets have become increasingly commonplace due to the proliferation of sensor networks and portable devices like smartphones.
+Over the past decade, large datasets have become increasingly commonplace thanks to the proliferation of sensor networks and portable devices like smartphones.
 Termed ``Big Data'' due to the large volume of data records that emerge from real-time sensing~\cite{kitchin}, such datasets typically contain information of activities or processes linked to the space and time where they occur.
 In the domain of ``Smart City'' research, much has been accomplished with the use of ``Big Data'' to monitor human movement.
 Smart card data from public transport systems~\cite{roth,beecham}, taxi journeys~\cite{ferreira} as well as cellular call data~\cite{sevtsuk} have provided planners with new opportunities to develop greater understanding of mobility patterns in urban environments~\cite{batty}.
@@ -260,12 +249,12 @@ Each row within this dataset contains:
 \begin{figure}
 \centering
 \includegraphics[width=8.6cm]{querylogs}
-\caption{Amount of queries on the route planning part of the iRail API between October 2012 and December 2015. In April 2015 an official app of the Belgian railways was discontinued, which explains the sudden raise of iRail API queries.}
+\caption{Amount of queries on the route planning part of the iRail API between October 2012 and December 2015. In April 2015 an official app of the Belgian railways was discontinued, which explains the sudden rise of iRail API queries.}
 \label{fig:querylogs}
 \end{figure}
 
 There has been an increase in the number of queries made between 2012 and 2015. 
-\cref{fig:querylogs} provides a break down of the numbers on a monthly basis. 
+\cref{fig:querylogs} provides a breakdown of the numbers on a monthly basis. 
 A distinctive increase in the number of queries can be observed in April 2015 when one of the official route planning apps provided by the Belgian rail company (RailTime) was discontinued\footnote{\url{https://hello.irail.be/2015/04/22/april-updates/}}, resulting in widespread adoption of alternative software applications built on top of the iRail API.
 Calculated with indicators provided by the Flemish regional government of Belgium\footnote{\url{http://www4.vlaanderen.be/sites/svr/Cijfers/Exceltabellen/mobiliteit/vervoersprestaties/personenvervoer/MOBIOPEN006.xls}}, we infer a monthly average of 19.3, 19.4, 19,6 and 19.7 million passengers in 2012, 2013, 2014 and 2015 respectively. 
 Correspondingly, the average number of iRail queries per month amounts to 0.11, 0.17, 0.15 and 0.33 million respectively.
@@ -293,31 +282,31 @@ Through this process, station names were also linked to their corresponding geog
 \begin{figure*}
   \centering
   \includegraphics[width=14cm]{method-c.pdf}\\
-  \caption{Each station is color coded to indicate the province it will be aggregated to. Stations in major cities as well as stations outside of Belgium are aggregated to seperate groups.}
+  \caption{Each station is color coded to indicate the province it will be aggregated into. Stations in major cities as well as stations outside of Belgium are aggregated to seperate groups.}
   \label{fig:method-c}
 \end{figure*}
 
-\begin{figure}[h]
-  \centering
-  \begin{subfigure}{.2375\textwidth}
-    \includegraphics[width=4cm]{method-a.pdf}\\
-    \subcaption{} % 4 words max
-    \label{fig:method-a}
-  \end{subfigure}%
-  \begin{subfigure}{.2375\textwidth}
-    \includegraphics[width=4cm]{method-b.pdf}\\
-    \subcaption{} % 4words max
-    \label{fig:method-b}
-  \end{subfigure}%
-  \vspace{5.0pt}% To create a bit of vertical space between the 2 figure captions
-  \caption{Spatial aggregation based on provincial administrative boundaries diagrammatically represented. (a) Individual data records are depicted geographically with arrows connecting origins to their respective destinations. (b) The result of aggregation is a set of weighted connections between provinces.}
-  \label{fig:method-ab}
-\end{figure}
-
+%\begin{figure}[h]
+%  \centering
+%  \begin{subfigure}{.2375\textwidth}
+%    \includegraphics[width=4cm]{method-a.pdf}\\
+%    \subcaption{} % 4 words max
+%    \label{fig:method-a}
+%  \end{subfigure}%
+%  \begin{subfigure}{.2375\textwidth}
+%    \includegraphics[width=4cm]{method-b.pdf}\\
+%    \subcaption{} % 4words max
+%    \label{fig:method-b}
+%  \end{subfigure}%
+%  \vspace{5.0pt}% To create a bit of vertical space between the 2 figure captions
+%  \caption{Spatial aggregation based on provincial administrative boundaries diagrammatically represented. (a) Individual data records are depicted geographically with arrows connecting origins to their respective destinations. (b) The result of aggregation is a set of weighted connections between provinces.}
+%  \label{fig:method-ab}
+%\end{figure}
+%
 Next, the data is aggregated so that province level flow patterns are emphasized.
 \cref{fig:method-ab} provides a diagrammatic representation of spatial aggregation on the basis of provincial administrative boundaries.
 To compare the volume of flow between rural provincial areas and urbanized zones, train stations in major cities were aggregated into seperate groups. 
-Similarly, stations located outside of Belgium were aggregated to distinct group. 
+Similarly, stations located outside of Belgium were aggregated into distinct group. 
 A diagrammatic breakdown is depicted in \cref{fig:method-c} where color and shape is used to demarcate each group.
 The following types of flows are observable from the outcome of aggregation:
 
@@ -336,7 +325,7 @@ Each node is represented by an arc where its length is proportional to the total
 Chords or curved line segments are drawn to connect nodes. 
 The width at the head or tail of each chord indicates the amount of movement relative frequency of movement from a certain location to another.
 In our implementation of the chord diagram, nodes are colour coded to indicate individual provinces and the major cities located within their administrative boundaries. 
-Interactive filtering is introduced to simplify the visualization and details are provided in pop-up dialogue when upon mouse-over.
+Interactive filtering is introduced to simplify the visualization and details are provided in pop-up dialogue when on mouse-over.
 
 \section{Results}
 \label{sec:results}
@@ -386,29 +375,29 @@ Visualizing our dataset in this manner reveals the complexity of flows on the Be
 Brussels City stands out as the most distinctive visual element in both figures, indicating its function as the principal centre of rail activity (see \cref{fig:mornings}a).
 On a regional level, its function as a centre appears to be more distinctive for the Walloon region than Flanders.
 With exception to Liège city (see \cref{fig:mornings}e), queries from the Walloon region are generally made from provincial stations towards Brussels instead of major cities within their administrative boundaries. 
-Queries from Flanders, on the hand, tend to be distributed among four major cities otherwise known as the Flemish Diamond, a network of metropolitan areas in Belgium comprised of Brussels, Antwerp (see \cref{fig:mornings}b), Ghent (see \cref{fig:mornings}c) and Leuven (see \cref{fig:mornings}d). 
+Queries from Flanders, on the other hand, tend to be distributed among four major cities otherwise known as the Flemish Diamond, a network of metropolitan areas in Belgium comprised of Brussels, Antwerp (see \cref{fig:mornings}b), Ghent (see \cref{fig:mornings}c) and Leuven (see \cref{fig:mornings}d). 
 These insights indicate that the structure of flows in Flanders appear to follow a polycentric pattern while that of the Walloon region is relatively monocentric, with Brussels city as a major centre.
 The difference between both regions appear to correspond with existing measures of population density and degree of urbanisation, providing valuable insight as well as alternative perspectives into the function of cities in rural and urban settings.
-
-\begin{figure*}
-  \centering
-  \begin{subfigure}{1\textwidth}
-    \centering
-    \includegraphics[width=13cm]{weekdays_morning.pdf}\\
-    \subcaption{Weekdays} % 4 words max
-    \label{fig:weekdays_morning}
-  \end{subfigure}
-  \begin{subfigure}{1\textwidth}
-    \centering
-    \includegraphics[width=13cm]{weekends_morning.pdf}\\
-    \subcaption{Weekends} % 4words max
-    \label{fig:weekends_morning}
-  \end{subfigure}
-  %\vspace{5.0pt}% To create a bit of vertical space between the 2 figure captions
-  \caption{Comparison of morning rush hour travel flows on weekdays and weekends.}
-  \label{fig:mornings}
-\end{figure*}
-
+%
+%\begin{figure*}
+%  \centering
+%  \begin{subfigure}{1\textwidth}
+%    \centering
+%    \includegraphics[width=13cm]{weekdays_morning.pdf}\\
+%    \subcaption{Weekdays} % 4 words max
+%    \label{fig:weekdays_morning}
+%  \end{subfigure}
+%  \begin{subfigure}{1\textwidth}
+%    \centering
+%    \includegraphics[width=13cm]{weekends_morning.pdf}\\
+%    \subcaption{Weekends} % 4words max
+%    \label{fig:weekends_morning}
+%  \end{subfigure}
+%  %\vspace{5.0pt}% To create a bit of vertical space between the 2 figure captions
+%  \caption{Comparison of morning rush hour travel flows on weekdays and weekends.}
+%  \label{fig:mornings}
+%\end{figure*}
+%
 \begin{figure*}[t]
 \centering
 \begin{tabular}{ccc}
@@ -427,13 +416,13 @@ The difference between both regions appear to correspond with existing measures 
 \end{figure*}
 
 
-\subsection{Counter Intuitive Results}
+\subsection{Counter-Intuitive Results}
 
 There are several inconsistent patterns in the data that do not correspond with an existing understanding of flows in Belgium.
 In particular, the large number of trips made between Antwerp city and other stations within the province of Antwerp in the morning, is not observable in other major cities in Flanders.
 Further investigation led to the identification of an isolated connection originating from Antwerp city towards a suburb, suggesting anomalous usage of the iRail API that were not flagged as bots or a high concentration people who utilise route planning applications on a regular basis.
 Alternatively the large number of trips may have originated from users who repeatedly request for updates on delayed trains or from a concentration of people who utilise route planning applications on a regular basis.
-Accordingly, the reverse is identified in Liège where an unusually large connection originating from a suburb towards Liège city.
+Accordingly, the reverse is identified in Liège where an unusually large connection originating from a suburb towards Liège city exists.
 This prompted speculation, as well as discussions, on how such outliers should be treated or what may have led to their existence.
 As with any form of analysis based on appropriation of data, we acknowledge that more work is required to identify caveats and understand the validity of the findings presented.
 
@@ -468,7 +457,7 @@ We would be able to fully rely on the query logs if the expressivity would be ma
 Turning off caching may work in a private setting where you know how much and what kind of queries you can expect, yet on the open Web, caching helps decrease load on servers at peak moments.
 
 %label: fig:LDFAxis2
-\input{ldfaxis2}
+%\input{ldfaxis2}
 
 \section{Conclusion and future work}
 \label{sec:conclusion}
